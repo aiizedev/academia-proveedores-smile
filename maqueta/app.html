@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Demo Piloto Fruver — Academia Proveedores Smile</title>
+  <meta name="description" content="Demo navegable: autoevaluación, diagnóstico inmediato y guías prácticas de sostenibilidad para proveedores de Fruver.">
+  <meta name="theme-color" content="#faf4ec">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..600,0..100,0..1;1,9..144,300..600,0..100,0..1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body class="stage">
+
+  <!-- ============ PANEL LATERAL (solo escritorio) ============ -->
+  <aside class="stage__info">
+    <a class="stage__back" href="index.html"><span data-icon="back"></span> Volver a la landing</a>
+
+    <div class="stage__copy">
+      <p class="stage__eyebrow">Demo interactiva · Piloto Fruver</p>
+      <h1 class="stage__title">Autoevaluación,<br>diagnóstico<br><em>y guías.</em></h1>
+      <p class="stage__lead">Así se ve la herramienta en el celular de un productor: pocas palabras, botones grandes y todo guardado en el teléfono para cuando no hay señal.</p>
+    </div>
+
+    <ol class="stage__steps" aria-label="Pasos del flujo">
+      <li data-step="welcome"><span>01</span>Bienvenida</li>
+      <li data-step="category"><span>02</span>Categoría</li>
+      <li data-step="quiz"><span>03</span>Autoevaluación</li>
+      <li data-step="diagnosis"><span>04</span>Diagnóstico</li>
+      <li data-step="plan"><span>05</span>Guías de mejora</li>
+      <li data-step="route"><span>06</span>Hoja de ruta y ficha</li>
+    </ol>
+
+    <div class="stage__tools">
+      <button class="stage__btn" type="button" data-action="sample"><span data-icon="sparkle"></span> Llenar con respuestas de ejemplo</button>
+      <button class="stage__btn stage__btn--ghost" type="button" data-action="reset">Reiniciar demo</button>
+      <p class="stage__note">Prototipo académico. Las respuestas se guardan solo en este navegador.</p>
+    </div>
+  </aside>
+
+  <!-- ============ TELÉFONO ============ -->
+  <div class="phone">
+    <div class="phone__screen">
+
+      <div class="status">
+        <span class="status__time" data-time>9:41</span>
+        <span class="status__save" data-save>
+          <span class="status__save-icon" data-icon="cloudOk"></span>
+          <span class="status__save-text">Guardado</span>
+        </span>
+        <span class="status__right"><span data-icon="signal"></span></span>
+      </div>
+
+      <div class="screens">
+        <section class="screen" data-screen="welcome" aria-label="Bienvenida"></section>
+        <section class="screen" data-screen="category" aria-label="Elegir categoría"></section>
+        <section class="screen" data-screen="quiz" aria-label="Autoevaluación"></section>
+        <section class="screen screen--center" data-screen="loading" aria-label="Analizando"></section>
+        <section class="screen" data-screen="diagnosis" aria-label="Diagnóstico"></section>
+        <section class="screen" data-screen="plan" aria-label="Guías de mejora"></section>
+        <section class="screen screen--flush" data-screen="guide" aria-label="Guía"></section>
+        <section class="screen" data-screen="route" aria-label="Hoja de ruta"></section>
+        <section class="screen" data-screen="ficha" aria-label="Ficha resumen"></section>
+      </div>
+
+      <nav class="tabbar" aria-label="Secciones">
+        <span class="tabbar__pill" aria-hidden="true"></span>
+        <button class="tab" type="button" data-tab="diagnosis"><span data-icon="chart"></span><span>Diagnóstico</span></button>
+        <button class="tab" type="button" data-tab="plan"><span data-icon="book"></span><span>Guías</span></button>
+        <button class="tab" type="button" data-tab="route"><span data-icon="route"></span><span>Ruta</span></button>
+        <button class="tab" type="button" data-tab="ficha"><span data-icon="doc"></span><span>Ficha</span></button>
+      </nav>
+
+      <div class="toast" role="status" aria-live="polite"></div>
+      <div class="confetti" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <!-- Contenedor para imprimir la ficha -->
+  <div id="print-root" aria-hidden="true"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js"></script>
+
+  <script src="js/icons.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+# arquitectura
+
+_Pendiente_

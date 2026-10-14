@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="es" class="is-loading">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Academia Proveedores Smile — Cultivar mejor es simple</title>
+  <meta name="description" content="Diagnóstico personalizado y guías prácticas de sostenibilidad para los proveedores de Grupo Smile. Prototipo académico — Universidad Nacional de Colombia.">
+  <meta name="theme-color" content="#2f3a1f">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..600,0..100,0..1;1,9..144,300..600,0..100,0..1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/landing.css">
+</head>
+<body>
+
+  <!-- ============ PRELOADER ============ -->
+  <div class="preloader" aria-hidden="true">
+    <div class="preloader__inner">
+      <svg class="preloader__mark" viewBox="-100 -100 200 200">
+        <g class="preloader__petals">
+          <g transform="rotate(0)"><path class="petal" d="M0 -8 C 22 -30, 24 -64, 0 -88 C -24 -64, -22 -30, 0 -8 Z"/></g>
+          <g transform="rotate(90)"><path class="petal" d="M0 -8 C 22 -30, 24 -64, 0 -88 C -24 -64, -22 -30, 0 -8 Z"/></g>
+          <g transform="rotate(180)"><path class="petal" d="M0 -8 C 22 -30, 24 -64, 0 -88 C -24 -64, -22 -30, 0 -8 Z"/></g>
+          <g transform="rotate(270)"><path class="petal" d="M0 -8 C 22 -30, 24 -64, 0 -88 C -24 -64, -22 -30, 0 -8 Z"/></g>
+        </g>
+        <circle class="preloader__seed" r="6"/>
+      </svg>
+      <p class="preloader__word brand">smile<span class="dot">.</span></p>
+      <p class="preloader__count"><span data-count>0</span>%</p>
+    </div>
+  </div>
+
+  <!-- ============ CURSOR ============ -->
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor__dot"></div>
+    <div class="cursor__bubble"><span class="cursor__text">Ver</span></div>
+  </div>
+
+  <!-- ============ NAV ============ -->
+  <header class="nav">
+    <a class="nav__logo" href="#inicio" aria-label="Academia Proveedores Smile — inicio">
+      <span class="brand nav__brand">smile<span class="dot">.</span></span>
+      <span class="nav__sub">Academia<br>Proveedores</span>
+    </a>
+    <div class="nav__right">
+      <a class="btn-chars btn-chars--nav" href="app.html">
+        <span class="btn-chars__text" data-chars>Probar demo</span>
+      </a>
+      <button class="nav__burger" type="button" aria-expanded="false" aria-controls="menu">
+        <span class="nav__burger-label" data-chars>Menú</span>
+        <span class="nav__burger-bars" aria-hidden="true"><i></i><i></i></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============ MENÚ PANTALLA COMPLETA ============ -->
+  <div class="menu" id="menu" aria-hidden="true">
+    <div class="menu__tile grain"></div>
+    <div class="menu__grid">
+      <nav class="menu__nav" aria-label="Principal">
+        <ul>
+          <li><a href="#inicio"><span class="menu__num">01</span><span class="menu__link">Inicio</span></a></li>
+          <li><a href="#ejes"><span class="menu__num">02</span><span class="menu__link">Los 5 ejes</span></a></li>
+          <li><a href="#como"><span class="menu__num">03</span><span class="menu__link">Cómo funciona</span></a></li>
+          <li><a href="#categorias"><span class="menu__num">04</span><span class="menu__link">Categorías</span></a></li>
+          <li><a href="#beneficios"><span class="menu__num">05</span><span class="menu__link">Beneficios</span></a></li>
+          <li><a href="#aliados"><span class="menu__num">06</span><span class="menu__link">Aliados</span></a></li>
+        </ul>
+      </nav>
+      <div class="menu__aside">
+        <p class="menu__label">Piloto activo</p>
+        <p class="menu__pilot">Fruver <em>— frutas y verduras</em></p>
+        <a class="menu__cta" href="app.html">Hacer mi diagnóstico <span data-icon="arrow"></span></a>
+        <p class="menu__foot">Prototipo académico · Red de Valor Compartido<br>Universidad Nacional de Colombia · 2026</p>
+      </div>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="inicio">
+      <div class="hero__top">
+        <p class="eyebrow" data-reveal>Grupo Smile · Red de Valor Compartido</p>
+        <p class="hero__intro" data-reveal>Diagnóstico y formación en sostenibilidad para quienes cultivan, crían y pescan lo que llega a nuestra mesa.</p>
+      </div>
+
+      <h1 class="hero__title" aria-label="Cultivar mejor es simple.">
+        <span class="hero__row" aria-hidden="true"><span class="hero__word">Cultivar</span></span>
+        <span class="hero__row hero__row--img" aria-hidden="true">
+          <span class="hero__img">
+            <span class="hero__img-inner">
+              <svg class="scene" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
+                <defs>
+                  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#f3dcd4"/>
+                    <stop offset="1" stop-color="#faf4ec"/>
+                  </linearGradient>
+                </defs>
+                <rect width="600" height="400" fill="url(#sky)"/>
+                <circle class="scene__sun" cx="430" cy="150" r="62" fill="#d4a5a0"/>
+                <path class="scene__far" d="M0 250 C 90 200, 170 215, 260 235 S 430 190, 600 225 V400 H0Z" fill="#a3ae7a"/>
+                <path class="scene__mid" d="M0 290 C 120 250, 240 270, 330 285 S 500 255, 600 270 V400 H0Z" fill="#8a9760"/>
+                <g class="scene__front">
+                  <path d="M0 320 C 150 295, 300 300, 600 312 V400 H0Z" fill="#5b6b3a"/>
+                  <g stroke="#a3ae7a" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".7">
+                    <path d="M40 400 C 120 360, 200 335, 300 318"/>
+                    <path d="M150 400 C 210 365, 260 340, 320 320"/>
+                    <path d="M270 400 C 300 370, 320 345, 340 322"/>
+                    <path d="M400 400 C 390 372, 375 345, 360 322"/>
+                    <path d="M530 400 C 480 368, 430 342, 380 320"/>
+                  </g>
+                  <g fill="#2f3a1f">
+                    <path d="M90 372c-4-12 2-22 12-26-2 10-4 18-12 26Z"/><path d="M92 372c6-10 16-12 24-8-8 6-14 8-24 8Z"/>
+                    <path d="M470 366c-4-12 2-22 12-26-2 10-4 18-12 26Z"/><path d="M472 366c6-10 16-12 24-8-8 6-14 8-24 8Z"/>
+                  </g>
+                </g>
+                <g class="scene__tree" transform="translate(150 238)">
+                  <rect x="-3" y="0" width="6" height="40" fill="#3f4c2a"/>
+                  <circle cx="0" cy="-8" r="26" fill="#3f4c2a"/>
+                  <circle cx="-14" cy="4" r="16" fill="#3f4c2a"/>
+                  <circle cx="14" cy="2" r="17" fill="#3f4c2a"/>
+                  <circle cx="-6" cy="-14" r="3.2" fill="#d4a5a0"/><circle cx="10" cy="-4" r="3.2" fill="#d4a5a0"/><circle cx="-12" cy="6" r="3.2" fill="#d4a5a0"/>
+                </g>
+              </svg>
+            </span>
+          </span>
+          <span class="hero__word hero__word--it">mejor</span>
+        </span>
+        <span class="hero__row hero__row--end" aria-hidden="true"><span class="hero__word">es simple<span class="dot">.</span></span></span>
+      </h1>
+
+      <div class="hero__bottom">
+        <div class="hero__ticker" data-reveal>
+          <span class="hero__ticker-label">Guías prácticas para</span>
+          <span class="ticker" aria-live="off">
+            <span class="ticker__track">
+              <span>Fruver</span><span>Lácteos</span><span>Carnes</span><span>Pescados</span><span>Mariscos</span><span>Fruver</span>
+            </span>
+          </span>
+        </div>
+        <div class="hero__cta" data-reveal>
+          <a class="btn-pill" href="app.html"><span data-chars>Empezar diagnóstico</span><span class="btn-pill__icon" data-icon="arrow"></span></a>
+        </div>
+        <div class="hero__scroll" data-reveal aria-hidden="true">
+          <span>Desliza</span>
+          <span class="hero__scroll-line"><i></i></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MANIFIESTO (parallax) ============ -->
+    <section class="manifesto grain" id="manifiesto">
+      <div class="manifesto__bg" aria-hidden="true">
+        <svg class="manifesto__leaves" viewBox="0 0 800 800">
+          <g fill="none" stroke="#5b6b3a" stroke-width="1.2">
+            <path d="M400 760 C 400 560, 420 360, 520 140"/>
+            <path d="M520 140 C 640 180, 700 320, 600 460 C 520 560, 430 560, 404 600"/>
+            <path d="M520 140 C 420 170, 360 260, 380 380 C 392 460, 400 520, 404 600"/>
+            <path d="M404 600 C 300 560, 200 470, 190 330 C 290 330, 370 400, 404 520"/>
+          </g>
+        </svg>
+      </div>
+      <div class="manifesto__inner">
+        <p class="eyebrow eyebrow--light">Nuestra idea</p>
+        <p class="manifesto__text" data-words>
+          La sostenibilidad no debería ser complicada. Convertimos una autoevaluación en un plan claro, práctico y a la medida de cada finca — para que crecer bien sea también un buen negocio.
+        </p>
+        <div class="manifesto__foot">
+          <svg class="manifesto__sprout" viewBox="0 0 120 160" aria-hidden="true">
+            <path class="draw" d="M60 158 C 60 120, 58 90, 60 60" />
+            <path class="draw" d="M60 92 C 40 90, 18 74, 14 44 C 40 44, 58 62, 60 92 Z"/>
+            <path class="draw" d="M60 70 C 76 64, 100 48, 104 16 C 78 18, 62 38, 60 70 Z"/>
+          </svg>
+          <p>Porter &amp; Kramer lo llaman <em>valor compartido</em>: cuando el proveedor mejora, Grupo Smile asegura calidad y la comunidad gana.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LOS 5 EJES ============ -->
+    <section class="axes" id="ejes">
+      <div class="section-head">
+        <p class="eyebrow">01 — Qué evaluamos</p>
+        <h2 class="h2" data-split>Cinco ejes, <br>un solo camino.</h2>
+        <p class="section-head__lead" data-reveal>Cada respuesta de tu autoevaluación alimenta un indicador. Así sabes dónde estás y qué hacer primero.</p>
+      </div>
+
+      <div class="axes__grid">
+        <article class="axis-card" data-cursor="Ver guía" style="--i:0">
+          <span class="axis-card__overlay"></span>
+          <div class="axis-card__top"><span class="axis-card__num">01</span><span class="axis-card__icon" data-icon="bpa"></span></div>
+          <h3 class="axis-card__title">Buenas Prácticas Agrícolas</h3>
+          <ul class="axis-card__list">
+            <li>Manejo responsable de agroquímicos</li>
+            <li>Registro de aplicaciones</li>
+            <li>Agua y suelo sanos</li>
+            <li>Camino a producción orgánica</li>
+          </ul>
+        </article>
+        <article class="axis-card" data-cursor="Ver guía" style="--i:1">
+          <span class="axis-card__overlay"></span>
+          <div class="axis-card__top"><span class="axis-card__num">02</span><span class="axis-card__icon" data-icon="residuos"></span></div>
+          <h3 class="axis-card__title">Manejo de residuos</h3>
+          <ul class="axis-card__list">
+            <li>Separación en la fuente</li>
+            <li>Compostaje de cosecha</li>
+            <li>Triple lavado de envases</li>
+            <li>Menos pérdida poscosecha</li>
+          </ul>
+        </article>
+        <article class="axis-card" data-cursor="Ver guía" style="--i:2">
+          <span class="axis-card__overlay"></span>
+          <div class="axis-card__top"><span class="axis-card__num">03</span><span class="axis-card__icon" data-icon="carbono"></span></div>
+          <h3 class="axis-card__title">Huella de carbono</h3>
+          <ul class="axis-card__list">
+            <li>Registro de combustible</li>
+            <li>Fertilización según suelo</li>
+            <li>Árboles y cercas vivas</li>
+            <li>Transporte compartido</li>
+          </ul>
+        </article>
+        <article class="axis-card" data-cursor="Ver guía" style="--i:3">
+          <span class="axis-card__overlay"></span>
+          <div class="axis-card__top"><span class="axis-card__num">04</span><span class="axis-card__icon" data-icon="infantil"></span></div>
+          <h3 class="axis-card__title">Prevención del trabajo infantil</h3>
+          <ul class="axis-card__list">
+            <li>Registro de edades</li>
+            <li>Niños y niñas en la escuela</li>
+            <li>Tareas peligrosas prohibidas</li>
+            <li>Ruta de denuncia ICBF</li>
+          </ul>
+        </article>
+        <article class="axis-card" data-cursor="Ver guía" style="--i:4">
+          <span class="axis-card__overlay"></span>
+          <div class="axis-card__top"><span class="axis-card__num">05</span><span class="axis-card__icon" data-icon="ddhh"></span></div>
+          <h3 class="axis-card__title">Derechos Humanos</h3>
+          <ul class="axis-card__list">
+            <li>Pago justo y a tiempo</li>
+            <li>Seguridad social</li>
+            <li>Agua, baños y protección</li>
+            <li>Espacio para quejas</li>
+          </ul>
+        </article>
+        <a class="axis-card axis-card--cta" href="app.html" data-cursor="Empezar">
+          <span class="axis-card__overlay"></span>
+          <p class="axis-card__cta-title">¿En qué nivel está tu finca?</p>
+          <p class="axis-card__cta-sub">10 preguntas · 10 minutos <span data-icon="arrow"></span></p>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============ CÓMO FUNCIONA (scroll horizontal) ============ -->
+    <section class="how" id="como">
+      <div class="how__pin">
+        <div class="how__head">
+          <p class="eyebrow eyebrow--light">02 — Cómo funciona</p>
+          <p class="how__progress" aria-hidden="true"><span class="how__progress-bar"></span></p>
+        </div>
+        <div class="how__track">
+          <div class="how__panel how__panel--intro">
+            <h2 class="h2 how__title">De la <em>respuesta</em><br>al plan de mejora,<br>en tres pasos.</h2>
+            <p class="how__lead">Pensado para el campo: íconos claros, poco texto y funciona aunque la señal se vaya.</p>
+          </div>
+
+          <div class="how__panel">
+            <div class="how__step">
+              <span class="how__num">1</span>
+              <h3 class="h3">Autoevalúate</h3>
+              <p>Preguntas sencillas, una por pantalla. Respondes con un toque: <strong>Sí</strong>, <strong>A veces</strong> o <strong>No</strong>.</p>
+            </div>
+            <div class="mock mock--quiz" aria-hidden="true">
+              <div class="mock__bar"><i style="--p:.4"></i></div>
+              <p class="mock__q">¿Llevas registro de cada aplicación de agroquímicos?</p>
+              <div class="mock__answers">
+                <span class="is-on" data-icon="si"></span><span data-icon="aveces"></span><span data-icon="no"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="how__panel">
+            <div class="how__step">
+              <span class="how__num">2</span>
+              <h3 class="h3">Recibe tu diagnóstico</h3>
+              <p>Al instante ves tu nivel en cada eje: <strong>Inicial</strong>, <strong>En desarrollo</strong> o <strong>Avanzado</strong>.</p>
+            </div>
+            <div class="mock mock--diag" aria-hidden="true">
+              <svg viewBox="0 0 120 120" class="mock__ring">
+                <circle cx="60" cy="60" r="48" class="mock__ring-bg"/>
+                <circle cx="60" cy="60" r="48" class="mock__ring-fg"/>
+              </svg>
+              <p class="mock__score">68<small>/100</small></p>
+              <p class="mock__level">En desarrollo</p>
+              <div class="mock__bars">
+                <span style="--w:.82"></span><span style="--w:.55"></span><span style="--w:.4"></span><span style="--w:.9"></span><span style="--w:.7"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="how__panel">
+            <div class="how__step">
+              <span class="how__num">3</span>
+              <h3 class="h3">Mejora con guías</h3>
+              <p>Guías prácticas ordenadas por prioridad y una ficha resumen para imprimir o guardar sin internet.</p>
+            </div>
+            <div class="mock mock--guides" aria-hidden="true">
+              <div class="mock__guide is-hot"><span data-icon="carbono"></span><b>Huella de carbono</b><small>Prioridad alta</small></div>
+              <div class="mock__guide"><span data-icon="residuos"></span><b>Residuos</b><small>Prioridad media</small></div>
+              <div class="mock__guide"><span data-icon="ddhh"></span><b>Derechos Humanos</b><small>Mantener</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CATEGORÍAS ============ -->
+    <section class="cats" id="categorias">
+      <div class="section-head">
+        <p class="eyebrow">03 — Categorías</p>
+        <h2 class="h2" data-split>Una guía para <br>cada producto.</h2>
+        <p class="section-head__lead" data-reveal>Empezamos con <strong>Fruver</strong> como piloto completo. Las demás categorías siguen la misma estructura.</p>
+      </div>
+
+      <ul class="cats__list">
+        <li class="cat-row is-pilot" data-preview="fruver" data-tone="olive">
+          <a href="app.html" class="cat-row__link">
+            <span class="cat-row__num">01</span>
+            <span class="cat-row__name">Fruver</span>
+            <span class="cat-row__tag">Piloto</span>
+            <span class="cat-row__arrow" data-icon="arrow"></span>
+          </a>
+        </li>
+        <li class="cat-row" data-preview="lacteos" data-tone="cream">
+          <div class="cat-row__link"><span class="cat-row__num">02</span><span class="cat-row__name">Lácteos</span><span class="cat-row__tag cat-row__tag--soon">Próximamente</span><span class="cat-row__arrow" data-icon="lock"></span></div>
+        </li>
+        <li class="cat-row" data-preview="carnes" data-tone="rose">
+          <div class="cat-row__link"><span class="cat-row__num">03</span><span class="cat-row__name">Carnes</span><span class="cat-row__tag cat-row__tag--soon">Próximamente</span><span class="cat-row__arrow" data-icon="lock"></span></div>
+        </li>
+        <li class="cat-row" data-preview="pescados" data-tone="olive-light">
+          <div class="cat-row__link"><span class="cat-row__num">04</span><span class="cat-row__name">Pescados</span><span class="cat-row__tag cat-row__tag--soon">Próximamente</span><span class="cat-row__arrow" data-icon="lock"></span></div>
+        </li>
+        <li class="cat-row" data-preview="mariscos" data-tone="blush">
+          <div class="cat-row__link"><span class="cat-row__num">05</span><span class="cat-row__name">Mariscos</span><span class="cat-row__tag cat-row__tag--soon">Próximamente</span><span class="cat-row__arrow" data-icon="lock"></span></div>
+        </li>
+      </ul>
+
+      <div class="cats__preview" aria-hidden="true">
+        <div class="cats__preview-inner">
+          <span class="cats__preview-icon"></span>
+          <span class="cats__preview-label"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ BENEFICIOS / HOJA DE RUTA ============ -->
+    <section class="benefits" id="beneficios">
+      <div class="benefits__grid">
+        <div class="benefits__intro">
+          <p class="eyebrow">04 — Hoja de ruta</p>
+          <h2 class="h2" data-split>Crecer tiene <br><em>recompensa.</em></h2>
+          <p class="section-head__lead" data-reveal>Cada módulo que completas se traduce en beneficios comerciales concretos con Grupo Smile.</p>
+        </div>
+
+        <div class="roadmap">
+          <svg class="roadmap__line" viewBox="0 0 40 1000" preserveAspectRatio="none" aria-hidden="true">
+            <path class="roadmap__path-bg" d="M20 0 V1000"/>
+            <path class="roadmap__path" d="M20 0 V1000"/>
+          </svg>
+          <ol class="roadmap__list">
+          <li class="milestone">
+            <span class="milestone__node" data-icon="chart"></span>
+            <div>
+              <p class="milestone__step">Paso 1</p>
+              <h3 class="milestone__title">Diagnóstico personalizado</h3>
+              <p>Conoce tu nivel en los 5 ejes y recibe tu plan de mejora.</p>
+            </div>
+          </li>
+          <li class="milestone">
+            <span class="milestone__node" data-icon="cart"></span>
+            <div>
+              <p class="milestone__step">Paso 2 · 2 guías completas</p>
+              <h3 class="milestone__title">Prioridad en compras</h3>
+              <p>Tus productos pasan al frente en las órdenes de compra de los restaurantes.</p>
+            </div>
+          </li>
+          <li class="milestone">
+            <span class="milestone__node" data-icon="seal"></span>
+            <div>
+              <p class="milestone__step">Paso 3 · 5 ejes completos</p>
+              <h3 class="milestone__title">Sello Proveedor Sostenible</h3>
+              <p>Un distintivo visible en carta y comunicaciones del Grupo.</p>
+            </div>
+          </li>
+          <li class="milestone">
+            <span class="milestone__node" data-icon="globe"></span>
+            <div>
+              <p class="milestone__step">Paso 4 · Nivel avanzado</p>
+              <h3 class="milestone__title">Nuevos mercados</h3>
+              <p>Acceso a ferias, aliados comerciales y acompañamiento para certificarte.</p>
+            </div>
+          </li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><p class="stat__num"><span data-counter="5">0</span></p><p class="stat__label">ejes temáticos obligatorios</p></div>
+        <div class="stat"><p class="stat__num"><span data-counter="3">0</span></p><p class="stat__label">niveles de madurez</p></div>
+        <div class="stat"><p class="stat__num"><span data-counter="10">0</span><small>min</small></p><p class="stat__label">para tu diagnóstico</p></div>
+        <div class="stat"><p class="stat__num"><span data-counter="100">0</span><small>%</small></p><p class="stat__label">consultable sin conexión</p></div>
+      </div>
+    </section>
+
+    <!-- ============ ALIADOS ============ -->
+    <section class="allies" id="aliados">
+      <div class="section-head section-head--center">
+        <p class="eyebrow">05 — Alianzas multiactor</p>
+        <h2 class="h2" data-split>Formación en territorio, <br>juntos.</h2>
+      </div>
+      <div class="marquee" data-dir="1">
+        <div class="marquee__track">
+          <span>SENA</span><i class="marquee__leaf"></i><span>MinAgricultura</span><i class="marquee__leaf"></i><span>Asohofrucol</span><i class="marquee__leaf"></i><span>ICA</span><i class="marquee__leaf"></i><span>AUNAP</span><i class="marquee__leaf"></i><span>Universidad Nacional</span><i class="marquee__leaf"></i>
+        </div>
+      </div>
+      <div class="marquee marquee--alt" data-dir="-1">
+        <div class="marquee__track">
+          <span><em>Academia</em></span><i class="marquee__leaf"></i><span>ONGs locales</span><i class="marquee__leaf"></i><span><em>Gremios</em></span><i class="marquee__leaf"></i><span>Cooperativas</span><i class="marquee__leaf"></i><span><em>Restaurantes</em></span><i class="marquee__leaf"></i><span>Comunidades</span><i class="marquee__leaf"></i>
+        </div>
+      </div>
+      <p class="allies__note" data-reveal>Aliados potenciales identificados en la propuesta · sujetos a validación.</p>
+    </section>
+
+    <!-- ============ CTA + FOOTER ============ -->
+    <section class="cta" id="cta">
+      <p class="eyebrow eyebrow--light">¿Listo?</p>
+      <h2 class="cta__title" data-split>Tu finca, tu plan, <br><em>a tu ritmo.</em></h2>
+      <a class="btn-pill btn-pill--light" href="app.html"><span data-chars>Hacer mi diagnóstico</span><span class="btn-pill__icon" data-icon="arrow"></span></a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__cols">
+      <div>
+        <p class="footer__label">Academia</p>
+        <ul>
+          <li><a class="footer__link" href="#ejes">Los 5 ejes</a></li>
+          <li><a class="footer__link" href="#como">Cómo funciona</a></li>
+          <li><a class="footer__link" href="#categorias">Categorías</a></li>
+          <li><a class="footer__link" href="app.html">Demo piloto Fruver</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__label">Proyecto</p>
+        <ul>
+          <li>Reto Red de Valor Compartido</li>
+          <li>Facultad de Ingeniería</li>
+          <li>Universidad Nacional de Colombia</li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__label">Estado</p>
+        <ul>
+          <li>Prototipo académico</li>
+          <li>Septiembre 2026</li>
+        </ul>
+      </div>
+    </div>
+    <p class="footer__display brand" aria-label="smile.">
+      <span class="footer__display-word">smile</span><span class="dot">.</span>
+    </p>
+    <div class="footer__bottom">
+      <p>Maqueta conceptual — no es un sitio oficial de Grupo Smile.</p>
+      <p>Hecho con cariño en Bogotá</p>
+    </div>
+  </footer>
+
+  <!-- Librerías -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.2.3/dist/lenis.min.js"></script>
+
+  <script src="js/icons.js"></script>
+  <script src="js/landing.js"></script>
+</body>
+</html>
