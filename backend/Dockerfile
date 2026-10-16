@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1.17
 # Backend — Academia de Proveedores Smile (ADR-0003, arquitectura.md §7.4)
 # Etapas: base → builder → dev | runtime
 
@@ -18,12 +19,14 @@ WORKDIR /app
 # ---------- builder: dependencias de producción en /app/.venv ----------
 FROM base AS builder
 # Capa de dependencias separada del código: solo se reconstruye si cambia uv.lock.
-# Sin `RUN --mount` para funcionar también con el builder clásico (hosts sin buildx).
+# Caché de uv en un cache mount de BuildKit (no entra a la imagen; UV_LINK_MODE=copy).
 COPY pyproject.toml uv.lock ./
-RUN uv sync --frozen --no-dev --no-install-project --no-cache
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-dev --no-install-project
 COPY README.md ./
 COPY src ./src
-RUN uv sync --frozen --no-dev --no-editable --no-cache \
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-dev --no-editable \
  # Poda: botocore trae modelos de ~400 servicios AWS (24 MB); solo se usan s3 y sts.
  && find /app/.venv/lib/python3.12/site-packages/botocore/data -mindepth 1 -maxdepth 1 -type d \
       ! -name s3 ! -name sts -exec rm -rf {} + \
@@ -32,9 +35,11 @@ RUN uv sync --frozen --no-dev --no-editable --no-cache \
 # ---------- dev: + dependencias de desarrollo y recarga en caliente ----------
 FROM base AS dev
 COPY pyproject.toml uv.lock ./
-RUN uv sync --frozen --no-install-project --no-cache
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-install-project
 COPY . .
-RUN uv sync --frozen --no-cache
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen
 ENV PATH="/app/.venv/bin:$PATH"
 EXPOSE 8000
 CMD ["uvicorn", "smile.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload", "--reload-dir", "/app/src"]
