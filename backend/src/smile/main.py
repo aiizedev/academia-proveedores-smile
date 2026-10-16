@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import importlib
+import re
+import time
 import uuid
 from collections.abc import Awaitable, Callable
 
@@ -18,6 +20,8 @@ from smile.shared.api.errors import install_error_handlers
 from smile.shared.infrastructure.event_bus import event_bus
 
 API_PREFIX = "/api/v1"
+_REQUEST_ID = re.compile(r"[A-Za-z0-9._-]{1,64}")
+access_log = structlog.get_logger("smile.access")
 
 
 def create_app() -> FastAPI:
@@ -42,13 +46,27 @@ def create_app() -> FastAPI:
     async def request_context(
         request: Request, call_next: Callable[[Request], Awaitable[Response]]
     ) -> Response:
-        request_id = request.headers.get("x-request-id", str(uuid.uuid4()))
+        incoming = request.headers.get("x-request-id", "")
+        request_id = incoming if _REQUEST_ID.fullmatch(incoming) else str(uuid.uuid4())
+        request.state.request_id = request_id
         structlog.contextvars.bind_contextvars(request_id=request_id)
         health.count_request()
-        response = await call_next(request)
-        response.headers["x-request-id"] = request_id
-        structlog.contextvars.clear_contextvars()
-        return response
+        started = time.perf_counter()
+        try:
+            response = await call_next(request)
+            response.headers["x-request-id"] = request_id
+            route = request.scope.get("route")
+            # Ruta como plantilla (`/suppliers/{id}`): la URL real puede llevar datos.
+            access_log.info(
+                "request",
+                method=request.method,
+                route=getattr(route, "path", "unmatched"),
+                status=response.status_code,
+                duration_ms=round((time.perf_counter() - started) * 1000, 1),
+            )
+            return response
+        finally:
+            structlog.contextvars.clear_contextvars()
 
     install_error_handlers(app)
     app.include_router(health.router)

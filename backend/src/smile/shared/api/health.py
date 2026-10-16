@@ -34,7 +34,11 @@ async def ready(response: Response) -> dict[str, object]:
     ok = db_ok and storage_ok
     if not ok:
         response.status_code = status.HTTP_503_SERVICE_UNAVAILABLE
-    return {"status": "ok" if ok else "degraded", "database": db_ok, "storage": storage_ok}
+    return {
+        "status": "ok" if ok else "degraded",
+        "db": "up" if db_ok else "down",
+        "storage": "up" if storage_ok else "down",
+    }
 
 
 @router.get("/metrics", response_class=PlainTextResponse)

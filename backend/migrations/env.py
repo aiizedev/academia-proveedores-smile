@@ -32,6 +32,12 @@ def include_name(name, type_, parent_names):  # type: ignore[no-untyped-def]
     return True
 
 
+def include_object(obj, name, type_, reflected, compare_to):  # type: ignore[no-untyped-def]
+    """No proponer borrar tablas/índices que existen en la DB pero aún no tienen modelo ORM
+    (p. ej. shared.audit_log, sync.processed_mutations, creadas por migración)."""
+    return not (reflected and compare_to is None)
+
+
 def run_offline() -> None:
     context.configure(
         url=URL,
@@ -50,6 +56,7 @@ def _do_run(connection) -> None:  # type: ignore[no-untyped-def]
         target_metadata=target_metadata,
         include_schemas=True,
         include_name=include_name,
+        include_object=include_object,
         version_table_schema="shared",
     )
     with context.begin_transaction():

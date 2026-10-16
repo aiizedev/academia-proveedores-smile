@@ -42,9 +42,10 @@ async def test_inactive_category_is_404(client: httpx.AsyncClient) -> None:
     }
     r = await client.post("/api/v1/assessment/score-preview", json=body)
     assert r.status_code == 404
-    assert r.json()["code"] == "not_found"
+    assert r.json()["error"]["code"] == "not_found"
 
 
-async def test_invalid_payload_is_422(client: httpx.AsyncClient) -> None:
+async def test_invalid_payload_is_400(client: httpx.AsyncClient) -> None:
     r = await client.post("/api/v1/assessment/score-preview", json={"answers": []})
-    assert r.status_code == 422
+    assert r.status_code == 400
+    assert r.json()["error"]["code"] == "validation_error"

@@ -68,10 +68,10 @@ Cada fase lista: objetivo · historias · pasos · plan de ejecución (orden y p
 **Historias:** HU-PLAT-02 (esqueleto hexagonal), HU-PLAT-05 (OpenAPI + cliente TS), HU-PLAT-06 (observabilidad básica); apoyo a HU-PLAT-01/04 (infra).
 
 **Pasos**
-1. Revisar el esqueleto contra `arquitectura.md` §3.2 y completar lo que falte (README, `make module name=<m>` que genere la plantilla de un módulo desde `backend/scripts/module_template/`).
-2. `shared/api/errors.py`: mapa `DomainError.code → HTTP` y cuerpo uniforme `{ "error": { "code", "message", "details", "request_id" } }`.
-3. Middleware `request_id` (cabecera `X-Request-ID`, generada si no viene) y logging JSON con `structlog`; filtro que elimina campos de PII conocidos (`email`, `phone`, `document_number`, `name`) — RNF-OBS-001.
-4. `/health/live`, `/health/ready` (DB `SELECT 1` + `FileStorage.head_bucket`), `/metrics` con `prometheus-client` (latencia por ruta, errores, tamaño de lotes de sync).
+1. Revisar el esqueleto contra `arquitectura.md` §3.2 y completar lo que falte (README, `make module name=<m>` que genere la plantilla de un módulo desde `backend/scripts/module_template/`). — POC: README al día; `make module` pospuesto (los 16 módulos ya existen).
+2. `shared/api/errors.py`: mapa `DomainError.code → HTTP` y cuerpo uniforme `{ "error": { "code", "message", "details", "request_id" } }`. ✅ 16/10/2026 (+ `ConflictError` 409, validación 400 sin eco del valor, autogenerate sin falsos borrados)
+3. Middleware `request_id` (cabecera `X-Request-ID`, generada si no viene) y logging JSON con `structlog`; filtro que elimina campos de PII conocidos (`email`, `phone`, `document_number`, `name`) — RNF-OBS-001. ✅ 16/10/2026 (+ log de acceso con ruta-plantilla y duración; celulares y correos en texto libre también se ocultan)
+4. `/health/live`, `/health/ready` (DB `SELECT 1` + `FileStorage.head_bucket`), `/metrics` con `prometheus-client` (latencia por ruta, errores, tamaño de lotes de sync). — ✅ live/ready (`{"db","storage": "up"|"down"}`, 503 si falla); POC: `/metrics` con prometheus-client pospuesto (se mantiene el contador simple)
 5. Script `scripts/export_openapi.py` → `contracts/openapi.json` (orden estable de claves); objetivo `make openapi`; job de CI que falla si hay diff. ✅ 16/10/2026
 6. Fixture de pytest con base de datos real (servicio `db` de compose o testcontainers) y *rollback* por test; fábricas de datos con `factory-boy` o funciones propias.
 7. `pyproject` con umbral de cobertura por paquete (`domain`, `application`) y reporte en CI.
