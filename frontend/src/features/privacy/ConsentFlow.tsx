@@ -3,7 +3,10 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Icon } from "@/components/icons";
+import { motion } from "framer-motion";
+import { MaskWords } from "@/components/motion";
 import { Button, Checkbox } from "@/components/ui";
+import { EASING } from "@/design/motion-react";
 import type { ConsentText } from "@/domain/privacy/consent";
 import { GENERAL_TEXT, SENSITIVE_TEXT, useRecordConsent } from "./hooks";
 
@@ -14,8 +17,11 @@ type Step = "general" | "declined" | "sensitive";
 function ConsentBody({ text }: { text: ConsentText }) {
   return (
     <>
-      <h1 className="a-title">{text.title}</h1>
-      <div className="flex flex-col gap-3 text-app-body">
+      <motion.span className="grid size-14 place-items-center rounded-full bg-rose-100 text-olive-800" initial={{ scale: 0, rotate: -40 }} animate={{ scale: 1, rotate: 0 }} transition={{ duration: 0.8, ease: EASING.pop }}>
+        <Icon name="lock" size="1.6rem" />
+      </motion.span>
+      <MaskWords key={text.title} text={text.title} className="a-title" />
+      <div className="flex flex-col gap-3 rounded-card border border-line bg-white p-4 text-app-body leading-[1.55]">
         {text.body.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
         ))}

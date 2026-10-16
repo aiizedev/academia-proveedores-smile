@@ -26,9 +26,13 @@ export type AssessmentState =
 const encode = (answer: FormAnswer) => (Array.isArray(answer) ? JSON.stringify(answer) : answer);
 const decode = (raw: string): FormAnswer => (raw.startsWith("[") ? (JSON.parse(raw) as string[]) : (raw as FormAnswer));
 
-export function useAssessment(): AssessmentState {
+/** Sufijo del ciclo de práctica de la demo (/app/autoevaluacion?nueva=1): un
+ *  borrador aparte que no toca la autoevaluación ni el diagnóstico del ciclo. */
+export const PRACTICE_SUFFIX = "-practica";
+
+export function useAssessment({ practice = false }: { practice?: boolean } = {}): AssessmentState {
   const db = useLocalDb();
-  const cycleId = useMemo(() => cycleFor(new Date()), []);
+  const cycleId = useMemo(() => cycleFor(new Date()) + (practice ? PRACTICE_SUFFIX : ""), [practice]);
   const [profile, setProfile] = useState<Profile | null | undefined>(undefined);
   const [assessment, setAssessment] = useState<Assessment | null | undefined>(undefined);
   const [answers, setAnswers] = useState<{ for: string; byQuestion: Record<string, StoredAnswer> } | null>(null);
@@ -127,6 +131,18 @@ export function useAssessmentActions() {
             apply(r);
           });
         await assessment.update((a) => a._setRaw("current_index", index));
+      });
+      await flushLocalDb(d);
+    },
+
+    /** Demo: borra un borrador o envío de práctica para responder otra vez. */
+    async discardPractice(assessment: Assessment): Promise<void> {
+      if (!assessment.cycleId.endsWith(PRACTICE_SUFFIX)) throw new Error("Solo se descarta la práctica de la demo");
+      const d = need();
+      await d.write(async () => {
+        const answers = await d.get<AssessmentAnswer>("assessment_answers").query(Q.where("assessment_id", assessment.id)).fetch();
+        const declarations = await d.get<Declaration>("declarations").query(Q.where("assessment_id", assessment.id)).fetch();
+        await d.batch(...answers.map((r) => r.prepareDestroyPermanently()), ...declarations.map((r) => r.prepareDestroyPermanently()), assessment.prepareDestroyPermanently());
       });
       await flushLocalDb(d);
     },

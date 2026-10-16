@@ -2,7 +2,10 @@
 
 import { useState, type FormEvent } from "react";
 import { Icon } from "@/components/icons";
+import { motion } from "framer-motion";
+import { MaskWords } from "@/components/motion";
 import { Button, Choice, Field, SelectField } from "@/components/ui";
+import { GLIDE } from "@/design/motion-react";
 import { CATEGORIES, DEPARTMENTS, municipalitiesOf } from "@/data/catalog/local";
 import { STEPS, validateStep, type ProfileError, type ProfileErrors, type Step, type SupplierProfile } from "@/domain/suppliers/profile";
 import { useSaveProfile } from "./hooks";
@@ -56,7 +59,14 @@ export function ProfileWizard({ initial, onDone }: { initial: SupplierProfile; o
         <p className="a-eyebrow">
           Su ficha · paso {index + 1} de {ORDER.length}
         </p>
-        <h1 className="a-title">{TITLE[step]}</h1>
+        <ol className="grid grid-cols-3 gap-2" aria-hidden>
+          {ORDER.map((s, i) => (
+            <li key={s} className="relative h-1.5 overflow-hidden rounded-pill bg-olive-100">
+              {i <= index ? <motion.span layoutId={i === index ? "wizard-step" : undefined} className="absolute inset-0 rounded-pill bg-olive-800" transition={GLIDE} /> : null}
+            </li>
+          ))}
+        </ol>
+        <MaskWords key={step} text={TITLE[step]} className="a-title mt-2" />
       </div>
 
       {step === "identificacion" ? (

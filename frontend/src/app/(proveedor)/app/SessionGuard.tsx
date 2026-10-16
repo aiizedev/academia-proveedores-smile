@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
+import { PageLoading } from "@/components/motion";
 import { loadSession, saveSession } from "@/lib/auth/session";
 import { DEMO_OPEN } from "@/lib/env";
 import { DEMO_SESSION } from "@/mocks/app";
@@ -21,5 +22,5 @@ export function SessionGuard({ children }: { children: ReactNode }) {
     else router.replace(`/ingresar?next=${encodeURIComponent(pathname)}`);
   }, [pathname, router]);
 
-  return allowed ? children : null;
+  return allowed ? children : <PageLoading message="Abriendo su finca…" />;
 }
