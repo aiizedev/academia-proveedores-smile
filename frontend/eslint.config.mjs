@@ -14,7 +14,7 @@ const elements = [
   { type: "api", pattern: "src/data/api/**", mode: "full" },
   { type: "catalog", pattern: "src/data/catalog/**", mode: "full" },
   { type: "feature", pattern: "src/features/*/**", mode: "full", capture: ["module"] },
-  { type: "ui", pattern: ["src/components/ui/**", "src/components/icons.tsx"], mode: "full" },
+  { type: "ui", pattern: ["src/components/ui/**", "src/components/icons.tsx", "src/components/motion/**", "src/components/charts/**"], mode: "full" },
   { type: "shell", pattern: "src/components/shell/**", mode: "full" },
   { type: "design", pattern: "src/design/**", mode: "full" },
   { type: "hooks", pattern: "src/hooks/**", mode: "full" },

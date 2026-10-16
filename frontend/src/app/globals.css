@@ -168,6 +168,35 @@
   }
 }
 
+@layer components {
+  /* Escenario cálido con grano (maqueta: .stage + .grain). */
+  .stage-bg {
+    position: relative;
+    background: var(--grad-stage);
+    isolation: isolate;
+  }
+  .stage-bg::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: var(--grain);
+    opacity: var(--grain-opacity-subtle);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+  /* Esqueleto de carga con brillo (sin animación si hay movimiento reducido). */
+  .skeleton {
+    background: linear-gradient(100deg, var(--cream-200) 30%, var(--white) 50%, var(--cream-200) 70%);
+    background-size: 220% 100%;
+    animation: skeleton-shine var(--dur-2xl) var(--ease-in-out) infinite;
+  }
+  /* Tarjeta con elevación suave al pasar el puntero (translate: GSAP no la usa aquí). */
+  .lift { transition: translate var(--dur-m) var(--ease-out), box-shadow var(--dur-m) var(--ease-out); }
+  .lift:hover { translate: 0 -3px; box-shadow: var(--shadow-float); }
+}
+@keyframes skeleton-shine { from { background-position: 120% 0; } to { background-position: -120% 0; } }
+
 /* GUIA_VISUAL §10.3 — sin animación: todo visible y cambios instantáneos (HU-DS-04). */
 html.no-anim *, html.no-anim *::before, html.no-anim *::after {
   transition-duration: 0.01ms !important;

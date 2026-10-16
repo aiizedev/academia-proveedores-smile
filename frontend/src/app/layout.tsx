@@ -1,3 +1,4 @@
+import { MotionRoot } from "@/components/motion";
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { ReducedMotion } from "@/components/shell/ReducedMotion";
@@ -34,7 +35,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body>
         <ReducedMotion />
-        {children}
+        <MotionRoot>{children}</MotionRoot>
       </body>
     </html>
   );
