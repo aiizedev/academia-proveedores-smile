@@ -217,7 +217,7 @@ export const DASHBOARD: {
     { id: "margen", label: "Margen neto", value: 62.2, unit: "pct", delta: 4.8, deltaUnit: " pts", deltaLabel: "vs. septiembre", goodWhen: "up", trend: [48, 51, 50, 55, 58, 62.2] },
     { id: "inventario", label: "Inventario", value: 715, unit: "kg", delta: -40, deltaUnit: " kg", deltaLabel: "esta semana", goodWhen: "up", trend: [690, 760, 820, 740, 755, 715] },
   ],
-  bpaProximity: 72,
+  bpaProximity: 100, // igual al diagnóstico sembrado (form-paths caso 1)
   bpaMissing: ["Registro de aplicaciones al día", "Bodega de agroquímicos con llave", "Análisis de agua del último año"],
   benefits: [
     { id: "agro", label: "Agroquímicos", value: 186_000, hint: "Ahorro: dosis según etiqueta y monitoreo de plagas" },
