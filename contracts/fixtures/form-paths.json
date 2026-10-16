@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "bank_version": "banco-2026-v2",
+  "bank_version": "banco-2026-v3",
   "description": "Caminos del formulario (S-19), puntaje (S-01, S-02, S-18, S-21) y siguiente paso (S-09, S-20). Generado con una implementación de referencia; backend y frontend deben reproducirlo.",
   "cases": [
     {
@@ -346,7 +346,7 @@
     },
     {
       "name": "Pescados grande: módulo de pesca y preguntas avanzadas",
-      "category": "pescados",
+      "category": "pescados_mariscos",
       "size": "grande",
       "answers": {
         "amb-01": "no",
@@ -475,7 +475,7 @@
     },
     {
       "name": "Insumos micro: sin sección de alimentos (amb-09 prellenada en No)",
-      "category": "insumos",
+      "category": "insumos_servicios",
       "size": "micro",
       "answers": {
         "amb-01": "si",

@@ -10,19 +10,6 @@ export function cycleFor(date: Date): string {
   return `${year}-C${Math.ceil(month / 4)}`;
 }
 
-/** Código de categoría del catálogo → categoría del banco de preguntas. */
-const BANK_CATEGORY: Readonly<Record<string, string>> = {
-  fruver: "fruver",
-  lacteos: "lacteos",
-  carnes: "carnes",
-  pescados_mariscos: "pescados",
-  insumos_servicios: "insumos",
-};
-
-export function bankCategory(catalogCode: string): string | null {
-  return BANK_CATEGORY[catalogCode] ?? null;
-}
-
 /** POC: el tamaño se captura en HU-SUP-02; mientras tanto, el formulario base (micro). */
 export const DEFAULT_SIZE: Size = "micro";
 

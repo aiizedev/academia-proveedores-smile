@@ -35,14 +35,10 @@ describe(`caminos del formulario (form-paths v${paths.version}, ${paths.bank_ver
 });
 
 describe("contexto del formulario", async () => {
-  const { bankCategory, cycleFor } = await import("./cycle");
+  const { cycleFor } = await import("./cycle");
   it("calcula el ciclo cuatrimestral en hora de Colombia", () => {
     expect(cycleFor(new Date("2026-10-16T12:00:00Z"))).toBe("2026-C3");
     expect(cycleFor(new Date("2026-05-01T04:00:00Z"))).toBe("2026-C1"); // aún 30/04 en Bogotá
     expect(cycleFor(new Date("2027-01-10T12:00:00Z"))).toBe("2027-C1");
-  });
-  it("traduce la categoría del catálogo a la del banco", () => {
-    expect(bankCategory("pescados_mariscos")).toBe("pescados");
-    expect(bankCategory("otra")).toBeNull();
   });
 });

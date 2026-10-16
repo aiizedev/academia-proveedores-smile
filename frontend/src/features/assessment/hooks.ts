@@ -6,7 +6,7 @@ import bankJson from "@/data/catalog/question-bank.json";
 import { useLocalDb } from "@/data/db/context";
 import { flushLocalDb } from "@/data/db/flush";
 import type { Assessment, AssessmentAnswer, Declaration, SupplierProfileRecord } from "@/data/db/models";
-import { bankCategory, cycleFor, DECLARATION, DEFAULT_SIZE } from "@/domain/assessment/cycle";
+import { cycleFor, DECLARATION, DEFAULT_SIZE } from "@/domain/assessment/cycle";
 import type { FormAnswer, Profile, QuestionBank, Size } from "@/domain/assessment/form";
 
 /* Datos de la autoevaluación en WatermelonDB (RF-SYN-001): la UI observa y
@@ -40,7 +40,8 @@ export function useAssessment(): AssessmentState {
       .query()
       .observeWithColumns(["main_category", "completed_at"])
       .subscribe(([row]) => {
-        const category = row?.completedAt ? bankCategory(row.toProfile().mainCategory) : null;
+        // El banco usa los mismos códigos de categoría que el catálogo (banco v3).
+        const category = row?.completedAt ? row.toProfile().mainCategory : null;
         setProfile(category ? { category, size: DEFAULT_SIZE as Size } : null);
       });
     const assessmentSub = db.database
