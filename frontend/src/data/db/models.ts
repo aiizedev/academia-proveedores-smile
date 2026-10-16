@@ -1,5 +1,6 @@
 import { Model } from "@nozbe/watermelondb";
 import type { ConsentDecision, ConsentKind, ConsentRecord } from "@/domain/privacy/consent";
+import type { ContactChannel, PersonType, SupplierProfile } from "@/domain/suppliers/profile";
 
 /* Modelos SIN decoradores (ADR-0005): el compilador SWC de Next no aplica los
    decoradores "legacy" que espera WatermelonDB, así que los campos se exponen
@@ -52,4 +53,49 @@ export class Consent extends Model {
   }
 }
 
-export const modelClasses = [Sale, Assessment, AssessmentAnswer, Consent];
+/** Columna local ↔ campo de dominio de la ficha. */
+export const PROFILE_COLUMNS = {
+  personType: "person_type",
+  taxId: "tax_id",
+  taxDv: "tax_dv",
+  legalName: "legal_name",
+  legalRep: "legal_rep",
+  departmentCode: "department_code",
+  municipalityCode: "municipality_code",
+  vereda: "vereda",
+  contactChannel: "contact_channel",
+  mainCategory: "main_category",
+} as const satisfies Record<keyof SupplierProfile, string>;
+
+export class SupplierProfileRecord extends Model {
+  static override table = "supplier_profile";
+
+  get completedAt(): number | null { return (this._getRaw("completed_at") as number | null) ?? null; }
+
+  toProfile(): SupplierProfile {
+    const text = (column: string) => (this._getRaw(column) as string | null) ?? "";
+    return {
+      personType: (this._getRaw("person_type") as PersonType | null) ?? null,
+      taxId: text("tax_id"),
+      taxDv: text("tax_dv"),
+      legalName: text("legal_name"),
+      legalRep: text("legal_rep"),
+      departmentCode: text("department_code"),
+      municipalityCode: text("municipality_code"),
+      vereda: text("vereda"),
+      contactChannel: (this._getRaw("contact_channel") as ContactChannel | null) ?? null,
+      mainCategory: text("main_category"),
+    };
+  }
+
+  /** Escribe la ficha; usar dentro de `record.update()` o `create()`. */
+  applyProfile(profile: SupplierProfile, completedAt: number | null): void {
+    for (const [field, column] of Object.entries(PROFILE_COLUMNS)) {
+      const value = profile[field as keyof SupplierProfile];
+      this._setRaw(column, value === "" ? null : value);
+    }
+    this._setRaw("completed_at", completedAt);
+  }
+}
+
+export const modelClasses = [Sale, Assessment, AssessmentAnswer, Consent, SupplierProfileRecord];

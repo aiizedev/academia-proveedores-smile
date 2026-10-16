@@ -6,5 +6,5 @@ export type { Priority } from "./Chip";
 export { LevelBadge } from "./LevelBadge";
 export type { Level } from "./LevelBadge";
 export { Card } from "./Card";
-export { Checkbox } from "./Checkbox";
-export { Field } from "./Field";
+export { Checkbox, Choice } from "./Checkbox";
+export { Field, SelectField } from "./Field";

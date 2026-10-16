@@ -323,6 +323,8 @@ Cada componente lista anatomía, tokens y estados. Clases entre paréntesis = re
 - **Input** (`.field`): etiqueta 0.86rem 700 arriba; input 3.5rem de alto, `--radius-control`, borde 1.5px `--line`, fondo `--white`, texto 1.05rem. Foco: borde `--olive-600` + `--ring-field-focus`.
 - **Numérico** (calculadora): 3rem, alineado a la derecha, fondo crema.
 - Campos opcionales se marcan en la etiqueta; nunca bloquean avanzar.
+- **Lista** (`SelectField`): misma anatomía que el Input con `<select>` nativo (teclado y lector de pantalla del sistema) y chevron `--ink-soft` a la derecha. Para DIVIPOLA en cascada: el municipio se habilita al elegir el departamento.
+- **Opción única** (`Choice`): misma fila que la casilla de autorización con `<input type="radio">`; marcada igual. Para 2 a 4 opciones cortas (tipo de persona, canal de contacto) en vez de una lista.
 - **Casilla de autorización** (`Checkbox`, consentimiento y declaración): fila alto mín. 3.7rem, `--radius-m`, borde 1.5px `--line`, fondo `--white`, texto 1rem 700. Casilla igual a la del Checklist (§8.6), sin tachado. Marcada: casilla `--olive-800` con palomita crema, fila `--olive-25` y borde `--olive-600`. Usa `<input type="checkbox">` nativo con su `<label>`; el foco se ve en la fila.
 
 ### 8.3 Tiles de categoría (`.tile`)

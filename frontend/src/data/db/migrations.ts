@@ -1,5 +1,5 @@
 import { createTable, schemaMigrations } from "@nozbe/watermelondb/Schema/migrations";
-import { consentsTable } from "./schema";
+import { consentsTable, supplierProfileTable } from "./schema";
 
 /* Migraciones del esquema local (PLAN_FRONTEND §3.2 paso 3). Cada cambio de
    schema.ts sube SCHEMA_VERSION y agrega aquí el paso `toVersion` que lo lleva
@@ -8,5 +8,7 @@ export const migrations = schemaMigrations({
   migrations: [
     // v2 · HU-PRV-01: consentimientos locales.
     { toVersion: 2, steps: [createTable({ name: consentsTable.name, columns: Object.values(consentsTable.columns) })] },
+    // v3 · HU-SUP-01: ficha del proveedor.
+    { toVersion: 3, steps: [createTable({ name: supplierProfileTable.name, columns: Object.values(supplierProfileTable.columns) })] },
   ],
 });

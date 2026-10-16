@@ -12,6 +12,7 @@ const elements = [
   { type: "db", pattern: "src/data/db/**", mode: "full" },
   { type: "sync", pattern: "src/data/sync/**", mode: "full" },
   { type: "api", pattern: "src/data/api/**", mode: "full" },
+  { type: "catalog", pattern: "src/data/catalog/**", mode: "full" },
   { type: "feature", pattern: "src/features/*/**", mode: "full", capture: ["module"] },
   { type: "ui", pattern: ["src/components/ui/**", "src/components/icons.tsx"], mode: "full" },
   { type: "shell", pattern: "src/components/shell/**", mode: "full" },
@@ -30,7 +31,8 @@ const boundaryRules = [
   allow("db", ["db", "domain", "lib"]),
   allow("sync", ["sync", "db", "api", "lib", "domain"]),
   allow("api", ["api", "lib"]),
-  allow("feature", [["feature", { module: "${from.module}" }], "domain", "db", "sync", "ui", "design", "hooks", "lib"]),
+  allow("catalog", ["catalog"]),
+  allow("feature", [["feature", { module: "${from.module}" }], "domain", "db", "sync", "catalog", "ui", "design", "hooks", "lib"]),
   allow("ui", ["ui", "design", "lib"]),
   allow("shell", ["shell", "ui", "design", "hooks", "lib", "sync"]),
   allow("design", ["design"]),
@@ -39,7 +41,7 @@ const boundaryRules = [
   allow("sw", ["sw", "lib"]),
   // /smile es online: no usa WatermelonDB ni la cola de sync (HU-PLAT-03).
   allow("backoffice", ["backoffice", "app", "feature", "domain", "api", "ui", "shell", "design", "hooks", "lib"]),
-  allow("app", ["app", "backoffice", "feature", "domain", "db", "sync", "api", "ui", "shell", "design", "hooks", "lib"]),
+  allow("app", ["app", "backoffice", "feature", "domain", "db", "sync", "api", "catalog", "ui", "shell", "design", "hooks", "lib"]),
 ];
 
 /* GUIA_VISUAL §1 y §10: color, radio, sombra, desenfoque y duración solo

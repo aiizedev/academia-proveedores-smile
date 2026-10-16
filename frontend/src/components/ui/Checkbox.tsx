@@ -2,13 +2,14 @@ import type { InputHTMLAttributes, ReactNode } from "react";
 import { Icon } from "@/components/icons";
 import { cn } from "@/lib/cn";
 
-/* GUIA_VISUAL §8.2 — casilla de autorización. Input nativo dentro de su label:
-   toda la fila (≥ 59 px) es el objetivo táctil y el foco se ve en la fila. */
+/* GUIA_VISUAL §8.2 — casilla de autorización y opción única. Input nativo
+   dentro de su label: toda la fila (≥ 59 px) es el objetivo táctil y el foco
+   se ve en la fila. */
 export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
   children: ReactNode;
 }
 
-export function Checkbox({ children, className, ...rest }: CheckboxProps) {
+function CheckRow({ type, children, className, ...rest }: CheckboxProps & { type: "checkbox" | "radio" }) {
   return (
     <label
       className={cn(
@@ -19,7 +20,7 @@ export function Checkbox({ children, className, ...rest }: CheckboxProps) {
         className,
       )}
     >
-      <input type="checkbox" className="peer sr-only" {...rest} />
+      <input type={type} className="peer sr-only" {...rest} />
       <span
         aria-hidden
         className={cn(
@@ -32,4 +33,13 @@ export function Checkbox({ children, className, ...rest }: CheckboxProps) {
       <span>{children}</span>
     </label>
   );
+}
+
+export function Checkbox(props: CheckboxProps) {
+  return <CheckRow type="checkbox" {...props} />;
+}
+
+/** Opción única: agrupar varias con el mismo `name` dentro de un <fieldset>. */
+export function Choice(props: CheckboxProps) {
+  return <CheckRow type="radio" {...props} />;
 }
