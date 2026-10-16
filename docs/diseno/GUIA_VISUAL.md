@@ -323,6 +323,7 @@ Cada componente lista anatomía, tokens y estados. Clases entre paréntesis = re
 - **Input** (`.field`): etiqueta 0.86rem 700 arriba; input 3.5rem de alto, `--radius-control`, borde 1.5px `--line`, fondo `--white`, texto 1.05rem. Foco: borde `--olive-600` + `--ring-field-focus`.
 - **Numérico** (calculadora): 3rem, alineado a la derecha, fondo crema.
 - Campos opcionales se marcan en la etiqueta; nunca bloquean avanzar.
+- **Casilla de autorización** (`Checkbox`, consentimiento y declaración): fila alto mín. 3.7rem, `--radius-m`, borde 1.5px `--line`, fondo `--white`, texto 1rem 700. Casilla igual a la del Checklist (§8.6), sin tachado. Marcada: casilla `--olive-800` con palomita crema, fila `--olive-25` y borde `--olive-600`. Usa `<input type="checkbox">` nativo con su `<label>`; el foco se ve en la fila.
 
 ### 8.3 Tiles de categoría (`.tile`)
 

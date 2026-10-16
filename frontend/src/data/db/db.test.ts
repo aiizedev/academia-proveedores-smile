@@ -27,3 +27,13 @@ describe("base local (HU-SYN-01)", () => {
     expect(saved?.status).toBe("draft");
   });
 });
+
+describe("guardado inmediato", () => {
+  it("encuentra el Loki interno de la versión fijada y guarda sin esperar el autosave", async () => {
+    const db = await memoryDb();
+    const { flushLocalDb } = await import("./flush");
+    const started = performance.now();
+    await flushLocalDb(db);
+    expect(performance.now() - started).toBeLessThan(300);
+  });
+});

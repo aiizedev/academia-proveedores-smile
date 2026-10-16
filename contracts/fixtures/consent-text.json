@@ -1,0 +1,35 @@
+{
+  "_comment": "Texto de autorización versionado (RF-PRV-001/003, CU-03). sha256 = SHA-256 UTF-8 de body unido con \"\\n\\n\". Texto de trabajo del POC: pendiente de revisión jurídica de Smile.",
+  "current_version": "2026-10-v1",
+  "texts": [
+    {
+      "id": "f7621f04-dc0e-5d6f-a27f-a79f858d3872",
+      "kind": "general",
+      "version": "2026-10-v1",
+      "title": "Autorización de tratamiento de datos personales",
+      "body": [
+        "Grupo Smile Bogotá S.A.S. es responsable de los datos que usted registre en esta aplicación.",
+        "Usamos sus datos para darle acompañamiento técnico, calcular indicadores agregados y definir bonificaciones.",
+        "El equipo de Smile no ve sus ventas, costos ni mermas registro por registro; solo ve totales.",
+        "Usted puede conocer, actualizar, rectificar y suprimir sus datos, y revocar esta autorización.",
+        "Para ejercer estos derechos escriba a sostenibilidad@smilebogota.com.",
+        "Esta autorización se rige por la Ley 1581 de 2012 y el Decreto 1377 de 2013."
+      ],
+      "accept_label": "Autorizo el tratamiento de mis datos personales",
+      "sha256": "d76c035b0b762285e49bea6c065af267a29427774195d5bfe6aec2e39c2f5508"
+    },
+    {
+      "id": "12583231-0c44-5490-a41f-82e905a82ad4",
+      "kind": "sensitive",
+      "version": "2026-10-v1",
+      "title": "Datos sensibles (opcional)",
+      "body": [
+        "Algunas preguntas tratan sobre liderazgo y empleo diverso, etnia, víctimas y discapacidad.",
+        "Responder es voluntario y no cambia su evaluación.",
+        "Si no autoriza, esas preguntas quedarán como «Prefiero no responder»."
+      ],
+      "accept_label": "Autorizo el tratamiento de mis datos sensibles",
+      "sha256": "0880cad9f73238e22997f27652e0b95320dbdb17618160e38e3d232caa7daefc"
+    }
+  ]
+}

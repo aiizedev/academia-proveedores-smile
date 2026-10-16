@@ -1,7 +1,7 @@
-import { PageStub } from "@/components/shell/PageStub";
+import { ConsentFlow } from "@/features/privacy/ConsentFlow";
 
 export const metadata = { title: "Sus datos" };
 
 export default function ConsentimientoPage() {
-  return <PageStub eyebrow="Sus datos" title={<>Autorización de <em>datos</em></>} refs="CU-03 · RF-PRV-001…003" />;
+  return <ConsentFlow />;
 }
