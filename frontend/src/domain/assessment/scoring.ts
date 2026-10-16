@@ -21,6 +21,8 @@ export interface AnsweredQuestion {
   axis: string;
   weight: number;
   answer: AnswerValue;
+  /** Valor 0–1 ya calculado (polaridad S-21, multiselección S-18); si falta se usa `answerValues`. */
+  value?: number;
   criticalWhen?: readonly AnswerValue[];
 }
 
@@ -75,7 +77,7 @@ export function scoreAxis(questions: readonly AnsweredQuestion[], rules: Scoring
   let earned = 0;
   let possible = 0;
   for (const q of applicable) {
-    earned += q.weight * rules.answerValues[q.answer as keyof ScoringRules["answerValues"]];
+    earned += q.weight * (q.value ?? rules.answerValues[q.answer as keyof ScoringRules["answerValues"]]);
     possible += q.weight;
   }
   const score = round2((earned / possible) * 100);
