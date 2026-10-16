@@ -6,9 +6,13 @@ export const metadata = { title: "Reportes" };
 export default function ReportesPage() {
   return (
     <>
-      <PageHeader eyebrow="Reportes" title={<>Reportes en <em>1 clic</em></>} />
+      <PageHeader
+        eyebrow="Reportes · RF-RPT-005"
+        title="Reportes en un clic"
+        emphasis={["clic"]}
+        lead="Respetan los filtros de arriba. En la demo el CSV se genera en el navegador; en producción la API entrega PDF y XLSX en menos de 30 s para 450 proveedores."
+      />
       <ReportButtons />
-      <p className="mt-4 text-app-small text-ink-soft">En la demo los archivos se generan en el navegador; en producción se piden a la API como PDF o Excel.</p>
       <DemoNote />
     </>
   );
