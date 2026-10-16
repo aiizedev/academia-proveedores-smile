@@ -22,6 +22,7 @@ Registro vivo. Antes de implementar algo que dependa de una entrada de esta tabl
 | C-12 | Factores de huella de carbono | Maqueta (IPCC 2019, urea 4,7 kg CO₂e/kg) vs DOC-FRUVER (`kg_N_sintético × 2,45`, diésel 10,21/gal, gasolina 8,89/gal, red 0,164/kWh) | DOC-FRUVER (fuente de dominio de Ing. Industrial) como versión 1 de factores; tabla de factores versionada y editable por ADMIN. | RESUELTO |
 | C-13 | Tiempo de carga | Maqueta README "< 2 s" vs BASE §8.1 FCP < 1,8 s | FCP < 1,8 s. | RESUELTO |
 | C-14 | Cifrado local vs WatermelonDB | DASH §1.2 exige cifrado simétrico en el dispositivo; WatermelonDB/LokiJS no cifra | Cifrado a nivel de aplicación (AES-GCM 256, WebCrypto, clave no exportable) solo para campos sensibles. Ver ADR-0006. | RESUELTO |
+| C-16 | Banco de preguntas y topes por tamaño | SPEC-SOT §3.1 (≤ 8 / 15 / 25 preguntas según tamaño; banco propio por categoría) vs instrucción del equipo (16/10/2026): usar las preguntas del formulario vigente de Smile [DOC-AUTOEVAL] más extras con criterios ODS, GRI, ISO 14001 y B Corp | Banco = núcleo DOC-AUTOEVAL (siempre) + 17 extras por niveles de tamaño (`min_size`) y categoría. Sin topes numéricos: la complejidad crece con el tamaño mediante los niveles. Respuestas Sí/No/No aplica (sin "A veces"). Contrato: `contracts/fixtures/question-bank.json` | RESUELTO |
 | C-15 | "Motor de IA" | BASE §2.2 y DASH mencionan IA sin definir comportamiento | Fuera de alcance v1. La "inteligencia" del sistema son reglas deterministas y parametrizables. | RESUELTO |
 
 ## 2. Supuestos parametrizables
@@ -46,6 +47,8 @@ Valores que el spec no define. Se implementan **como parámetros** (`catalog.par
 | S-14 | Reconocimiento por constancia ERP | Carita: 4 semanas consecutivas con registro. Flor: 12 semanas consecutivas | RF-GAM-001/002 |
 | S-15 | Clip completado | ≥ 90 % de la duración reproducida | RF-LRN-003 |
 | S-16 | Formato de rótulo | `SML-{CAT}-{PROV}-{AAAAMMDD}-{SEQ}-{DV}`; CAT 3 letras, PROV 6 caracteres base32 del id, SEQ 3 dígitos por dispositivo y día con sufijo de dispositivo, DV módulo 11 | RF-TRZ-005 |
+| S-18 | Puntaje de la pregunta de transporte (amb-08, multiselección) | 1 si todas las opciones marcadas son de baja emisión (eléctrico/híbrido, no motorizado); 0,5 si hay mezcla; 0 si ninguna | RF-ASM-005 |
+| S-19 | Composición del formulario | Todo el núcleo DOC-AUTOEVAL aplicable + extras con `min_size` ≤ tamaño y categoría compatible; la sección de alimentos solo si amb-09 = Sí; preguntas marcadas `default_na_for_categories` se preseleccionan en No aplica | RF-ASM-001 |
 | S-17 | Envío tardío por sincronización | Una autoevaluación completada en el dispositivo antes del cierre y recibida hasta 15 días después se asigna al ciclo de su `completed_at` local; pasado ese plazo se rechaza y se pide responder la del ciclo vigente | RF-ASM-004, CU-05 |
 
 ## 3. Preguntas abiertas para Grupo Smile / Ing. Industrial
