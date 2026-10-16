@@ -1,4 +1,5 @@
 import { Model } from "@nozbe/watermelondb";
+import type { ConsentDecision, ConsentKind, ConsentRecord } from "@/domain/privacy/consent";
 
 /* Modelos SIN decoradores (ADR-0005): el compilador SWC de Next no aplica los
    decoradores "legacy" que espera WatermelonDB, así que los campos se exponen
@@ -38,4 +39,17 @@ export class AssessmentAnswer extends Model {
   get answer(): string { return this._getRaw("answer") as string; }
 }
 
-export const modelClasses = [Sale, Assessment, AssessmentAnswer];
+export class Consent extends Model {
+  static override table = "consents";
+
+  get kind(): ConsentKind { return this._getRaw("kind") as ConsentKind; }
+  get decision(): ConsentDecision { return this._getRaw("decision") as ConsentDecision; }
+  get textSha256(): string { return this._getRaw("text_sha256") as string; }
+  get deviceAt(): number { return this._getRaw("device_at") as number; }
+
+  toRecord(): ConsentRecord {
+    return { kind: this.kind, decision: this.decision, textSha256: this.textSha256, deviceAt: this.deviceAt };
+  }
+}
+
+export const modelClasses = [Sale, Assessment, AssessmentAnswer, Consent];

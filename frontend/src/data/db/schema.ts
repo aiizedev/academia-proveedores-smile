@@ -4,7 +4,21 @@ import { appSchema, tableSchema } from "@nozbe/watermelondb";
    de sync: mismo nombre que en `/api/v1/sync/pull`. Montos COP como enteros,
    cantidades con la unidad original (la normalización es del backend, RF-ERP-008).
    Al cambiar el esquema: subir `version` y agregar migración en migrations.ts. */
-export const SCHEMA_VERSION = 1;
+export const SCHEMA_VERSION = 2;
+
+export const consentsTable = tableSchema({
+  name: "consents",
+  columns: [
+    { name: "consent_text_id", type: "string" },
+    { name: "kind", type: "string", isIndexed: true }, // general | sensitive
+    { name: "decision", type: "string" }, // granted | denied
+    { name: "method", type: "string" }, // checkbox
+    { name: "text_version", type: "string" },
+    { name: "text_sha256", type: "string" },
+    { name: "device_at", type: "number" },
+    { name: "created_at", type: "number" },
+  ],
+});
 
 export const schema = appSchema({
   version: SCHEMA_VERSION,
@@ -25,6 +39,8 @@ export const schema = appSchema({
         { name: "updated_at", type: "number" },
       ],
     }),
+    // P2 — Consentimiento append-only (RF-PRV-003): nunca se actualiza ni borra.
+    consentsTable,
     // P2 — Autoevaluación (RF-ASM-003, RF-ASM-004)
     tableSchema({
       name: "assessments",

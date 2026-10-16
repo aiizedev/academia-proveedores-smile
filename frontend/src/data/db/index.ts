@@ -55,6 +55,10 @@ export function getDatabase(): Promise<Database> {
     (database) => {
       // RNF-OFF-002: pedir almacenamiento persistente para que el navegador no lo borre.
       void navigator.storage?.persist?.();
+      // Al pasar a segundo plano el sistema puede matar la pestaña: guardar ya.
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "hidden") void import("./flush").then(({ flushLocalDb }) => flushLocalDb(database));
+      });
       return database;
     },
     (error: unknown) => {
