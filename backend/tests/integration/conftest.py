@@ -20,7 +20,7 @@ def migrated() -> None:
 
 
 def token_for(role: str, supplier_id: uuid.UUID | None = None) -> str:
-    claims = {"sub": str(uuid.uuid4()), "role": role}
+    claims = {"sub": str(uuid.uuid4()), "role": role, "typ": "access"}
     if supplier_id:
         claims["supplier_id"] = str(supplier_id)
     return jwt.encode(claims, get_settings().jwt_secret, algorithm="HS256")

@@ -29,3 +29,15 @@ class ConflictError(DomainError):
     """Conflicto con el estado actual (p. ej. ALREADY_SUBMITTED). HTTP 409."""
 
     code = "conflict"
+
+
+class AuthenticationError(DomainError):
+    """Credenciales o sesión inválidas. HTTP 401."""
+
+    code = "unauthenticated"
+
+
+class LockedError(DomainError):
+    """Recurso bloqueado temporalmente (p. ej. cuenta tras intentos fallidos). HTTP 423."""
+
+    code = "locked"

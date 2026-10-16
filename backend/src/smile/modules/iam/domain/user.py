@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import re
 import uuid
+from datetime import datetime, timedelta
 
 from smile.shared.application.ports import Role
 from smile.shared.domain.base import AggregateRoot
@@ -49,6 +50,8 @@ class User(AggregateRoot):
         phone: str | None = None,
         email: str | None = None,
         is_active: bool = True,
+        failed_attempts: int = 0,
+        locked_until: datetime | None = None,
     ) -> None:
         super().__init__(id)
         if not full_name.strip():
@@ -61,3 +64,19 @@ class User(AggregateRoot):
         self.phone = normalize_phone(phone) if phone is not None else None
         self.email = normalize_email(email) if email is not None else None
         self.is_active = is_active
+        self.failed_attempts = failed_attempts
+        self.locked_until = locked_until
+
+    def is_locked(self, now: datetime) -> bool:
+        return self.locked_until is not None and self.locked_until > now
+
+    def register_failed_login(self, now: datetime, max_attempts: int, lock: timedelta) -> None:
+        """RF-IAM-006: tras `max_attempts` fallos consecutivos, bloquea durante `lock`."""
+        self.failed_attempts += 1
+        if self.failed_attempts >= max_attempts:
+            self.locked_until = now + lock
+            self.failed_attempts = 0
+
+    def register_successful_login(self) -> None:
+        self.failed_attempts = 0
+        self.locked_until = None

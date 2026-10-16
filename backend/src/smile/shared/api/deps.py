@@ -34,6 +34,8 @@ def get_current_user(
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "No autenticado")
     try:
         claims = jwt.decode(creds.credentials, get_settings().jwt_secret, algorithms=["HS256"])
+        if claims.get("typ") != "access":
+            raise ValueError("no es un token de acceso")
         supplier = claims.get("supplier_id")
         return CurrentUser(
             id=uuid.UUID(claims["sub"]),
