@@ -75,13 +75,13 @@ Las tablas del ERP **no** son hypertables: el volumen por proveedor es bajo (≤
 
 | Tabla | Columnas | Índices / notas |
 |---|---|---|
-| `categories` | `code TEXT PK` (`fruver`, `lacteos`, `carnes`, `pescados_mariscos`, `insumos_servicios`), `name TEXT`, `status TEXT CHECK IN ('ACTIVA','PROXIMAMENTE')`, `icon TEXT` | RF-CAT-001, C-08. |
+| `categories` | `code TEXT PK` (`fruver`, `lacteos`, `carnes`, `pescados_mariscos`, `insumos_servicios`), `name TEXT`, `status TEXT CHECK IN ('ACTIVA','PROXIMAMENTE')`, `icon TEXT`, `position SMALLINT` | RF-CAT-001, C-08. Datos de referencia en la migración `catalog_0003`. |
 | `axes` | `id UUID PK`, `category_code TEXT FK`, `code TEXT`, `name TEXT`, `short_name TEXT`, `icon TEXT`, `position SMALLINT` | `UNIQUE(category_code, code)`. Fruver: `bpa`, `residuos`, `carbono`, `infantil`, `ddhh` (RF-CAT-002). |
 | `products` | `id UUID PK`, `category_code TEXT FK`, `name TEXT`, `base_unit TEXT CHECK IN ('kg','litro','unidad')`, `min_price_per_base_cop BIGINT NULL`, `max_price_per_base_cop BIGINT NULL`, `active BOOL` | RF-CAT-003, S-11. |
 | `unit_conversions` | `id UUID PK`, `product_id UUID NULL FK` (NULL = global), `unit TEXT`, `factor_to_base NUMERIC(12,4)` | Global: arroba = 12,5 kg, bulto = 50 kg (S-12). `UNIQUE(product_id, unit)`. |
 | `agrochemicals` | `id UUID PK`, `trade_name TEXT`, `ica_registry TEXT`, `active_ingredient TEXT`, `active BOOL` | `UNIQUE(ica_registry)`. RF-CAT-005. |
 | `withdrawal_periods` | `id UUID PK`, `agrochemical_id UUID FK`, `crop TEXT`, `days SMALLINT CHECK > 0`, `source TEXT` | `UNIQUE(agrochemical_id, crop)`. Q-03. |
-| `parameter_sets` | `id UUID PK`, `key TEXT` (`scoring.weights`, `assessment.levels`, `impact.emission_factors`, `scoring.p2_formula`, `scoring.p3_formula`, `recognition.thresholds`, `impact.monetization`…), `version INT`, `value JSONB`, `valid_from TIMESTAMPTZ`, `published_by UUID`, `published_at` | `UNIQUE(key, version)`, `(key, valid_from DESC)`. Inmutables tras publicar (RF-CAT-004). |
+| `parameter_sets` | `id UUID PK`, `key TEXT` (`scoring.weights`, `assessment.levels`, `impact.emission_factors`, `scoring.p2_formula`, `scoring.p3_formula`, `recognition.thresholds`, `impact.monetization`…), `version INT`, `value JSONB`, `valid_from TIMESTAMPTZ`, `published_by UUID NULL` (NULL = versión inicial de sistema), `published_at` | `UNIQUE(key, version)`, `(key, valid_from DESC)`. Inmutables tras publicar (RF-CAT-004). |
 | `divipola` | `municipality_code CHAR(5) PK`, `department_code CHAR(2)`, `department TEXT`, `municipality TEXT` | Carga inicial DANE. |
 | `support_directory` | `id UUID PK`, `label TEXT`, `channel TEXT CHECK IN ('whatsapp','llamada','correo')`, `value TEXT`, `position SMALLINT` | RF-NOT-002. |
 

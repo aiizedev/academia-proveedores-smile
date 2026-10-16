@@ -56,42 +56,68 @@
         "title": "AnswerIn",
         "type": "object"
       },
-      "AxisOut": {
-        "description": "Puntajes como número JSON con 2 decimales (ya redondeados half-up en el dominio).",
+      "CatalogBundleOut": {
         "properties": {
-          "level": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Level"
+          "categories": {
+            "items": {
+              "$ref": "#/components/schemas/CategoryOut"
+            },
+            "title": "Categories",
+            "type": "array"
           },
-          "score": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Score"
-          },
-          "urgent": {
-            "title": "Urgent",
-            "type": "boolean"
+          "parameters": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ParameterSetOut"
+            },
+            "title": "Parameters",
+            "type": "object"
           }
         },
         "required": [
-          "score",
-          "level",
-          "urgent"
+          "categories",
+          "parameters"
         ],
-        "title": "AxisOut",
+        "title": "CatalogBundleOut",
+        "type": "object"
+      },
+      "CategoryOut": {
+        "properties": {
+          "axes": {
+            "items": {
+              "$ref": "#/components/schemas/smile__modules__catalog__api__schemas__AxisOut"
+            },
+            "title": "Axes",
+            "type": "array"
+          },
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "icon": {
+            "title": "Icon",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "ACTIVA",
+              "PROXIMAMENTE"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "name",
+          "status",
+          "icon",
+          "axes"
+        ],
+        "title": "CategoryOut",
         "type": "object"
       },
       "HTTPValidationError": {
@@ -105,6 +131,31 @@
           }
         },
         "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "ParameterSetOut": {
+        "properties": {
+          "valid_from": {
+            "format": "date-time",
+            "title": "Valid From",
+            "type": "string"
+          },
+          "value": {
+            "additionalProperties": true,
+            "title": "Value",
+            "type": "object"
+          },
+          "version": {
+            "title": "Version",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "version",
+          "valid_from",
+          "value"
+        ],
+        "title": "ParameterSetOut",
         "type": "object"
       },
       "PlanItemOut": {
@@ -152,7 +203,7 @@
         "properties": {
           "axes": {
             "additionalProperties": {
-              "$ref": "#/components/schemas/AxisOut"
+              "$ref": "#/components/schemas/smile__modules__assessment__api__schemas__AxisOut"
             },
             "title": "Axes",
             "type": "object"
@@ -223,6 +274,78 @@
         ],
         "title": "ValidationError",
         "type": "object"
+      },
+      "smile__modules__assessment__api__schemas__AxisOut": {
+        "description": "Puntajes como número JSON con 2 decimales (ya redondeados half-up en el dominio).",
+        "properties": {
+          "level": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Level"
+          },
+          "score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Score"
+          },
+          "urgent": {
+            "title": "Urgent",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "score",
+          "level",
+          "urgent"
+        ],
+        "title": "AxisOut",
+        "type": "object"
+      },
+      "smile__modules__catalog__api__schemas__AxisOut": {
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "icon": {
+            "title": "Icon",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "short_name": {
+            "title": "Short Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "name",
+          "short_name",
+          "icon"
+        ],
+        "title": "AxisOut",
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "scheme": "bearer",
+        "type": "http"
       }
     }
   },
@@ -271,6 +394,33 @@
         "summary": "Score Preview",
         "tags": [
           "assessment"
+        ]
+      }
+    },
+    "/api/v1/catalog/bundle": {
+      "get": {
+        "description": "Categorías con sus ejes y parámetros vigentes (RF-CAT-001, 002, 004).",
+        "operationId": "bundle_api_v1_catalog_bundle_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogBundleOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Bundle",
+        "tags": [
+          "catalog"
         ]
       }
     },
