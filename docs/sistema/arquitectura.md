@@ -253,7 +253,7 @@ Este contrato lo comparten `frontend/`, `backend/` e `infra/`. Cambiarlo exige a
 | `API_INTERNAL_URL` | frontend (servidor) | `http://backend:8000` | URL de la API dentro de la red de compose |
 
 ### 7.3 Endpoints transversales
-`GET /health/live` (proceso vivo) · `GET /health/ready` (DB y storage accesibles) · `GET /api/v1/openapi.json` · `GET /docs` (solo fuera de producción) · `GET /metrics`.
+`GET /health/live` (proceso vivo) · `GET /health/ready` (DB y storage accesibles; 503 con `{"db": "down"}` si fallan) · `GET /api/v1/openapi.json` · `GET /docs` (solo fuera de producción) · `GET /metrics`.
 
 ### 7.4 Dockerfiles multistage (ADR-0003)
 
