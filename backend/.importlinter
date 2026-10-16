@@ -1,0 +1,118 @@
+[importlinter]
+root_package = smile
+include_external_packages = True
+
+[importlinter:contract:hexagonal-layers]
+name = Hexagonal: capas por módulo (ADR-0001, RNF-MNT-001)
+type = layers
+layers =
+    module
+    public
+    api | infrastructure
+    application
+    domain
+containers =
+    smile.modules.iam
+    smile.modules.privacy
+    smile.modules.suppliers
+    smile.modules.catalog
+    smile.modules.assessment
+    smile.modules.improvement
+    smile.modules.erp
+    smile.modules.traceability
+    smile.modules.receptions
+    smile.modules.scoring
+    smile.modules.recognition
+    smile.modules.learning
+    smile.modules.impact
+    smile.modules.reporting
+    smile.modules.notifications
+    smile.modules.sync
+
+[importlinter:contract:domain-pure]
+name = Dominio y aplicación sin frameworks ni adaptadores (ADR-0001)
+type = forbidden
+source_modules =
+    smile.modules.iam.domain
+    smile.modules.privacy.domain
+    smile.modules.suppliers.domain
+    smile.modules.catalog.domain
+    smile.modules.assessment.domain
+    smile.modules.improvement.domain
+    smile.modules.erp.domain
+    smile.modules.traceability.domain
+    smile.modules.receptions.domain
+    smile.modules.scoring.domain
+    smile.modules.recognition.domain
+    smile.modules.learning.domain
+    smile.modules.impact.domain
+    smile.modules.reporting.domain
+    smile.modules.notifications.domain
+    smile.modules.sync.domain
+    smile.modules.iam.application
+    smile.modules.privacy.application
+    smile.modules.suppliers.application
+    smile.modules.catalog.application
+    smile.modules.assessment.application
+    smile.modules.improvement.application
+    smile.modules.erp.application
+    smile.modules.traceability.application
+    smile.modules.receptions.application
+    smile.modules.scoring.application
+    smile.modules.recognition.application
+    smile.modules.learning.application
+    smile.modules.impact.application
+    smile.modules.reporting.application
+    smile.modules.notifications.application
+    smile.modules.sync.application
+    smile.shared.domain
+    smile.shared.application
+forbidden_modules =
+    fastapi
+    starlette
+    sqlalchemy
+    asyncpg
+    boto3
+    botocore
+    pydantic
+    smile.shared.infrastructure
+    smile.shared.api
+
+[importlinter:contract:module-independence]
+name = Monolito modular: módulos independientes salvo vía public (ADR-0002, RNF-MNT-002)
+type = independence
+modules =
+    smile.modules.iam
+    smile.modules.privacy
+    smile.modules.suppliers
+    smile.modules.catalog
+    smile.modules.assessment
+    smile.modules.improvement
+    smile.modules.erp
+    smile.modules.traceability
+    smile.modules.receptions
+    smile.modules.scoring
+    smile.modules.recognition
+    smile.modules.learning
+    smile.modules.impact
+    smile.modules.reporting
+    smile.modules.notifications
+    smile.modules.sync
+unmatched_ignore_imports_alerting = none
+ignore_imports =
+    smile.modules.** -> smile.modules.iam.public
+    smile.modules.** -> smile.modules.privacy.public
+    smile.modules.** -> smile.modules.suppliers.public
+    smile.modules.** -> smile.modules.catalog.public
+    smile.modules.** -> smile.modules.assessment.public
+    smile.modules.** -> smile.modules.improvement.public
+    smile.modules.** -> smile.modules.erp.public
+    smile.modules.** -> smile.modules.traceability.public
+    smile.modules.** -> smile.modules.receptions.public
+    smile.modules.** -> smile.modules.scoring.public
+    smile.modules.** -> smile.modules.recognition.public
+    smile.modules.** -> smile.modules.learning.public
+    smile.modules.** -> smile.modules.impact.public
+    smile.modules.** -> smile.modules.reporting.public
+    smile.modules.** -> smile.modules.notifications.public
+    smile.modules.** -> smile.modules.sync.public

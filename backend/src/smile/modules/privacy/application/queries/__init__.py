@@ -1,0 +1,1 @@
+"""Consultas (lectura) de `privacy`."""
