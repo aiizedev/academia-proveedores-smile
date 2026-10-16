@@ -4,6 +4,7 @@ import httpx
 import pytest
 
 from smile.main import create_app
+from tests.auth import bearer
 
 
 @pytest.fixture
@@ -30,6 +31,7 @@ async def test_validation_error_hides_input(client: httpx.AsyncClient) -> None:
     r = await client.post(
         "/api/v1/assessment/score-preview",
         json={"answers": [{"id": "3001234567", "axis": "bpa", "weight": 9, "answer": "si"}]},
+        headers=bearer("PROVEEDOR"),
     )
     assert r.status_code == 400
     assert "3001234567" not in r.text

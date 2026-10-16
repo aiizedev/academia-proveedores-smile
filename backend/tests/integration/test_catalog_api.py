@@ -5,8 +5,7 @@ import pytest
 
 from smile.main import create_app
 from smile.shared.infrastructure.db import get_engine
-
-from .conftest import token_for
+from tests.auth import token_for
 
 
 @pytest.fixture

@@ -34,6 +34,8 @@ def get_current_user(
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "No autenticado")
     try:
         claims = jwt.decode(creds.credentials, get_settings().jwt_secret, algorithms=["HS256"])
+        if claims.get("typ") != "access":
+            raise ValueError("no es un token de acceso")
         supplier = claims.get("supplier_id")
         return CurrentUser(
             id=uuid.UUID(claims["sub"]),
@@ -42,14 +44,3 @@ def get_current_user(
         )
     except (jwt.PyJWTError, KeyError, ValueError) as exc:
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Token inválido") from exc
-
-
-def require_roles(*roles: Role):  # type: ignore[no-untyped-def]
-    """Uso: `Depends(require_roles(Role.ADMIN))` (matriz de permisos, requerimientos §2.3)."""
-
-    def _check(user: Annotated[CurrentUser, Depends(get_current_user)]) -> CurrentUser:
-        if user.role not in roles:
-            raise HTTPException(status.HTTP_403_FORBIDDEN, "Permiso denegado")
-        return user
-
-    return _check

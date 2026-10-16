@@ -10,6 +10,7 @@ from types import TracebackType
 from typing import Protocol, Self
 
 from smile.shared.domain.base import AggregateRoot, DomainEvent
+from smile.shared.domain.errors import NotFoundError
 
 
 class Role(StrEnum):
@@ -29,6 +30,13 @@ class CurrentUser:
     @property
     def is_internal(self) -> bool:
         return self.role in (Role.REVIEWER, Role.ADMIN)
+
+    def ensure_supplier_access(self, supplier_id: uuid.UUID) -> None:
+        """RNF-SEC-004: un proveedor solo ve lo suyo. Lo ajeno responde 404, no 403,
+        para no revelar que existe. Los roles internos pasan (su permiso lo controla
+        `require`)."""
+        if self.role is Role.PROVEEDOR and self.supplier_id != supplier_id:
+            raise NotFoundError("Recurso no encontrado")
 
 
 class Clock(Protocol):

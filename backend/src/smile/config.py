@@ -18,7 +18,11 @@ class Settings(BaseSettings):
 
     jwt_secret: str = "change-me-in-env"
     jwt_access_ttl_min: int = 15
-    jwt_refresh_ttl_days: int = 30
+    jwt_refresh_ttl_days: int = 30  # S-13
+    # RF-IAM-006 y RNF-SEC-005: parámetros, no constantes.
+    login_max_attempts: int = Field(default=5, gt=0)
+    login_lock_minutes: int = Field(default=15, gt=0)
+    login_rate_limit_per_minute: int = Field(default=10, gt=0)
 
     cors_origins: str = "http://localhost:3000"
 

@@ -11,7 +11,7 @@ from smile.modules.catalog.api.schemas import (
     ParameterSetOut,
 )
 from smile.modules.catalog.application.queries.get_catalog_bundle import GetCatalogBundle
-from smile.shared.api.deps import get_current_user
+from smile.modules.iam.public import Permission, require
 from smile.shared.application.ports import CurrentUser
 
 router = APIRouter(prefix="/catalog", tags=["catalog"])
@@ -24,7 +24,7 @@ def get_catalog_bundle() -> GetCatalogBundle:
 
 @router.get("/bundle", response_model=CatalogBundleOut)
 async def bundle(
-    _: Annotated[CurrentUser, Depends(get_current_user)],
+    _: Annotated[CurrentUser, Depends(require(Permission.READ_CATALOG))],
     query: Annotated[GetCatalogBundle, Depends(get_catalog_bundle)],
 ) -> CatalogBundleOut:
     """Categorías con sus ejes y parámetros vigentes (RF-CAT-001, 002, 004)."""

@@ -3,4 +3,7 @@
 Expone fachadas de casos de uso, DTOs y nombres de eventos de dominio.
 """
 
-__all__: list[str] = []
+from smile.modules.iam.api.authz import require
+from smile.modules.iam.domain.permissions import Permission
+
+__all__ = ["Permission", "require"]

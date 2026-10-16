@@ -89,9 +89,9 @@ Cada fase lista: objetivo · historias · pasos · plan de ejecución (orden y p
 
 *S1 — iam, privacy, catalog*
 1. `iam.domain`: `User` (id UUID, nombre, `phone` normalizado `+57 3xx…`, `email` opcional, `role ∈ {PROVEEDOR, REVIEWER, ADMIN}`, `status`, `failed_attempts`, `locked_until`); invariante "al menos phone o email". `PasswordHasher` puerto con adaptador Argon2id (RNF-SEC-002).
-2. Casos de uso `RegisterSupplier` (ignora cualquier `role` entrante, RF-IAM-001), `Login` (bloqueo 5 intentos / 15 min, RF-IAM-006), `RefreshSession` (rotación + detección de reutilización: si llega un refresh ya rotado, revocar la familia, RNF-SEC-003), `Logout`.
-3. Endpoints `POST /api/v1/auth/register|login|refresh|logout`, `GET /api/v1/me`. Rate limit de login 10/min/IP (RNF-SEC-005).
-4. `shared.api.auth`: `CurrentUser` desde JWT; `require(permission)` con la matriz de `requerimientos.md` §2.3 codificada en `iam.domain.permissions`.
+2. Casos de uso `RegisterSupplier` (ignora cualquier `role` entrante, RF-IAM-001), `Login` (bloqueo 5 intentos / 15 min, RF-IAM-006), `RefreshSession` (rotación + detección de reutilización: si llega un refresh ya rotado, revocar la familia, RNF-SEC-003), `Logout`. — ✅ 16/10/2026 Login, RefreshSession, Logout (HU-IAM-02); RegisterSupplier pendiente (HU-IAM-01)
+3. Endpoints `POST /api/v1/auth/register|login|refresh|logout`, `GET /api/v1/me`. Rate limit de login 10/min/IP (RNF-SEC-005). — ✅ login/refresh/logout/me; register pendiente
+4. `shared.api.auth`: `CurrentUser` desde JWT; `require(permission)` con la matriz de `requerimientos.md` §2.3 codificada en `iam.domain.permissions`. — ✅ 16/10/2026: `require` vive en `iam.api.authz` y se publica en `iam.public` (shared no puede importar módulos); propiedad con `CurrentUser.ensure_supplier_access` → 404
 5. `privacy`: `ConsentText` versionado (texto + hash SHA-256), `Consent` inmutable (RF-PRV-003). `GET /api/v1/privacy/consent-texts/current`. Consentimientos llegan por sync (tabla `consents`, P2). Evento `UserRegistered` → `privacy` no crea nada (el proveedor debe aceptar), `suppliers` crea el `Supplier` vacío.
 6. `catalog`: semillas de categorías (5, solo Fruver ACTIVA, RF-CAT-001), ejes Fruver (RF-CAT-002) y parámetros iniciales S-01…S-16 como **versión 1 publicada**. `GET /api/v1/catalog/bundle` (para el pull). ✅ 16/10/2026 (HU-CAT-01; S-01…S-17 + factores C-12 en `catalog_0003`)
 7. `shared.domain.money`: `Money` COP entero y `format_cop()` es-CO para reportes (RF-CAL-005, HU-CAL-02).
@@ -263,7 +263,7 @@ Paquetes y módulos en inglés (`traceability`), términos de negocio colombiano
 `Money` COP entero (BIGINT); `Quantity` con `Decimal` y 3 decimales; instantes `timestamptz` en UTC; fecha de negocio `date` en `America/Bogota` (RNF-DATA-001). Prohibido `float` en dominio (ruff regla custom o revisión).
 
 ### 6.3 Errores HTTP
-`400` validación de forma · `401` sin sesión · `403` sin permiso o consentimiento revocado · `404` recurso inexistente **o ajeno** (no revelar existencia) · `409` conflicto de estado (`WITHHOLDING_NOT_MET`, `PRIORITY_ORDER`, `ALREADY_SUBMITTED`) · `413` lote muy grande · `422` regla de negocio · `429` rate limit.
+`400` validación de forma · `401` sin sesión · `403` sin permiso o consentimiento revocado · `404` recurso inexistente **o ajeno** (no revelar existencia) · `409` conflicto de estado (`WITHHOLDING_NOT_MET`, `PRIORITY_ORDER`, `ALREADY_SUBMITTED`) · `413` lote muy grande · `422` regla de negocio · `423` cuenta en pausa por intentos fallidos (HU-IAM-02) · `429` rate limit.
 
 ### 6.4 Pruebas
 

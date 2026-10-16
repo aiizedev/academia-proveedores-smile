@@ -13,8 +13,10 @@ from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException
 
 from smile.shared.domain.errors import (
+    AuthenticationError,
     ConflictError,
     DomainError,
+    LockedError,
     NotFoundError,
     PermissionDeniedError,
 )
@@ -23,6 +25,8 @@ _DOMAIN_STATUS: tuple[tuple[type[DomainError], int], ...] = (
     (NotFoundError, 404),
     (PermissionDeniedError, 403),
     (ConflictError, 409),
+    (AuthenticationError, 401),
+    (LockedError, 423),
 )
 _HTTP_CODES = {
     400: "bad_request",
@@ -32,6 +36,7 @@ _HTTP_CODES = {
     405: "method_not_allowed",
     409: "conflict",
     413: "payload_too_large",
+    423: "locked",
     429: "rate_limited",
 }
 log = structlog.get_logger("smile.api")
