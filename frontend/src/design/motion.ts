@@ -94,5 +94,19 @@ export function applyDefaults(gsap: GsapLike): void {
 
 /** true si el usuario pidió reducir movimiento (equivale a html.no-anim). */
 export function shouldReduceMotion(): boolean {
-  return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  return typeof window !== "undefined" && (window.matchMedia(REDUCED_MOTION_QUERY).matches || document.documentElement.classList.contains(NO_ANIM_CLASS));
+}
+
+/** Clase que GUIA_VISUAL §10.3 pone en <html> cuando no se anima. */
+export const NO_ANIM_CLASS = "no-anim";
+export const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
+/** Convierte un preset en un cambio instantáneo (HU-DS-04): mismo estado final, sin recorrido. */
+export function instant<T extends object>(vars: T): T & { duration: 0; stagger: 0; delay: 0 } {
+  return { ...vars, duration: 0, stagger: 0, delay: 0 };
+}
+
+/** Devuelve el preset tal cual o su versión instantánea si hay movimiento reducido. */
+export function motionPreset<T extends object>(vars: T, reduced: boolean): T {
+  return reduced ? instant(vars) : vars;
 }

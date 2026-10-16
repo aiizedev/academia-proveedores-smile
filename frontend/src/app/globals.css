@@ -168,6 +168,12 @@
   }
 }
 
+/* GUIA_VISUAL §10.3 — sin animación: todo visible y cambios instantáneos (HU-DS-04). */
+html.no-anim *, html.no-anim *::before, html.no-anim *::after {
+  transition-duration: 0.01ms !important;
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+}
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
