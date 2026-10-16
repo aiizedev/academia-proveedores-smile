@@ -1,7 +1,14 @@
-import { PageStub } from "@/components/shell/PageStub";
+import { DemoNote, PageHeader } from "../_ui/kit";
+import { ReceptionsBoard } from "./ReceptionsBoard";
 
 export const metadata = { title: "Recepciones" };
 
 export default function RecepcionesPage() {
-  return <PageStub eyebrow="Recepciones" title={<>Recepción de <em>entregas</em></>} refs="CU-15 · RF-REC-001, RF-REC-002" />;
+  return (
+    <>
+      <PageHeader eyebrow="Recepciones" title={<>Recepción en <em>bodega</em></>} />
+      <ReceptionsBoard />
+      <DemoNote />
+    </>
+  );
 }

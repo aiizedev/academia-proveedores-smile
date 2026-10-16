@@ -1,7 +1,14 @@
-import { PageStub } from "@/components/shell/PageStub";
+import { DemoNote, PageHeader } from "../_ui/kit";
+import { SupplierTable } from "./SupplierTable";
 
 export const metadata = { title: "Proveedores" };
 
 export default function ProveedoresPage() {
-  return <PageStub eyebrow="Proveedores" title={<>Proveedores <em>Smile</em></>} refs="CU-16 · RF-SUP-009" />;
+  return (
+    <>
+      <PageHeader eyebrow="Proveedores" title={<>Matriz de <em>proveedores</em></>} />
+      <SupplierTable />
+      <DemoNote />
+    </>
+  );
 }
