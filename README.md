@@ -17,7 +17,7 @@ Plataforma **CRM & Mini ERP sostenible** para los 450 proveedores de Grupo Smile
 
 ## Empezar
 
-Requisitos: Docker con Compose v2 y `make`.
+Requisitos: Docker con Compose v2, **buildx** (BuildKit) y `make`. `make doctor` lo verifica.
 
 ```bash
 make env      # crea infra/.env desde infra/.env.example
@@ -32,6 +32,18 @@ make smoke    # verifica que todo responde
 | S3 (SeaweedFS) | http://localhost:9000 |
 
 Desarrollo con recarga en caliente: `make up-dev`. Todos los comandos: `make help`.
+
+### Usuarios de demostración
+
+El servicio `seed` carga datos de demo al levantar (`SEED_DEMO=true`, [MODO_POC §3](docs/planes/MODO_POC.md)). Contraseña de todos: **`Smile2026!`** (solo demo). `make reset-demo` borra los volúmenes y vuelve al estado inicial.
+
+| Usuario | Rol | Para qué |
+|---|---|---|
+| `admin@smile.test` | ADMIN | Back-office completo |
+| `reviewer@smile.test` | REVIEWER | Compras/Calidad |
+| `proveedor@smile.test` · `3001234567` | PROVEEDOR | Recorrido completo (Finca La Esperanza, Fruver) |
+| `nuevo@smile.test` | PROVEEDOR | Onboarding desde cero |
+| `proveedor01…30@smile.test` | PROVEEDOR | Datos para funnel, Pareto y matriz de riesgo |
 
 ## Documentación clave
 

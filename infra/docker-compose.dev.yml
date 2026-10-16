@@ -14,6 +14,13 @@ services:
       - ../backend/migrations:/app/migrations
       - ../backend/alembic.ini:/app/alembic.ini:ro
 
+  seed:
+    image: smile/backend:dev
+    build:
+      target: dev
+    volumes:
+      - ../backend/src:/app/src
+
   backend:
     image: smile/backend:dev
     build:

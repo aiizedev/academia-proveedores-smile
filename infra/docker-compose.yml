@@ -137,15 +137,36 @@ services:
     restart: "no"
     mem_limit: 512m
 
+  # Datos de demostración idempotentes (MODO_POC §3); smile.seed sale con 0 si
+  # SEED_DEMO != true. Mientras el paquete no exista en la imagen, avisa y termina.
+  seed:
+    <<: *backend-common
+    build: *backend-build
+    environment:
+      <<: *backend-env
+      SEED_DEMO: ${SEED_DEMO:-true}
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        if ! python -c "import importlib.util,sys; sys.exit(importlib.util.find_spec('smile.seed') is None)"; then
+          echo "smile.seed aún no existe en la imagen: se omite"; exit 0
+        fi
+        exec python -m smile.seed
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      storage-init:
+        condition: service_completed_successfully
+    restart: "no"
+    mem_limit: 512m
+
   backend:
     <<: *backend-common
     build: *backend-build
     ports:
       - "${BACKEND_PORT:-8000}:8000"
     depends_on:
-      migrate:
-        condition: service_completed_successfully
-      storage-init:
+      seed:
         condition: service_completed_successfully
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/health/ready', timeout=4).status == 200 else 1)"]
