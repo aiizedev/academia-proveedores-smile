@@ -2,8 +2,8 @@ import { expect, test, type Page } from "@playwright/test";
 import bank from "../../../contracts/fixtures/question-bank.json";
 import { acceptConsent, completeProfile, installApp, seedProveedorSession } from "./session";
 
-/* HU-ASM-03 · CU-05 en modo avión: una pregunta por pantalla, pausa y
-   reanudación, declaración obligatoria y envío bloqueado para edición. */
+/* HU-ASM-03/05 · CU-05/06 en modo avión: una pregunta por pantalla, pausa y
+   reanudación, declaración obligatoria, envío y diagnóstico. */
 const questions = (bank.sections as Array<{ questions: Array<{ id: string; text: string }> }>).flatMap((s) => s.questions);
 const textOf = (id: string) => questions.find((q) => q.id === id)!.text;
 
@@ -57,6 +57,15 @@ test("autoevaluación sin conexión: pausa, reanuda, declara y envía", async ({
   await expect(send).toBeEnabled();
   await send.click();
   await expect(page).toHaveURL(/\/app\/diagnostico$/);
+
+  // HU-ASM-05: diagnóstico offline. Con "Sí" a todo, ext-18 (menor en labor
+  // prohibida, polaridad negativa) dispara la alerta y la meta urgente.
+  await expect(page.getByRole("img", { name: /^Puntaje \d+ de 100$/ })).toBeVisible();
+  await expect(page.getByText(/^Está a \d+ % de la certificación BPA del ICA\.$/)).toBeVisible();
+  await expect(page.getByRole("alert").filter({ hasText: "Identificamos un riesgo que requiere atención inmediata." })).toBeVisible();
+  await expect(page.getByText("Su siguiente paso")).toBeVisible();
+  await expect(page.getByText("Urgente").first()).toBeVisible();
+  await expect(page.locator("main")).not.toContainText(/\b(GRI|TCFD|SASB)\b/);
 
   await page.goto("/app/autoevaluacion");
   await expect(page.getByRole("heading", { name: /Autoevaluación enviada/ })).toBeVisible();
