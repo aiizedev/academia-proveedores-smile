@@ -226,7 +226,8 @@ Este contrato lo comparten `frontend/`, `backend/` e `infra/`. Cambiarlo exige a
 | `storage` | `chrislusf/seaweedfs:3.97` (`weed server -s3`) | 9000 → 8333 | — | `/cluster/status` y `/healthz` |
 | `storage-init` | `chrislusf/seaweedfs:3.97` (`weed shell`) | — | storage sano | crea bucket `${S3_BUCKET}` si no existe y termina |
 | `migrate` | build `../backend` target `runtime` | — | db sano | `alembic upgrade head` y termina |
-| `backend` | build `../backend` target `runtime` (`dev` en override) | 8000 | migrate completado, storage-init completado | `GET /health/ready` |
+| `seed` | misma imagen que backend, `python -m smile.seed` | — | migrate completado, storage-init completado | datos de demo idempotentes si `SEED_DEMO=true` y termina (MODO_POC §3) |
+| `backend` | build `../backend` target `runtime` (`dev` en override) | 8000 | seed completado | `GET /health/ready` |
 | `worker` | misma imagen que backend, `python -m smile.worker` | — | migrate completado | proceso vivo |
 | `frontend` | build `../frontend` target `runner` (`dev` en override) | 3000 | backend sano | `GET /api/health` de Next |
 | `mailpit` (perfil `dev`) | `axllent/mailpit` | 8025, 1025 | — | — |
@@ -247,6 +248,7 @@ Este contrato lo comparten `frontend/`, `backend/` e `infra/`. Cambiarlo exige a
 | `S3_ENDPOINT_URL` | backend, worker | `http://storage:8333` | Endpoint interno |
 | `S3_PUBLIC_ENDPOINT_URL` | backend | `http://localhost:9000` | Host usado al firmar URLs para el navegador |
 | `S3_ACCESS_KEY` / `S3_SECRET_KEY` | backend, worker, storage | `smile` / `smile-secret` | Identidad S3 que SeaweedFS acepta en dev |
+| `SEED_DEMO` | seed | `true` | Carga los datos de demostración (MODO_POC §3); `false` lo omite |
 | `S3_BUCKET` / `S3_REGION` | backend, worker, storage-init | `smile-files` / `us-east-1` | |
 | `SMTP_HOST` / `SMTP_PORT` | backend, worker | `mailpit` / `1025` | |
 | `NEXT_PUBLIC_API_URL` | frontend (build y runtime) | `http://localhost:8000` | URL de la API vista por el navegador |
@@ -261,6 +263,9 @@ Este contrato lo comparten `frontend/`, `backend/` e `infra/`. Cambiarlo exige a
 |---|---|---|
 | `backend` | `base` (python:3.12-slim + uv) → `builder` (`uv sync --frozen --no-dev` en `/app/.venv`) → `dev` (con dependencias de desarrollo, `uvicorn --reload`) · `runtime` (python:3.12-slim, copia `.venv` y `src`, usuario no root `app`, `uvicorn smile.main:app`) | < 250 MB |
 | `frontend` | `deps` (node:22-alpine, `npm ci`) → `builder` (`next build`, `output: "standalone"`) → `dev` (`next dev`) · `runner` (node:22-alpine, copia `.next/standalone`, `.next/static`, `public`; usuario `nextjs`) | < 200 MB |
+
+- **BuildKit obligatorio** (`docker buildx`; `make doctor` lo verifica). Los Dockerfiles declaran `# syntax=docker/dockerfile:1.17` y usan `RUN --mount=type=cache` para las cachés de `uv`, `npm` y `.next/cache`.
+- **Medición de tamaño:** tamaño descomprimido del sistema de archivos de la imagen, `infra/scripts/image-size.sh <imagen> <max_mb>` (`du -sxk /` dentro de la imagen). No usar `docker images` con el *containerd snapshotter* (suma capas y blobs comprimidos) ni `.Size` de `docker image inspect` (solo comprimido). En modo POC el límite se mide y avisa, no bloquea.
 
 ## 8. Decisiones registradas
 
