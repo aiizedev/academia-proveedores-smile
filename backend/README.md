@@ -65,6 +65,12 @@ src/smile/
 7. Migración: `uv run alembic revision --autogenerate -m "<modulo>_<cambio>"`.
 8. Tests: `tests/unit/<modulo>/` (con fakes de puertos, sin DB), `tests/integration/<modulo>/`, `tests/api/` (incluida la prueba de IDOR, RNF-SEC-004).
 
+## Datos de demostración (MODO_POC §3)
+
+`python -m smile.seed` carga los datos de demo si `SEED_DEMO=true` (o con `--force`). Es idempotente: IDs fijos (`demo_id`) + *upsert*. Cada módulo aporta `seed_demo(session)` en `infrastructure/seed.py`; el runner los llama en el orden de `MODULE_NAMES`. Con Docker lo ejecuta el servicio `seed` después de `migrate`.
+
+Usuarios precreados, contraseña **`Smile2026!`** (solo demo): `admin@smile.test` (ADMIN), `reviewer@smile.test` (REVIEWER), `proveedor@smile.test` / celular `3001234567` (PROVEEDOR, recorrido completo), `nuevo@smile.test` (PROVEEDOR sin onboarding) y `proveedor01…30@smile.test`.
+
 ## Calidad
 
 ```bash

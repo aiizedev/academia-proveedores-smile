@@ -29,6 +29,7 @@ dev = [
     "import-linter>=2.1",
     "coverage[toml]>=7.6",
     "boto3-stubs[s3]>=1.35",
+    "pytest-cov>=6.0",
 ]
 
 [build-system]
