@@ -1,8 +1,10 @@
 import { expect, test } from "@playwright/test";
+import { seedProveedorSession } from "./session";
 
 /* HU-PRV-01 + HU-SYN-01: en modo avión, /app lleva a la autorización; aceptar
    guarda el registro en WatermelonDB, desbloquea /app y sobrevive a recargar. */
 test("autorización de datos sin conexión", async ({ page, context }) => {
+  await seedProveedorSession(context);
   const apiCalls: string[] = [];
   page.on("request", (req) => {
     if (req.url().includes("/api/v1/")) apiCalls.push(req.url());
