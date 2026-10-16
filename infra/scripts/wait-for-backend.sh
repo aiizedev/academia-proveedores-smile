@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Espera hasta que el backend responda /health/ready (máx. TIMEOUT segundos).
 set -euo pipefail
+# shellcheck source=infra/scripts/_compose.sh
 source "$(dirname "$0")/_compose.sh"
 URL="http://localhost:${BACKEND_PORT:-8000}/health/ready"
 TIMEOUT="${TIMEOUT:-120}"

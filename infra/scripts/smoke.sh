@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Prueba de humo del stack levantado: backend, frontend y almacenamiento S3 (SeaweedFS).
 set -uo pipefail
+# shellcheck source=infra/scripts/_compose.sh
 source "$(dirname "$0")/_compose.sh"
 fail=0
 check() {
