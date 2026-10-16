@@ -1,6 +1,7 @@
 """Puertos de `suppliers`."""
 
 import uuid
+from datetime import datetime
 from typing import Protocol
 
 from smile.modules.suppliers.domain.supplier import Supplier
@@ -14,6 +15,8 @@ class SupplierRepository(Protocol):
     async def tax_id_taken(self, tax_id: str, *, by_other_than: uuid.UUID) -> bool: ...
 
     async def save(self, supplier: Supplier) -> None: ...
+
+    async def updated_at(self, supplier_id: uuid.UUID) -> datetime | None: ...
 
 
 class CategoryCatalog(Protocol):

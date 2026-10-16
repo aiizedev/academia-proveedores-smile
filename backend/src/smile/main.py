@@ -17,6 +17,7 @@ from smile.modules import MODULE_NAMES
 from smile.observability import configure_logging
 from smile.shared.api import health
 from smile.shared.api.errors import install_error_handlers
+from smile.shared.api.gzip_request import GzipRequestMiddleware
 from smile.shared.infrastructure.event_bus import event_bus
 
 API_PREFIX = "/api/v1"
@@ -44,6 +45,7 @@ def create_app() -> FastAPI:
         docs_url=None if settings.is_production else "/docs",
         redoc_url=None,
     )
+    app.add_middleware(GzipRequestMiddleware)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.cors_origin_list,

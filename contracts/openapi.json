@@ -404,6 +404,99 @@
         "title": "ProfileOut",
         "type": "object"
       },
+      "PullOut": {
+        "properties": {
+          "changes": {
+            "additionalProperties": {
+              "additionalProperties": {
+                "items": {},
+                "type": "array"
+              },
+              "type": "object"
+            },
+            "title": "Changes",
+            "type": "object"
+          },
+          "timestamp": {
+            "title": "Timestamp",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "changes",
+          "timestamp"
+        ],
+        "title": "PullOut",
+        "type": "object"
+      },
+      "PushIn": {
+        "additionalProperties": false,
+        "properties": {
+          "changes": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/TableChangesIn"
+            },
+            "title": "Changes",
+            "type": "object"
+          },
+          "last_pulled_at": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Pulled At"
+          },
+          "mutation_id": {
+            "format": "uuid",
+            "title": "Mutation Id",
+            "type": "string"
+          },
+          "priority": {
+            "enum": [
+              "P1",
+              "P2",
+              "P3"
+            ],
+            "title": "Priority",
+            "type": "string"
+          }
+        },
+        "required": [
+          "mutation_id",
+          "priority",
+          "changes"
+        ],
+        "title": "PushIn",
+        "type": "object"
+      },
+      "PushOut": {
+        "properties": {
+          "accepted": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Accepted",
+            "type": "array"
+          },
+          "rejected": {
+            "items": {
+              "$ref": "#/components/schemas/RejectedOut"
+            },
+            "title": "Rejected",
+            "type": "array"
+          }
+        },
+        "required": [
+          "accepted",
+          "rejected"
+        ],
+        "title": "PushOut",
+        "type": "object"
+      },
       "RefreshIn": {
         "additionalProperties": false,
         "properties": {
@@ -418,6 +511,34 @@
           "refresh_token"
         ],
         "title": "RefreshIn",
+        "type": "object"
+      },
+      "RejectedOut": {
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "table": {
+            "title": "Table",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "table",
+          "code",
+          "message"
+        ],
+        "title": "RejectedOut",
         "type": "object"
       },
       "ScorePreviewIn": {
@@ -510,6 +631,38 @@
           "user"
         ],
         "title": "SessionOut",
+        "type": "object"
+      },
+      "TableChangesIn": {
+        "properties": {
+          "created": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "maxItems": 500,
+            "title": "Created",
+            "type": "array"
+          },
+          "deleted": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 500,
+            "title": "Deleted",
+            "type": "array"
+          },
+          "updated": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "maxItems": 500,
+            "title": "Updated",
+            "type": "array"
+          }
+        },
+        "title": "TableChangesIn",
         "type": "object"
       },
       "ValidationError": {
@@ -874,6 +1027,120 @@
         "summary": "My Supplier",
         "tags": [
           "suppliers"
+        ]
+      }
+    },
+    "/api/v1/sync/pull": {
+      "get": {
+        "description": "Cambios del proveedor posteriores a `last_pulled_at` (ms) y el nuevo `timestamp`.",
+        "operationId": "pull_api_v1_sync_pull_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "last_pulled_at",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Last Pulled At",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "schema_version",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Schema Version"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PullOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Pull",
+        "tags": [
+          "sync"
+        ]
+      }
+    },
+    "/api/v1/sync/push": {
+      "post": {
+        "description": "Aplica el lote registro por registro; reenviar el mismo `mutation_id` devuelve el\nresultado guardado (RF-SYN-002). Acepta `Content-Encoding: gzip`.",
+        "operationId": "push_api_v1_sync_push_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PushIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PushOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Push",
+        "tags": [
+          "sync"
         ]
       }
     },
