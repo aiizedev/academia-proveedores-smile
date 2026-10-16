@@ -25,13 +25,13 @@ Este plan lleva la plataforma de "corre en mi máquina" a "piloto rural en produ
 
 | Pieza | Estado | Archivo |
 |---|---|---|
-| Compose base (db, storage, storage-init, migrate, backend, worker, frontend, mailpit[dev]) | ✅ `config` válido | `infra/docker-compose.yml` |
+| Compose base (db, storage, storage-init, migrate, seed, backend, worker, frontend, mailpit[dev]) | ✅ `config` válido | `infra/docker-compose.yml` |
 | Override de desarrollo (targets `dev`, montajes, hot reload, puertos de debug) | ✅ `config` válido | `infra/docker-compose.dev.yml` |
 | Variables de entorno de ejemplo | ✅ | `infra/.env.example` |
 | Scripts (smoke, backup, restore, wait) | ✅ | `infra/scripts/` |
 | `Makefile` raíz | ✅ | `Makefile` |
-| CI con filtro de rutas | ✅ escrito, pendiente de primera corrida en GitHub | `.github/workflows/ci.yml` |
-| Dockerfiles multistage | ⏳ en construcción por los planes de backend y frontend | `backend/Dockerfile`, `frontend/Dockerfile` |
+| CI con filtro de rutas + job `stack` (`make up` + `make smoke`) | ✅ corre en GitHub sobre `develop` | `.github/workflows/ci.yml` |
+| Dockerfiles multistage con cache mounts (BuildKit obligatorio, `make doctor`) | ✅ backend 226 MB, frontend 174 MB descomprimidos (`make image-size`; ver arquitectura §7.4) | `backend/Dockerfile`, `frontend/Dockerfile` |
 
 **Almacenamiento S3 de desarrollo:** MinIO dejó de publicar imágenes oficiales (`minio/minio` y `minio/mc` devuelven acceso denegado). Se reemplazó por **SeaweedFS** con imagen oficial `chrislusf/seaweedfs:3.97` (Apache-2.0): servicio `storage` (`weed server -s3`) y `storage-init` (crea el bucket con `weed shell`). Verificado: PUT/GET con URL prefirmada, rechazo de credenciales inválidas y de acceso anónimo. Ver [ADR-0008](../adr/ADR-0008-seaweedfs-en-desarrollo.md).
 
