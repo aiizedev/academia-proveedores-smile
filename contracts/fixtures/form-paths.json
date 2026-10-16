@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "bank_version": "banco-2026-v3",
+  "bank_version": "banco-2026-v4",
   "description": "Caminos del formulario (S-19), puntaje (S-01, S-02, S-18, S-21) y siguiente paso (S-09, S-20). Generado con una implementación de referencia; backend y frontend deben reproducirlo.",
   "cases": [
     {
@@ -86,6 +86,7 @@
           }
         },
         "pillar1": 66.66,
+        "bpa_ica_proximity": 100.0,
         "plan": [
           {
             "axis": "residuos",
@@ -203,6 +204,7 @@
           }
         },
         "pillar1": 70.0,
+        "bpa_ica_proximity": 62.5,
         "plan": [
           {
             "axis": "infantil",
@@ -322,6 +324,7 @@
           }
         },
         "pillar1": 68.42,
+        "bpa_ica_proximity": 100.0,
         "plan": [
           {
             "axis": "residuos",
@@ -451,6 +454,7 @@
           }
         },
         "pillar1": 83.43,
+        "bpa_ica_proximity": 100.0,
         "plan": [
           {
             "axis": "bpa",
@@ -550,6 +554,7 @@
           }
         },
         "pillar1": 78.67,
+        "bpa_ica_proximity": null,
         "plan": [
           {
             "axis": "residuos",
