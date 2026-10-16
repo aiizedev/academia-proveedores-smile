@@ -186,6 +186,8 @@
   --radius-dock: 26px;         /* [nuevo] tabbar, ficha */
   --radius-sheet: 36px;        /* [nuevo] cabeceras curvas (g-hero) */
   --radius-device: 58px;
+  --radius-device-screen: 47px; /* [nuevo v1.3] pantalla dentro del marco (58 − bisel 11) */
+  --device-bezel: 11px;         /* [nuevo v1.3] bisel del marco de teléfono */
   --radius-pill: 999px;
   --leaf-shape: 0 100% 0 100%; /* [nuevo] hoja: confeti, marquee, ficha */
 
@@ -203,6 +205,8 @@
   --halo-rose: 0 0 0 6px rgba(232, 197, 184, 0.35);
   --ring-field-focus: 0 0 0 4px rgba(95, 105, 94, 0.18);
   --blur-dock: blur(12px);
+  --shadow-lift: 0 22px 44px -22px rgba(40, 48, 40, 0.42); /* [nuevo v1.3] tarjeta elevada al pasar el puntero */
+  --halo-rose-soft: 0 0 0 5px rgba(232, 197, 184, 0.3);   /* [nuevo v1.3] punto activo del panel lateral */
 
   /* ---------- Capas [nuevo] ---------- */
   --z-content: 2;

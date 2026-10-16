@@ -12,7 +12,7 @@ import {
   useTransform,
   type HTMLMotionProps,
 } from "framer-motion";
-import { useEffect, useRef, type ReactNode } from "react";
+import { Fragment, useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import {
   maskUpVariants,
   pageVariants,
@@ -82,12 +82,14 @@ export function MaskWords({
   className,
   as = "h1",
   emphasis,
+  delay = 0,
 }: {
   text: string;
   className?: string;
   as?: "h1" | "h2" | "h3" | "p";
   /** Palabra(s) que van en cursiva rosa (firma tipográfica, GUIA_VISUAL §4). */
   emphasis?: string[];
+  delay?: number;
 }) {
   const Tag = motion[as];
   const words = text.split(" ");
@@ -95,17 +97,19 @@ export function MaskWords({
     <Tag
       className={className}
       aria-label={text}
-      variants={staggerVariants(STAGGER.words * 2, 0)}
+      variants={staggerVariants(STAGGER.words * 2, delay)}
       initial="hidden"
       animate="show"
     >
       {words.map((w, i) => (
-        <span key={`${w}-${i}`} aria-hidden="true" className="inline-block overflow-hidden pb-[0.08em] align-bottom">
-          <motion.span className="inline-block" variants={maskUpVariants}>
-            {emphasis?.includes(w.replace(/[.,:;!?]/g, "")) ? <em>{w}</em> : w}
-          </motion.span>
+        <Fragment key={`${w}-${i}`}>
+          <span aria-hidden="true" className="inline-block overflow-hidden pb-[0.1em] pr-[0.04em] align-bottom">
+            <motion.span className="inline-block" variants={maskUpVariants}>
+              {emphasis?.includes(w.replace(/[.,:;!?¿¡]/g, "")) ? <em>{w}</em> : w}
+            </motion.span>
+          </span>
           {i < words.length - 1 ? " " : ""}
-        </span>
+        </Fragment>
       ))}
     </Tag>
   );
@@ -157,6 +161,46 @@ export function Pressable({ children, kind = "card", ...rest }: PressableProps) 
     <motion.div whileTap={{ scale: PRESS[kind] }} whileHover={{ y: -2 }} transition={SPRING} {...rest}>
       {children}
     </motion.div>
+  );
+}
+
+/** Barra que crece desde su origen al entrar en pantalla (barras por eje, pilares, líneas de pasos).
+ *  El disparo lo observa la pista: una marca escalada a 0 no tiene área y el
+ *  IntersectionObserver no siempre la reporta. */
+export function GrowBar({
+  className,
+  trackStyle,
+  fillClassName,
+  fillStyle,
+  to = 1,
+  delay = 0,
+  axis = "x",
+  duration,
+  ease,
+}: {
+  className?: string;
+  trackStyle?: CSSProperties;
+  fillClassName?: string;
+  fillStyle?: CSSProperties;
+  to?: number;
+  delay?: number;
+  axis?: "x" | "y";
+  duration?: number;
+  ease?: readonly [number, number, number, number];
+}) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const seen = useInView(ref, { once: true, margin: "0px 0px -6% 0px" });
+  const key = axis === "x" ? "scaleX" : "scaleY";
+  return (
+    <span ref={ref} aria-hidden="true" className={className} style={trackStyle}>
+      <motion.span
+        className={`block ${axis === "x" ? "origin-left" : "origin-top"} ${fillClassName ?? ""}`}
+        style={fillStyle}
+        initial={{ [key]: 0 }}
+        animate={seen ? { [key]: to } : undefined}
+        transition={{ ...T.bar, ...(duration ? { duration } : {}), ...(ease ? { ease } : {}), delay }}
+      />
+    </span>
   );
 }
 

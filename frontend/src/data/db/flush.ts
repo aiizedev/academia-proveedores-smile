@@ -1,4 +1,5 @@
 import type { Database } from "@nozbe/watermelondb";
+import { announceSaved } from "@/lib/saved";
 
 /* LokiJS guarda en IndexedDB cada 500 ms (autosave de WatermelonDB 0.28). Si la
    página se recarga antes —navegación sin red, cerrar la app— lo último se
@@ -21,6 +22,8 @@ function findLoki(database: Database): LokiLike | null {
 
 export function flushLocalDb(database: Database): Promise<void> {
   const loki = findLoki(database);
-  if (!loki) return new Promise((resolve) => setTimeout(resolve, AUTOSAVE_INTERVAL_MS + 100));
-  return new Promise((resolve, reject) => loki.saveDatabase((error) => (error ? reject(error) : resolve())));
+  const done = !loki
+    ? new Promise<void>((resolve) => setTimeout(resolve, AUTOSAVE_INTERVAL_MS + 100))
+    : new Promise<void>((resolve, reject) => loki.saveDatabase((error) => (error ? reject(error) : resolve())));
+  return done.then(announceSaved);
 }

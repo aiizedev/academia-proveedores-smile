@@ -14,7 +14,10 @@ export function StatTile({
   trend,
   tone = "light",
   icon,
+  size = "md",
 }: {
+  /** "sm" para rejillas de 2 columnas en el teléfono. */
+  size?: "md" | "sm";
   label: string;
   value: number;
   format?: (n: number) => string;
@@ -29,7 +32,7 @@ export function StatTile({
   const good = delta ? (goodWhen === "up" ? delta.value >= 0 : delta.value <= 0) : true;
   return (
     <motion.article
-      className={`grain relative overflow-hidden rounded-[var(--radius-card)] p-5 ${strong ? "bg-olive-800 text-cream" : "border border-line bg-white"}`}
+      className={`grain relative overflow-hidden rounded-[var(--radius-card)] ${size === "sm" ? "p-4" : "p-5"} ${strong ? "bg-olive-800 text-cream" : "border border-line bg-white"}`}
       whileHover={{ y: -3 }}
       transition={T.ui}
     >
@@ -37,7 +40,7 @@ export function StatTile({
         <p className={`text-app-small font-semibold ${strong ? "text-olive-300" : "text-ink-soft"}`}>{label}</p>
         {icon ? <span className={`grid size-9 place-items-center rounded-full ${strong ? "bg-rose-500 text-olive-900" : "bg-rose-100 text-olive-800"}`}>{icon}</span> : null}
       </div>
-      <p className="relative z-[2] mt-3 font-body text-[2.1rem] font-semibold leading-none tracking-[-0.02em]">
+      <p className={`relative z-[2] mt-3 font-body font-semibold leading-none tracking-[-0.02em] ${size === "sm" ? "text-[1.45rem]" : "text-[2.1rem]"}`}>
         <CountUp value={value} format={format} />
       </p>
       <div className="relative z-[2] mt-3 flex items-end justify-between gap-2">
@@ -52,7 +55,7 @@ export function StatTile({
         ) : (
           <span />
         )}
-        {trend ? <Sparkline values={trend} color={strong ? "var(--rose-500)" : "var(--chart-highlight)"} /> : null}
+        {trend ? <Sparkline values={trend} width={size === "sm" ? 64 : 96} color={strong ? "var(--rose-500)" : "var(--chart-highlight)"} /> : null}
       </div>
     </motion.article>
   );
