@@ -1,7 +1,7 @@
-import { PageStub } from "@/components/shell/PageStub";
+import { MessagesScreen } from "@/features/demo/Screens";
 
 export const metadata = { title: "Mensajes" };
 
-export default function MensajesPage() {
-  return <PageStub eyebrow="Mensajes" title={<>Mensajes de <em>Smile</em></>} refs="RF-NOT-001, RF-NOT-002" />;
+export default function Page() {
+  return <MessagesScreen />;
 }

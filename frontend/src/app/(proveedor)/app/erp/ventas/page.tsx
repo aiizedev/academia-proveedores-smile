@@ -1,7 +1,7 @@
-import { PageStub } from "@/components/shell/PageStub";
+import { SalesLedger } from "@/features/demo/Ledger";
 
 export const metadata = { title: "Ventas" };
 
-export default function ErpVentasPage() {
-  return <PageStub eyebrow="Ventas" title={<>Registrar una <em>venta</em></>} refs="CU-09 · RF-ERP-001" />;
+export default function Page() {
+  return <SalesLedger />;
 }

@@ -1,7 +1,7 @@
-import { PageStub } from "@/components/shell/PageStub";
+import { LearnScreen } from "@/features/demo/Screens";
 
 export const metadata = { title: "Aprender" };
 
-export default function AprenderPage() {
-  return <PageStub eyebrow="Aprender" title={<>Clips y <em>fichas</em></>} refs="CU-25 · RF-LRN-002…004" />;
+export default function Page() {
+  return <LearnScreen />;
 }

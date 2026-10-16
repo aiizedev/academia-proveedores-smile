@@ -80,3 +80,108 @@ export async function seedDemo(database: Database): Promise<void> {
     });
   });
 }
+
+/* ---------- Datos fijos de las pantallas de demo (sin WatermelonDB) ---------- */
+
+export type Unit = "kg" | "bulto" | "arroba" | "canastilla";
+
+export interface SaleRow { id: string; date: string; product: string; quantity: number; unit: Unit; amountCop: number; customer: string }
+export interface CostRow { id: string; date: string; category: string; detail: string; amountCop: number }
+export interface WasteRow { id: string; date: string; product: string; kg: number; cause: string }
+export interface StockRow { id: string; product: string; kg: number; updated: string }
+
+export const PRODUCTS = ["Tomate chonto", "Mora de Castilla", "Lulo", "Habichuela", "Arveja verde", "Cilantro"] as const;
+export const COST_CATEGORIES = ["Insumos", "Mano de obra", "Transporte", "Empaques"] as const;
+export const WASTE_CAUSES = ["Daño en cosecha", "Plaga o enfermedad", "Maduración", "Transporte"] as const;
+
+export const SALES: SaleRow[] = [
+  { id: "v1", date: "2026-10-15", product: "Tomate chonto", quantity: 320, unit: "kg", amountCop: 1_088_000, customer: "Grupo Smile" },
+  { id: "v2", date: "2026-10-13", product: "Mora de Castilla", quantity: 85, unit: "kg", amountCop: 552_500, customer: "Grupo Smile" },
+  { id: "v3", date: "2026-10-10", product: "Lulo", quantity: 60, unit: "kg", amountCop: 300_000, customer: "Plaza de Fusagasugá" },
+  { id: "v4", date: "2026-10-08", product: "Tomate chonto", quantity: 280, unit: "kg", amountCop: 952_000, customer: "Grupo Smile" },
+  { id: "v5", date: "2026-10-03", product: "Habichuela", quantity: 120, unit: "kg", amountCop: 360_000, customer: "Grupo Smile" },
+];
+export const COSTS: CostRow[] = [
+  { id: "c1", date: "2026-10-14", category: "Insumos", detail: "Abono orgánico, 10 bultos", amountCop: 420_000 },
+  { id: "c2", date: "2026-10-12", category: "Mano de obra", detail: "Jornales de cosecha (6)", amountCop: 390_000 },
+  { id: "c3", date: "2026-10-09", category: "Transporte", detail: "Flete al centro de acopio", amountCop: 180_000 },
+  { id: "c4", date: "2026-10-05", category: "Empaques", detail: "Canastillas plásticas", amountCop: 240_000 },
+];
+export const WASTE: WasteRow[] = [
+  { id: "m1", date: "2026-10-15", product: "Tomate chonto", kg: 18, cause: "Maduración" },
+  { id: "m2", date: "2026-10-11", product: "Mora de Castilla", kg: 6, cause: "Daño en cosecha" },
+  { id: "m3", date: "2026-10-07", product: "Lulo", kg: 4, cause: "Transporte" },
+];
+export const STOCK: StockRow[] = [
+  { id: "i1", product: "Tomate chonto", kg: 410, updated: "2026-10-15" },
+  { id: "i2", product: "Mora de Castilla", kg: 95, updated: "2026-10-13" },
+  { id: "i3", product: "Lulo", kg: 70, updated: "2026-10-10" },
+  { id: "i4", product: "Habichuela", kg: 140, updated: "2026-10-03" },
+];
+
+export const KPIS = { monthLabel: "Octubre 2026", salesCop: 3_252_500, costsCop: 1_230_000, inventoryKg: 715, wastePct: 4.1 };
+
+export interface Lot { code: string; product: string; plot: string; harvestedOn: string; lastApplication: { product: string; date: string; withholdingDays: number }; safeOn: string; status: "bloqueado" | "liberado"; label?: { code: string; qrText: string } }
+export const LOTS: Lot[] = [
+  {
+    code: "L-2026-031",
+    product: "Tomate chonto",
+    plot: "Lote 3 · invernadero",
+    harvestedOn: "",
+    lastApplication: { product: "Mancozeb 80 WP", date: "2026-10-09", withholdingDays: 11 },
+    safeOn: "2026-10-20",
+    status: "bloqueado",
+  },
+  {
+    code: "L-2026-028",
+    product: "Mora de Castilla",
+    plot: "Lote 1 · ladera",
+    harvestedOn: "2026-10-13",
+    lastApplication: { product: "Extracto de ajo (biológico)", date: "2026-09-25", withholdingDays: 3 },
+    safeOn: "2026-09-28",
+    status: "liberado",
+    label: { code: "SML-25290-2026-028", qrText: "SML-25290-2026-028|Mora de Castilla|Finca La Esperanza|Cosecha 13/10/2026|Carencia cumplida" },
+  },
+];
+
+export const SCORE = {
+  total: 71,
+  stage: { code: "E3", name: "Plan de mejora en curso" },
+  pillars: [
+    { name: "Sostenibilidad (autoevaluación)", weight: 50, score: 67, why: "Su diagnóstico ESG del ciclo 2026-C3." },
+    { name: "Desempeño en recepción", weight: 30, score: 82, why: "Calidad y cumplimiento de sus entregas en Smile." },
+    { name: "Plan y evidencias", weight: 20, score: 60, why: "Metas en curso y evidencias cargadas." },
+  ],
+  boost: "Completar la meta de Residuos le sube hasta 6 puntos.",
+};
+
+export interface Reception { id: string; date: string; product: string; receivedKg: number; rejectedKg: number; cause: string | null; labelValid: boolean }
+export const RECEPTIONS: Reception[] = [
+  { id: "r1", date: "2026-10-15", product: "Tomate chonto", receivedKg: 320, rejectedKg: 9, cause: "Sobremaduración", labelValid: true },
+  { id: "r2", date: "2026-10-13", product: "Mora de Castilla", receivedKg: 85, rejectedKg: 0, cause: null, labelValid: true },
+  { id: "r3", date: "2026-10-08", product: "Tomate chonto", receivedKg: 280, rejectedKg: 22, cause: "Daño mecánico", labelValid: false },
+];
+
+export interface Message { id: string; from: string; date: string; subject: string; body: string; unread: boolean }
+export const MESSAGES: Message[] = [
+  { id: "n1", from: "Calidad · Grupo Smile", date: "2026-10-15", subject: "Recepción del 15/10", body: "Su tomate llegó con buen calibre. 9 kg con sobremaduración: coseche un día antes.", unread: true },
+  { id: "n2", from: "Compras · Grupo Smile", date: "2026-10-12", subject: "Pedido de la semana", body: "Esta semana necesitamos 300 kg de tomate chonto y 80 kg de mora. ¿Puede cumplir?", unread: false },
+  { id: "n3", from: "Academia Smile", date: "2026-10-01", subject: "¡Recibió una Flor!", body: "Por completar su autoevaluación a tiempo. Ya tiene 2 Flores este ciclo.", unread: false },
+];
+
+export interface Clip { id: string; title: string; goal: string; minutes: number; progress: number; offline: boolean }
+export const CLIPS: Clip[] = [
+  { id: "a1", title: "Separar residuos en tres canecas", goal: "Residuos", minutes: 3, progress: 100, offline: true },
+  { id: "a2", title: "Triple lavado de envases paso a paso", goal: "Residuos", minutes: 4, progress: 40, offline: true },
+  { id: "a3", title: "Su huella con los recibos del mes", goal: "Carbono", minutes: 5, progress: 0, offline: false },
+];
+
+export interface Benefit { id: string; title: string; condition: string; unlocked: boolean }
+export const BENEFITS: Benefit[] = [
+  { id: "b1", title: "Diagnóstico personalizado", condition: "Completó la autoevaluación", unlocked: true },
+  { id: "b2", title: "Prioridad en compras", condition: "Complete 2 metas de su plan", unlocked: false },
+  { id: "b3", title: "+4 % en el precio de compra", condition: "Etapa E5 con certificación BPA", unlocked: false },
+  { id: "b4", title: "Beca de formación SENA", condition: "3 Flores en el año", unlocked: false },
+];
+
+export const RECOGNITIONS = { flowers: 2, faces: 1 };
