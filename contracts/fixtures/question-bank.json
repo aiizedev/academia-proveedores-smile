@@ -1,5 +1,5 @@
 {
-  "version": "banco-2026-v2",
+  "version": "banco-2026-v3",
   "source": "Núcleo: DOC-AUTOEVAL (formulario vigente de Smile, ISO 20400), texto literal salvo dos correcciones ortográficas (\"sosetnibilidad\", \"pestcidas\"). Extras: criterios ODS, GRI, ISO 14001 y B Corp, con prácticas de campo de DOC-FRUVER. Decisión: C-16.",
   "answer_values": {
     "si": 1,
@@ -20,7 +20,8 @@
     "La Sección I (datos generales) NO está aquí: se captura en la ficha del proveedor (RF-SUP-001/002).",
     "La Declaración formal y la autorización de datos NO están aquí: son RF-PRV-001…004 (contracts/fixtures/consent-text.json).",
     "Los campos `detail` son texto libre opcional y no puntúan.",
-    "Los ODS se citan por meta (p. ej. 12.4); GRI por estándar o disclosure; ISO 14001 por cláusula; B Corp por área de impacto."
+    "Los ODS se citan por meta (p. ej. 12.4); GRI por estándar o disclosure; ISO 14001 por cláusula; B Corp por área de impacto.",
+    "Los códigos de categoría son los del catálogo (catalog.categories): fruver, lacteos, carnes, pescados_mariscos, insumos_servicios."
   ],
   "sections": [
     {
@@ -245,7 +246,7 @@
               "fruver",
               "lacteos",
               "carnes",
-              "pescados"
+              "pescados_mariscos"
             ],
             "editable": true
           }
@@ -293,7 +294,7 @@
           "origin": "autoeval",
           "min_size": "micro",
           "categories": [
-            "pescados"
+            "pescados_mariscos"
           ],
           "polarity": "positive",
           "next_step": "Respete vedas y tallas mínimas y lleve un registro de captura o de cosecha del estanque."
@@ -368,7 +369,7 @@
         "fruver",
         "lacteos",
         "carnes",
-        "pescados"
+        "pescados_mariscos"
       ]
     },
     {
@@ -693,7 +694,7 @@
       "code": "pescados",
       "title": "Pesca y acuicultura",
       "categories": [
-        "pescados"
+        "pescados_mariscos"
       ],
       "questions": [
         {
@@ -705,7 +706,7 @@
           "required": true,
           "min_size": "micro",
           "categories": [
-            "pescados"
+            "pescados_mariscos"
           ],
           "polarity": "positive",
           "text": "¿Respeta las vedas y las tallas mínimas de captura definidas por la AUNAP?",
@@ -729,7 +730,7 @@
           "required": true,
           "min_size": "micro",
           "categories": [
-            "pescados"
+            "pescados_mariscos"
           ],
           "polarity": "positive",
           "text": "¿Mantiene el producto en hielo o refrigeración desde la captura hasta la entrega?",
@@ -748,7 +749,7 @@
           "required": true,
           "min_size": "micro",
           "categories": [
-            "pescados"
+            "pescados_mariscos"
           ],
           "polarity": "positive",
           "text": "¿Recoge y dispone en tierra las redes, plásticos y residuos de pesca?",
@@ -767,7 +768,7 @@
           "required": true,
           "min_size": "micro",
           "categories": [
-            "pescados"
+            "pescados_mariscos"
           ],
           "polarity": "positive",
           "text": "Si cultiva peces o camarones, ¿controla la calidad del agua y el uso de alimento y medicamentos?",
@@ -784,7 +785,7 @@
       "code": "insumos",
       "title": "Insumos y servicios",
       "categories": [
-        "insumos"
+        "insumos_servicios"
       ],
       "questions": [
         {
@@ -796,7 +797,7 @@
           "required": true,
           "min_size": "micro",
           "categories": [
-            "insumos"
+            "insumos_servicios"
           ],
           "polarity": "positive",
           "text": "¿Sus empaques son reciclables, reutilizables o compostables?",
@@ -816,7 +817,7 @@
           "required": true,
           "min_size": "micro",
           "categories": [
-            "insumos"
+            "insumos_servicios"
           ],
           "polarity": "positive",
           "text": "¿Consolida entregas u optimiza rutas para reducir viajes y combustible?",
@@ -836,7 +837,7 @@
           "required": true,
           "min_size": "micro",
           "categories": [
-            "insumos"
+            "insumos_servicios"
           ],
           "polarity": "positive",
           "text": "¿Usa equipos e iluminación de bajo consumo en su operación?",
@@ -855,7 +856,7 @@
           "required": true,
           "min_size": "micro",
           "categories": [
-            "insumos"
+            "insumos_servicios"
           ],
           "polarity": "positive",
           "text": "¿Entrega fichas técnicas y de seguridad de sus productos?",
@@ -885,7 +886,7 @@
             "fruver",
             "lacteos",
             "carnes",
-            "pescados"
+            "pescados_mariscos"
           ],
           "polarity": "positive",
           "text": "¿Viven o trabajan menores de 18 años en la finca o en su operación?",
@@ -928,7 +929,7 @@
             "fruver",
             "lacteos",
             "carnes",
-            "pescados"
+            "pescados_mariscos"
           ],
           "text": "¿Los menores de 18 años que viven o trabajan en la finca están matriculados y asisten al colegio?",
           "frameworks": [
@@ -964,7 +965,7 @@
             "fruver",
             "lacteos",
             "carnes",
-            "pescados"
+            "pescados_mariscos"
           ],
           "polarity": "negative",
           "show_if": [
@@ -1323,8 +1324,8 @@
     "fruver",
     "lacteos",
     "carnes",
-    "pescados",
-    "insumos"
+    "pescados_mariscos",
+    "insumos_servicios"
   ],
   "polarity": "positive (por defecto): si=1, no=0. negative: la respuesta 'si' es la de riesgo, si=0, no=1 (S-21).",
   "next_step_rule": "El plan toma los 3 ejes de mayor brecha (S-09). Para cada eje, el siguiente paso es el `next_step` de la pregunta visible y puntuable con peor resultado en ese eje: primero las críticas incumplidas, luego mayor peso, luego orden del banco (S-20). Si el eje no tiene preguntas incumplidas (meta 'mantener'), se usa `maintain_step` del eje.",
