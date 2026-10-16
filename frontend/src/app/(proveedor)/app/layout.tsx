@@ -4,6 +4,7 @@ import { StatusBar } from "@/components/shell/StatusBar";
 import { TabBar } from "@/components/shell/TabBar";
 import { ConsentGuard } from "@/features/privacy/ConsentGuard";
 import { LocalDatabase } from "./LocalDatabase";
+import { SessionGuard } from "./SessionGuard";
 
 /* PWA del proveedor (arquitectura.md §4.1): local-first, móvil.
    Los datos de negocio se leen de WatermelonDB en componentes cliente. */
@@ -14,9 +15,11 @@ export default function ProveedorLayout({ children }: { children: ReactNode }) {
     <div className="mx-auto flex min-h-dvh max-w-[430px] flex-col bg-cream">
       <StatusBar />
       <main className="flex-1 px-[var(--screen-x)] pt-[0.6rem] pb-[var(--tabbar-clearance)]">
-        <LocalDatabase>
-          <ConsentGuard>{children}</ConsentGuard>
-        </LocalDatabase>
+        <SessionGuard>
+          <LocalDatabase>
+            <ConsentGuard>{children}</ConsentGuard>
+          </LocalDatabase>
+        </SessionGuard>
       </main>
       <TabBar />
     </div>

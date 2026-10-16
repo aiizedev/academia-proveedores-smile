@@ -14,6 +14,7 @@ El objetivo es una **prueba de concepto demostrable**: que alguien abra el siste
 | R3 mínimo: lista de proveedores, expediente, recepción simple, score 50/30/20, funnel, 1 dashboard | ARCO, SROI, reportes CCB, Web Push, cifrado en reposo (R5) |
 | R4 mínimo: 1 clip offline, Flores/Caritas automáticas | Categorías distintas de Fruver, OpenTelemetry, ASVS |
 | **Datos de demostración (§3)** | Objetivos de tamaño de imagen (se miden, no bloquean) |
+| | Cifrado local de sesión y campos (ADR-0006); sesión en localStorage |
 
 Las historias pospuestas no se borran del backlog: se marcan `POC: pospuesta` si alguien las toca.
 

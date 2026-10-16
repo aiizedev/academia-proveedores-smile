@@ -1,8 +1,10 @@
 import { expect, test } from "@playwright/test";
+import { seedProveedorSession } from "./session";
 
 /* HU-PLAT-03 / HU-DS-02: tras una visita con red, el shell de /app abre en
    modo avión desde el service worker, con fuentes locales y sin /smile en caché. */
 test("el shell de /app funciona sin conexión", async ({ page, context }) => {
+  await seedProveedorSession(context);
   const external: string[] = [];
   page.on("request", (req) => {
     if (!req.url().startsWith(new URL(page.url() || "http://localhost").origin) && req.url().startsWith("http")) {
