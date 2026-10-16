@@ -19,10 +19,8 @@ describe("diagnóstico (HU-ASM-05)", () => {
     expect(d.alerts).toEqual([]);
   });
 
-  it("cercanía a BPA ICA = puntos obtenidos / posibles de preguntas mapeadas", () => {
-    expect(run(0).bpaProximity).toBe(100);
-    expect(run(1).bpaProximity).toBe(62.5);
-    expect(run(4).bpaProximity).toBeNull(); // insumos: sin preguntas BPA visibles
+  it.each(paths.cases.map((c, i) => [c.name, i] as const))("cercanía a BPA ICA según el fixture: %s", (_name, i) => {
+    expect(run(i).bpaProximity).toBe(paths.cases[i]!.expected.bpa_ica_proximity);
   });
 
   it("alertas críticas con el mensaje de cada pregunta", () => {
