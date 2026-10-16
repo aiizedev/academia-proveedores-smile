@@ -180,14 +180,14 @@ CDN no permitido en producción para librerías críticas (offline). Mapa base D
 | RF-ASM-010 | El sistema deberá enviar las respuestas y la declaración firmada en la cola P2 con payload < 50 KB. | M | SPEC-SOT §5.2 | T, A | R1 |
 | RF-ASM-011 | El sistema deberá permitir a `ADMIN` crear, editar y **publicar** versiones del banco; un ciclo en curso conserva la versión con la que se compuso. | M | SPEC-SOT §3 | T | R3 |
 | RF-ASM-012 | El sistema deberá recordar al proveedor completar la autoevaluación 14 y 3 días antes del cierre del ciclo. | S | SPEC-SOT §1.2 P3 | T | R4 |
-| RF-ASM-013 | El sistema deberá mostrar al proveedor el diagnóstico: puntaje general P1, nivel general, puntaje y nivel por eje, alertas críticas y % cerca de certificación, en lenguaje sin jerga técnica. | M | SPEC-SOT D2 §3.1 #3 | D | R1 |
+| RF-ASM-013 | El sistema deberá mostrar al proveedor, al terminar el formulario, el diagnóstico (puntaje general P1, nivel general, puntaje y nivel por eje, alertas críticas, % cerca de certificación) y **su siguiente paso**: la primera meta del plan con su acción concreta (S-20), en lenguaje sin jerga técnica. | M | SPEC-SOT D2 §3.1 #3 | D | R1 |
 
 ### 3.6 IMP — Plan de mejora y guías
 
 | ID | Requerimiento | Pri | Fuente | Verificación | Rel |
 |---|---|---|---|---|---|
 | RF-IMP-001 | Al enviar la autoevaluación, el sistema deberá generar la **Ruta de Crecimiento Cuatrimestral** con exactamente 3 metas sobre las 3 brechas más críticas (orden S-09); si hay menos de 3 brechas, completar con metas de "mantener" del eje de menor puntaje. | M | SPEC-SOT §1.1 E3, SPEC-BASE §5.3, S-09 | T | R1 |
-| RF-IMP-002 | Cada meta deberá contener: hallazgo, acción, responsable (el proveedor por defecto), fecha límite (cierre del ciclo), evidencia de cierre esperada y la guía asociada. | M | DOC-MATRIZ §16 | I, T | R1 |
+| RF-IMP-002 | Cada meta deberá contener: hallazgo, acción (el `next_step` de la pregunta incumplida, regla S-20), responsable (el proveedor por defecto), fecha límite (cierre del ciclo), evidencia de cierre esperada y la guía asociada. | M | DOC-MATRIZ §16 | I, T | R1 |
 | RF-IMP-003 | Cada guía deberá contener: título, introducción, pasos, checklist, consejo, fuente normativa, minutos estimados y recursos de micro-learning, y estará disponible offline. | M | DOC-FRUVER §2 | D | R1 |
 | RF-IMP-004 | El sistema deberá marcar una meta como completada cuando su checklist esté al 100 %, y permitir adjuntar evidencia fotográfica opcional (comprimida ≤ 1 MB en el dispositivo, subida en P3). | M | SPEC-SOT §1.1 E4 | T | R1 (foto R4, con P3) |
 | RF-IMP-005 | El sistema deberá permitir a `REVIEWER` validar o reabrir una meta con comentario visible para el proveedor. | S | DOC-MATRIZ §16 | T | R3 |
