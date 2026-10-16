@@ -1,0 +1,576 @@
+{
+  "version": 1,
+  "bank_version": "banco-2026-v2",
+  "description": "Caminos del formulario (S-19), puntaje (S-01, S-02, S-18, S-21) y siguiente paso (S-09, S-20). Generado con una implementación de referencia; backend y frontend deben reproducirlo.",
+  "cases": [
+    {
+      "name": "Fruver micro sin agroquímicos ni menores: se omiten las preguntas de carencia, EPP y matrícula",
+      "category": "fruver",
+      "size": "micro",
+      "answers": {
+        "amb-01": "si",
+        "amb-02": "si",
+        "amb-03": "si",
+        "amb-04": "si",
+        "amb-05": "no",
+        "amb-06": "si",
+        "amb-07": "no",
+        "amb-08": [
+          "camion_combustion"
+        ],
+        "amb-09": "si",
+        "ali-01": "si",
+        "ali-03": "si",
+        "ali-04": "no",
+        "gate-agro": "no",
+        "ext-04": "no",
+        "ext-07": "si",
+        "gate-menores": "no",
+        "soc-01": "si",
+        "soc-02": "si",
+        "soc-03": "no",
+        "soc-04": "si",
+        "soc-05": "si",
+        "soc-06": "si"
+      },
+      "expected": {
+        "visible": [
+          "amb-01",
+          "amb-02",
+          "amb-03",
+          "amb-04",
+          "amb-05",
+          "amb-06",
+          "amb-07",
+          "amb-08",
+          "amb-09",
+          "ali-01",
+          "ali-03",
+          "ali-04",
+          "gate-agro",
+          "ext-04",
+          "ext-07",
+          "gate-menores",
+          "soc-01",
+          "soc-02",
+          "soc-03",
+          "soc-04",
+          "soc-05",
+          "soc-06"
+        ],
+        "axes": {
+          "bpa": {
+            "score": 83.33,
+            "level": "avanzado",
+            "urgent": false
+          },
+          "residuos": {
+            "score": 33.33,
+            "level": "inicial",
+            "urgent": false
+          },
+          "carbono": {
+            "score": 33.33,
+            "level": "inicial",
+            "urgent": false
+          },
+          "infantil": {
+            "score": 100.0,
+            "level": "avanzado",
+            "urgent": false
+          },
+          "ddhh": {
+            "score": 83.33,
+            "level": "avanzado",
+            "urgent": false
+          }
+        },
+        "pillar1": 66.66,
+        "plan": [
+          {
+            "axis": "residuos",
+            "priority": "alta",
+            "question": "amb-05",
+            "next_step": "Separe los residuos en orgánicos, reciclables y peligrosos, y defina a dónde va cada uno."
+          },
+          {
+            "axis": "carbono",
+            "priority": "alta",
+            "question": "amb-07",
+            "next_step": "Calcule su huella con la calculadora de la guía usando sus recibos de combustible y energía."
+          },
+          {
+            "axis": "bpa",
+            "priority": "mantener",
+            "question": "ali-04",
+            "next_step": "Pregunte al SENA o a Asohofrucol por el camino a la certificación orgánica."
+          }
+        ]
+      }
+    },
+    {
+      "name": "Fruver micro con agroquímicos y menores: crítica por carencia y por menor en labor prohibida",
+      "category": "fruver",
+      "size": "micro",
+      "answers": {
+        "amb-01": "si",
+        "amb-02": "si",
+        "amb-03": "si",
+        "amb-04": "no",
+        "amb-05": "si",
+        "amb-06": "si",
+        "amb-07": "si",
+        "amb-08": [
+          "camion_combustion"
+        ],
+        "amb-09": "si",
+        "ali-01": "si",
+        "ali-03": "si",
+        "ali-04": "si",
+        "gate-agro": "si",
+        "ext-01": "no",
+        "ext-02": "si",
+        "ext-03": "si",
+        "ext-04": "si",
+        "ext-06": "no",
+        "ext-07": "si",
+        "gate-menores": "si",
+        "soc-01": "si",
+        "ext-05": "si",
+        "ext-18": "si",
+        "soc-02": "si",
+        "soc-03": "si",
+        "soc-04": "si",
+        "soc-05": "si",
+        "soc-06": "si"
+      },
+      "expected": {
+        "visible": [
+          "amb-01",
+          "amb-02",
+          "amb-03",
+          "amb-04",
+          "amb-05",
+          "amb-06",
+          "amb-07",
+          "amb-08",
+          "amb-09",
+          "ali-01",
+          "ali-03",
+          "ali-04",
+          "gate-agro",
+          "ext-01",
+          "ext-02",
+          "ext-03",
+          "ext-04",
+          "ext-06",
+          "ext-07",
+          "gate-menores",
+          "soc-01",
+          "ext-05",
+          "ext-18",
+          "soc-02",
+          "soc-03",
+          "soc-04",
+          "soc-05",
+          "soc-06"
+        ],
+        "axes": {
+          "bpa": {
+            "score": 75.0,
+            "level": "desarrollo",
+            "urgent": true
+          },
+          "residuos": {
+            "score": 100.0,
+            "level": "avanzado",
+            "urgent": false
+          },
+          "carbono": {
+            "score": 33.33,
+            "level": "inicial",
+            "urgent": false
+          },
+          "infantil": {
+            "score": 66.67,
+            "level": "desarrollo",
+            "urgent": true
+          },
+          "ddhh": {
+            "score": 75.0,
+            "level": "avanzado",
+            "urgent": false
+          }
+        },
+        "pillar1": 70.0,
+        "plan": [
+          {
+            "axis": "infantil",
+            "priority": "urgente",
+            "question": "ext-18",
+            "next_step": "Retire a los menores de inmediato de esas labores y asígneles solo tareas livianas permitidas."
+          },
+          {
+            "axis": "bpa",
+            "priority": "urgente",
+            "question": "ext-01",
+            "next_step": "Anote la fecha de cada fumigación y no coseche antes de los días de carencia de la etiqueta."
+          },
+          {
+            "axis": "carbono",
+            "priority": "alta",
+            "question": "amb-04",
+            "next_step": "Revise fugas de agua y apague equipos sin uso; anote el consumo de cada recibo."
+          }
+        ]
+      }
+    },
+    {
+      "name": "Lácteos pequeña: módulo de producción animal y preguntas intermedias",
+      "category": "lacteos",
+      "size": "pequena",
+      "answers": {
+        "amb-01": "si",
+        "amb-02": "si",
+        "amb-03": "si",
+        "amb-04": "si",
+        "amb-05": "si",
+        "amb-06": "no",
+        "amb-07": "si",
+        "amb-08": [
+          "camion_combustion"
+        ],
+        "amb-09": "si",
+        "ali-01": "si",
+        "ali-03": "si",
+        "ali-04": "si",
+        "ali-05": "si",
+        "lc-01": "si",
+        "lc-02": "no",
+        "lc-03": "si",
+        "lc-04": "no",
+        "gate-menores": "no",
+        "soc-01": "si",
+        "soc-02": "si",
+        "soc-03": "si",
+        "soc-04": "si",
+        "soc-05": "no",
+        "soc-06": "si",
+        "ext-08": "no",
+        "ext-09": "si",
+        "ext-10": "si",
+        "ext-11": "no",
+        "ext-12": "si"
+      },
+      "expected": {
+        "visible": [
+          "amb-01",
+          "amb-02",
+          "amb-03",
+          "amb-04",
+          "amb-05",
+          "amb-06",
+          "amb-07",
+          "amb-08",
+          "amb-09",
+          "ali-01",
+          "ali-03",
+          "ali-04",
+          "ali-05",
+          "lc-01",
+          "lc-02",
+          "lc-03",
+          "lc-04",
+          "gate-menores",
+          "soc-01",
+          "soc-02",
+          "soc-03",
+          "soc-04",
+          "soc-05",
+          "soc-06",
+          "ext-08",
+          "ext-09",
+          "ext-10",
+          "ext-11",
+          "ext-12"
+        ],
+        "axes": {
+          "bpa": {
+            "score": 84.62,
+            "level": "avanzado",
+            "urgent": false
+          },
+          "residuos": {
+            "score": 20.0,
+            "level": "inicial",
+            "urgent": false
+          },
+          "carbono": {
+            "score": 50.0,
+            "level": "desarrollo",
+            "urgent": false
+          },
+          "infantil": {
+            "score": 100.0,
+            "level": "avanzado",
+            "urgent": false
+          },
+          "ddhh": {
+            "score": 87.5,
+            "level": "avanzado",
+            "urgent": false
+          }
+        },
+        "pillar1": 68.42,
+        "plan": [
+          {
+            "axis": "residuos",
+            "priority": "alta",
+            "question": "lc-02",
+            "next_step": "Construya una zona de acopio de estiércol y conviértalo en abono; no lave corrales hacia el agua."
+          },
+          {
+            "axis": "carbono",
+            "priority": "media",
+            "question": "amb-08",
+            "next_step": "Consolide entregas con vecinos para hacer menos viajes y gastar menos combustible."
+          },
+          {
+            "axis": "bpa",
+            "priority": "mantener",
+            "question": "lc-04",
+            "next_step": "Use un tanque de frío o entregue la leche en máximo dos horas después del ordeño."
+          }
+        ]
+      }
+    },
+    {
+      "name": "Pescados grande: módulo de pesca y preguntas avanzadas",
+      "category": "pescados",
+      "size": "grande",
+      "answers": {
+        "amb-01": "no",
+        "amb-02": "si",
+        "amb-03": "si",
+        "amb-04": "si",
+        "amb-05": "si",
+        "amb-06": "si",
+        "amb-07": "si",
+        "amb-08": [
+          "camion_combustion"
+        ],
+        "amb-09": "si",
+        "ali-01": "si",
+        "ali-02": "si",
+        "ali-03": "si",
+        "ali-04": "si",
+        "pe-01": "no",
+        "pe-02": "si",
+        "pe-03": "si",
+        "pe-04": "na",
+        "gate-menores": "no",
+        "soc-01": "si",
+        "soc-02": "si",
+        "soc-03": "si",
+        "soc-04": "si",
+        "soc-05": "si",
+        "soc-06": "si",
+        "ext-08": "si",
+        "ext-09": "si",
+        "ext-10": "si",
+        "ext-11": "si",
+        "ext-12": "si",
+        "ext-13": "no",
+        "ext-14": "no",
+        "ext-15": "no",
+        "ext-16": "si",
+        "ext-17": "si"
+      },
+      "expected": {
+        "visible": [
+          "amb-01",
+          "amb-02",
+          "amb-03",
+          "amb-04",
+          "amb-05",
+          "amb-06",
+          "amb-07",
+          "amb-08",
+          "amb-09",
+          "ali-01",
+          "ali-02",
+          "ali-03",
+          "ali-04",
+          "pe-01",
+          "pe-02",
+          "pe-03",
+          "pe-04",
+          "gate-menores",
+          "soc-01",
+          "soc-02",
+          "soc-03",
+          "soc-04",
+          "soc-05",
+          "soc-06",
+          "ext-08",
+          "ext-09",
+          "ext-10",
+          "ext-11",
+          "ext-12",
+          "ext-13",
+          "ext-14",
+          "ext-15",
+          "ext-16",
+          "ext-17"
+        ],
+        "axes": {
+          "bpa": {
+            "score": 57.14,
+            "level": "desarrollo",
+            "urgent": true
+          },
+          "residuos": {
+            "score": 100.0,
+            "level": "avanzado",
+            "urgent": false
+          },
+          "carbono": {
+            "score": 60.0,
+            "level": "desarrollo",
+            "urgent": false
+          },
+          "infantil": {
+            "score": 100.0,
+            "level": "avanzado",
+            "urgent": false
+          },
+          "ddhh": {
+            "score": 100.0,
+            "level": "avanzado",
+            "urgent": false
+          }
+        },
+        "pillar1": 83.43,
+        "plan": [
+          {
+            "axis": "bpa",
+            "priority": "urgente",
+            "question": "pe-01",
+            "next_step": "Consulte el calendario de vedas de la AUNAP y devuelva al agua los ejemplares por debajo de la talla mínima."
+          },
+          {
+            "axis": "carbono",
+            "priority": "media",
+            "question": "amb-08",
+            "next_step": "Consolide entregas con vecinos para hacer menos viajes y gastar menos combustible."
+          },
+          {
+            "axis": "residuos",
+            "priority": "mantener",
+            "question": null,
+            "next_step": "Siga separando y aprovechando sus residuos; registre cuántos kilos aprovecha cada mes."
+          }
+        ]
+      }
+    },
+    {
+      "name": "Insumos micro: sin sección de alimentos (amb-09 prellenada en No)",
+      "category": "insumos",
+      "size": "micro",
+      "answers": {
+        "amb-01": "si",
+        "amb-02": "si",
+        "amb-03": "si",
+        "amb-04": "si",
+        "amb-05": "si",
+        "amb-06": "si",
+        "amb-07": "si",
+        "amb-08": [
+          "camion_combustion"
+        ],
+        "amb-09": "si",
+        "in-01": "no",
+        "in-02": "no",
+        "in-03": "si",
+        "in-04": "si",
+        "soc-01": "si",
+        "soc-02": "no",
+        "soc-03": "si",
+        "soc-04": "si",
+        "soc-05": "si",
+        "soc-06": "si"
+      },
+      "expected": {
+        "visible": [
+          "amb-01",
+          "amb-02",
+          "amb-03",
+          "amb-04",
+          "amb-05",
+          "amb-06",
+          "amb-07",
+          "amb-08",
+          "amb-09",
+          "in-01",
+          "in-02",
+          "in-03",
+          "in-04",
+          "soc-01",
+          "soc-02",
+          "soc-03",
+          "soc-04",
+          "soc-05",
+          "soc-06"
+        ],
+        "axes": {
+          "bpa": {
+            "score": 100.0,
+            "level": "avanzado",
+            "urgent": false
+          },
+          "residuos": {
+            "score": 50.0,
+            "level": "desarrollo",
+            "urgent": false
+          },
+          "carbono": {
+            "score": 60.0,
+            "level": "desarrollo",
+            "urgent": false
+          },
+          "infantil": {
+            "score": 100.0,
+            "level": "avanzado",
+            "urgent": false
+          },
+          "ddhh": {
+            "score": 83.33,
+            "level": "avanzado",
+            "urgent": false
+          }
+        },
+        "pillar1": 78.67,
+        "plan": [
+          {
+            "axis": "residuos",
+            "priority": "media",
+            "question": "in-01",
+            "next_step": "Cambie a empaques reciclables o retornables y retire los de un solo uso."
+          },
+          {
+            "axis": "carbono",
+            "priority": "media",
+            "question": "amb-08",
+            "next_step": "Consolide entregas con vecinos para hacer menos viajes y gastar menos combustible."
+          },
+          {
+            "axis": "ddhh",
+            "priority": "mantener",
+            "question": "soc-02",
+            "next_step": "Afilie a sus trabajadores a salud, pensión y riesgos laborales (ARL)."
+          }
+        ]
+      }
+    }
+  ]
+}
