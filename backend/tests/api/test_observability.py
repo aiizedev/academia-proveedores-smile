@@ -27,6 +27,12 @@ async def test_access_log_has_route_template_status_and_duration(
     assert entry["duration_ms"] >= 0
 
 
+async def test_access_log_route_hides_path_values(client: httpx.AsyncClient) -> None:
+    with capture_logs() as logs:
+        await client.get("/api/v1/me")
+    assert next(e for e in logs if e["event"] == "request")["route"] == "/api/v1/me"
+
+
 async def test_malformed_request_id_is_replaced(client: httpx.AsyncClient) -> None:
     r = await client.get("/health/live", headers={"x-request-id": "x" * 200})
     assert r.headers["x-request-id"] != "x" * 200

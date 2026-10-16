@@ -2,12 +2,15 @@ import httpx
 import pytest
 
 from smile.main import create_app
+from tests.auth import bearer
 
 
 @pytest.fixture
 def client() -> httpx.AsyncClient:
     return httpx.AsyncClient(
-        transport=httpx.ASGITransport(app=create_app()), base_url="http://test"
+        transport=httpx.ASGITransport(app=create_app()),
+        base_url="http://test",
+        headers=bearer("PROVEEDOR"),
     )
 
 

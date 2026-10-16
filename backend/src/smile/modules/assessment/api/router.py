@@ -15,6 +15,8 @@ from smile.modules.assessment.application.queries.score_assessment import (
     ScoreAssessment,
     ScoreAssessmentQuery,
 )
+from smile.modules.iam.public import Permission, require
+from smile.shared.application.ports import CurrentUser
 
 router = APIRouter(prefix="/assessment", tags=["assessment"])
 
@@ -27,6 +29,7 @@ def get_score_assessment() -> ScoreAssessment:
 @router.post("/score-preview", response_model=ScorePreviewOut)
 def score_preview(
     body: ScorePreviewIn,
+    _: Annotated[CurrentUser, Depends(require(Permission.SUPPLIER_SELF_SERVICE))],
     use_case: Annotated[ScoreAssessment, Depends(get_score_assessment)],
 ) -> ScorePreviewOut:
     """Calcula ejes, Pilar 1 y plan de 3 metas sin persistir (RF-ASM-005…008, RF-IMP-001)."""

@@ -24,6 +24,16 @@ _REQUEST_ID = re.compile(r"[A-Za-z0-9._-]{1,64}")
 access_log = structlog.get_logger("smile.access")
 
 
+def _route_template(request: Request) -> str:
+    """Ruta como plantilla (`/api/v1/suppliers/{id}`): la URL real puede llevar datos."""
+    if request.scope.get("route") is None:
+        return "unmatched"
+    params = {str(v): k for k, v in request.path_params.items()}
+    return "/".join(
+        f"{{{params[seg]}}}" if seg in params else seg for seg in request.url.path.split("/")
+    )
+
+
 def create_app() -> FastAPI:
     settings = get_settings()
     configure_logging(settings.log_level)
@@ -55,12 +65,10 @@ def create_app() -> FastAPI:
         try:
             response = await call_next(request)
             response.headers["x-request-id"] = request_id
-            route = request.scope.get("route")
-            # Ruta como plantilla (`/suppliers/{id}`): la URL real puede llevar datos.
             access_log.info(
                 "request",
                 method=request.method,
-                route=getattr(route, "path", "unmatched"),
+                route=_route_template(request),
                 status=response.status_code,
                 duration_ms=round((time.perf_counter() - started) * 1000, 1),
             )

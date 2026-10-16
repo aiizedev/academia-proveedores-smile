@@ -44,14 +44,3 @@ def get_current_user(
         )
     except (jwt.PyJWTError, KeyError, ValueError) as exc:
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Token inválido") from exc
-
-
-def require_roles(*roles: Role):  # type: ignore[no-untyped-def]
-    """Uso: `Depends(require_roles(Role.ADMIN))` (matriz de permisos, requerimientos §2.3)."""
-
-    def _check(user: Annotated[CurrentUser, Depends(get_current_user)]) -> CurrentUser:
-        if user.role not in roles:
-            raise HTTPException(status.HTTP_403_FORBIDDEN, "Permiso denegado")
-        return user
-
-    return _check
