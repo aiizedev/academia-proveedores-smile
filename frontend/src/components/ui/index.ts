@@ -8,3 +8,6 @@ export type { Level } from "./LevelBadge";
 export { Card } from "./Card";
 export { Checkbox, Choice } from "./Checkbox";
 export { Field, SelectField } from "./Field";
+export { Answer } from "./Answer";
+export { LeafBar } from "./LeafBar";
+export { QuestionChip } from "./QuestionChip";

@@ -27,6 +27,9 @@ export class Assessment extends Model {
   get cycleId(): string { return this._getRaw("cycle_id") as string; }
   get status(): "draft" | "submitted" { return this._getRaw("status") as "draft" | "submitted"; }
   get currentIndex(): number { return this._getRaw("current_index") as number; }
+  get formVersion(): string { return this._getRaw("form_version") as string; }
+  get category(): string { return (this._getRaw("category") as string | null) ?? ""; }
+  get size(): string { return (this._getRaw("size") as string | null) ?? ""; }
 }
 
 export class AssessmentAnswer extends Model {
@@ -38,6 +41,11 @@ export class AssessmentAnswer extends Model {
   get assessmentId(): string { return this._getRaw("assessment_id") as string; }
   get questionId(): string { return this._getRaw("question_id") as string; }
   get answer(): string { return this._getRaw("answer") as string; }
+  get detail(): string { return (this._getRaw("detail") as string | null) ?? ""; }
+}
+
+export class Declaration extends Model {
+  static override table = "declarations";
 }
 
 export class Consent extends Model {
@@ -98,4 +106,4 @@ export class SupplierProfileRecord extends Model {
   }
 }
 
-export const modelClasses = [Sale, Assessment, AssessmentAnswer, Consent, SupplierProfileRecord];
+export const modelClasses = [Sale, Assessment, AssessmentAnswer, Consent, SupplierProfileRecord, Declaration];

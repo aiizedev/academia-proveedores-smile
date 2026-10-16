@@ -1,0 +1,1364 @@
+{
+  "version": "banco-2026-v3",
+  "source": "Núcleo: DOC-AUTOEVAL (formulario vigente de Smile, ISO 20400), texto literal salvo dos correcciones ortográficas (\"sosetnibilidad\", \"pestcidas\"). Extras: criterios ODS, GRI, ISO 14001 y B Corp, con prácticas de campo de DOC-FRUVER. Decisión: C-16.",
+  "answer_values": {
+    "si": 1,
+    "no": 0
+  },
+  "excluded_answers": [
+    "na",
+    "pnr"
+  ],
+  "axes_order": [
+    "bpa",
+    "residuos",
+    "carbono",
+    "infantil",
+    "ddhh"
+  ],
+  "notes": [
+    "La Sección I (datos generales) NO está aquí: se captura en la ficha del proveedor (RF-SUP-001/002).",
+    "La Declaración formal y la autorización de datos NO están aquí: son RF-PRV-001…004 (contracts/fixtures/consent-text.json).",
+    "Los campos `detail` son texto libre opcional y no puntúan.",
+    "Los ODS se citan por meta (p. ej. 12.4); GRI por estándar o disclosure; ISO 14001 por cláusula; B Corp por área de impacto.",
+    "Los códigos de categoría son los del catálogo (catalog.categories): fruver, lacteos, carnes, pescados_mariscos, insumos_servicios."
+  ],
+  "sections": [
+    {
+      "code": "ambiental",
+      "title": "Gestión ambiental",
+      "questions": [
+        {
+          "id": "amb-01",
+          "axis": "bpa",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "text": "¿Su empresa cuenta con alguna certificación ambiental vigente? (Ej. Bcorp, BIC, ISO 14001, RSPO, FSC, PEFC, GlobalG.A.P., Rainforest Alliance, MSC/ASC, orgánica, u otra)",
+          "detail": {
+            "when": "si",
+            "label": "Indique cuál",
+            "required": false
+          },
+          "frameworks": [
+            "B Corp",
+            "ISO 14001",
+            "GlobalG.A.P."
+          ],
+          "origin": "autoeval",
+          "min_size": "micro",
+          "categories": [
+            "all"
+          ],
+          "polarity": "positive",
+          "next_step": "Identifique qué certificación le sirve (BPA del ICA es el primer paso) y pida acompañamiento al SENA."
+        },
+        {
+          "id": "amb-02",
+          "axis": "ddhh",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "text": "¿Su empresa exige a sus propios proveedores o subcontratistas criterios de sostenibilidad (ambientales, sociales o de gobernanza)?",
+          "detail": {
+            "when": "si",
+            "label": "Breve explicación",
+            "required": false
+          },
+          "frameworks": [
+            "ISO 20400",
+            "B Corp"
+          ],
+          "origin": "autoeval",
+          "min_size": "micro",
+          "categories": [
+            "all"
+          ],
+          "polarity": "positive",
+          "next_step": "Pida a sus proveedores de insumos sus registros y certificados, y prefiera a quienes los tengan."
+        },
+        {
+          "id": "amb-03",
+          "axis": "bpa",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "text": "¿Su empresa cuenta con política de sostenibilidad?",
+          "frameworks": [
+            "B Corp",
+            "GRI 2"
+          ],
+          "origin": "autoeval",
+          "min_size": "micro",
+          "categories": [
+            "all"
+          ],
+          "polarity": "positive",
+          "next_step": "Escriba en una hoja sus compromisos con el agua, el suelo y sus trabajadores, y fírmela."
+        },
+        {
+          "id": "amb-04",
+          "axis": "carbono",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "text": "¿Su empresa cuenta o invierte en programas de eficiencias en recursos (agua, energía, gas)?",
+          "frameworks": [
+            "ISO 14001",
+            "GRI 302",
+            "GRI 303"
+          ],
+          "origin": "autoeval",
+          "min_size": "micro",
+          "categories": [
+            "all"
+          ],
+          "polarity": "positive",
+          "next_step": "Revise fugas de agua y apague equipos sin uso; anote el consumo de cada recibo."
+        },
+        {
+          "id": "amb-05",
+          "axis": "residuos",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "text": "¿Su empresa cuenta con programas de gestión de residuos o economía circular?",
+          "frameworks": [
+            "ISO 14001",
+            "GRI 306",
+            "Decreto 1076 de 2015"
+          ],
+          "origin": "autoeval",
+          "min_size": "micro",
+          "categories": [
+            "all"
+          ],
+          "polarity": "positive",
+          "next_step": "Separe los residuos en orgánicos, reciclables y peligrosos, y defina a dónde va cada uno."
+        },
+        {
+          "id": "amb-06",
+          "axis": "residuos",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "text": "¿Su empresa utiliza empaques sostenibles y/o es libre de plástico de un solo uso?",
+          "frameworks": [
+            "GRI 301",
+            "Política Nacional de Economía Circular"
+          ],
+          "origin": "autoeval",
+          "min_size": "micro",
+          "categories": [
+            "all"
+          ],
+          "polarity": "positive",
+          "next_step": "Cambie los empaques de un solo uso por canastillas o empaques reutilizables."
+        },
+        {
+          "id": "amb-07",
+          "axis": "carbono",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "text": "¿Su empresa mide la huella de carbono y/o tiene un plan de acción climática?",
+          "frameworks": [
+            "GHG Protocol",
+            "TCFD",
+            "GRI 305"
+          ],
+          "origin": "autoeval",
+          "min_size": "micro",
+          "categories": [
+            "all"
+          ],
+          "polarity": "positive",
+          "next_step": "Calcule su huella con la calculadora de la guía usando sus recibos de combustible y energía."
+        },
+        {
+          "id": "amb-08",
+          "axis": "carbono",
+          "weight": 1,
+          "type": "multi_choice",
+          "required": true,
+          "text": "¿Cómo transporta sus productos hasta las instalaciones de Grupo Smile? (puede marcar más de una opción, si usa distintos vehículos según el pedido)",
+          "options": [
+            {
+              "code": "camion_combustion",
+              "label": "Camión (combustión - diésel/gasolina)",
+              "low_emission": false
+            },
+            {
+              "code": "camion_electrico",
+              "label": "Camión eléctrico o híbrido",
+              "low_emission": true
+            },
+            {
+              "code": "furgoneta",
+              "label": "Furgoneta - Camioneta",
+              "low_emission": false
+            },
+            {
+              "code": "motocicleta",
+              "label": "Motocicleta",
+              "low_emission": false
+            },
+            {
+              "code": "no_motorizado",
+              "label": "Bicicleta o medio no motorizado",
+              "low_emission": true
+            }
+          ],
+          "scoring": "Valor = 1 si todas las opciones marcadas son low_emission; 0,5 si hay mezcla; 0 si ninguna lo es (supuesto S-18).",
+          "frameworks": [
+            "GHG Protocol Alcance 3",
+            "SASB"
+          ],
+          "origin": "autoeval",
+          "min_size": "micro",
+          "categories": [
+            "all"
+          ],
+          "polarity": "positive",
+          "next_step": "Consolide entregas con vecinos para hacer menos viajes y gastar menos combustible."
+        },
+        {
+          "id": "amb-09",
+          "axis": null,
+          "weight": 0,
+          "type": "yes_no",
+          "required": true,
+          "role": "branch",
+          "text": "¿Su empresa vende FRUVER, Lácteos, Pescado (mariscos) o Carnes?",
+          "branch": {
+            "when": "si",
+            "show_section": "alimentos"
+          },
+          "origin": "autoeval",
+          "min_size": "micro",
+          "categories": [
+            "all"
+          ],
+          "polarity": "positive",
+          "prefill": {
+            "from": "category",
+            "value_si_if": [
+              "fruver",
+              "lacteos",
+              "carnes",
+              "pescados_mariscos"
+            ],
+            "editable": true
+          }
+        }
+      ],
+      "categories": [
+        "all"
+      ]
+    },
+    {
+      "code": "alimentos",
+      "title": "Sección Fruver - Huevos - Carnes - Pesca - Lácteos",
+      "intro": "Responda únicamente si su empresa provee frutas, verduras, carnes, huevos o lácteos",
+      "questions": [
+        {
+          "id": "ali-01",
+          "axis": "bpa",
+          "weight": 1,
+          "type": "yes_no_na",
+          "required": true,
+          "text": "¿Cuenta con política o práctica verificable de trazabilidad y no deforestación en su cadena de producción?",
+          "frameworks": [
+            "Res. ICA 30021 de 2017",
+            "GRI 304"
+          ],
+          "origin": "autoeval",
+          "min_size": "micro",
+          "categories": [
+            "all"
+          ],
+          "polarity": "positive",
+          "next_step": "Registre de qué lote o parcela sale cada entrega y no amplíe cultivos sobre bosque."
+        },
+        {
+          "id": "ali-02",
+          "axis": "bpa",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "text": "¿Cuenta con prácticas verificadas de pesca o acuicultura responsable o sostenible?",
+          "frameworks": [
+            "MSC/ASC",
+            "SASB"
+          ],
+          "origin": "autoeval",
+          "min_size": "micro",
+          "categories": [
+            "pescados_mariscos"
+          ],
+          "polarity": "positive",
+          "next_step": "Respete vedas y tallas mínimas y lleve un registro de captura o de cosecha del estanque."
+        },
+        {
+          "id": "ali-03",
+          "axis": "bpa",
+          "weight": 1,
+          "type": "yes_no_na",
+          "required": true,
+          "text": "¿Los productos que vende a Smile son libres de agroquímicos o pesticidas?",
+          "frameworks": [
+            "Res. ICA 30021 de 2017",
+            "GRI 416"
+          ],
+          "origin": "autoeval",
+          "min_size": "micro",
+          "categories": [
+            "all"
+          ],
+          "polarity": "positive",
+          "next_step": "Reemplace parte del fertilizante químico por compost y use plaguicidas solo cuando sea necesario."
+        },
+        {
+          "id": "ali-04",
+          "axis": "bpa",
+          "weight": 1,
+          "type": "yes_no_na",
+          "required": true,
+          "text": "¿Los productos que vende a Smile son orgánicos certificados?",
+          "frameworks": [
+            "Certificación orgánica"
+          ],
+          "origin": "autoeval",
+          "min_size": "micro",
+          "categories": [
+            "all"
+          ],
+          "polarity": "positive",
+          "next_step": "Pregunte al SENA o a Asohofrucol por el camino a la certificación orgánica."
+        },
+        {
+          "id": "ali-05",
+          "axis": "bpa",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "text": "Cuenta con certificaciones o practicas de bienestar animal ( ej. Certificación ICA, Icontec, Certified Humane, Global Animal Partnership)",
+          "frameworks": [
+            "ICA",
+            "Certified Humane"
+          ],
+          "origin": "autoeval",
+          "min_size": "micro",
+          "categories": [
+            "lacteos",
+            "carnes"
+          ],
+          "polarity": "positive",
+          "next_step": "Asegure agua, alimento, sombra y atención veterinaria a los animales, y regístrelo."
+        }
+      ],
+      "show_if": [
+        {
+          "question": "amb-09",
+          "in": [
+            "si"
+          ]
+        }
+      ],
+      "categories": [
+        "fruver",
+        "lacteos",
+        "carnes",
+        "pescados_mariscos"
+      ]
+    },
+    {
+      "code": "campo",
+      "title": "Prácticas en la finca",
+      "intro": "Preguntas sobre el trabajo diario en el predio.",
+      "questions": [
+        {
+          "id": "gate-agro",
+          "origin": "extra",
+          "axis": null,
+          "weight": 0,
+          "type": "yes_no",
+          "required": true,
+          "role": "branch",
+          "min_size": "micro",
+          "categories": [
+            "fruver"
+          ],
+          "polarity": "positive",
+          "text": "¿Usa agroquímicos (fertilizantes químicos, plaguicidas o herbicidas) en su producción?",
+          "note": "Si responde No, se omiten ext-01, ext-02, ext-03 y ext-06.",
+          "frameworks": []
+        },
+        {
+          "id": "ext-01",
+          "origin": "extra",
+          "axis": "bpa",
+          "weight": 3,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "micro",
+          "categories": [
+            "fruver"
+          ],
+          "text": "¿Registra la fecha de cada fumigación y espera los días de carencia indicados en la etiqueta antes de cosechar?",
+          "frameworks": [
+            "ODS 12.4",
+            "GRI 416-1",
+            "ISO 14001 8.1",
+            "B Corp: Clientes",
+            "Res. ICA 30021 de 2017"
+          ],
+          "critical_when": [
+            "no"
+          ],
+          "critical_message": "Cosechar antes de cumplir la carencia deja residuos de agroquímicos en el alimento. Registre cada aplicación para saber la fecha segura de cosecha.",
+          "polarity": "positive",
+          "next_step": "Anote la fecha de cada fumigación y no coseche antes de los días de carencia de la etiqueta.",
+          "show_if": [
+            {
+              "question": "gate-agro",
+              "in": [
+                "si"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ext-02",
+          "origin": "extra",
+          "axis": "bpa",
+          "weight": 3,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "micro",
+          "categories": [
+            "fruver"
+          ],
+          "text": "¿Todos los agroquímicos que usa tienen registro ICA vigente?",
+          "frameworks": [
+            "ODS 3.9",
+            "GRI 416-1",
+            "ISO 14001 6.1.3",
+            "Res. ICA 30021 de 2017"
+          ],
+          "critical_when": [
+            "no"
+          ],
+          "critical_message": "Los agroquímicos sin registro ICA no están autorizados. Le mostramos alternativas registradas.",
+          "polarity": "positive",
+          "next_step": "Deje de usar productos sin registro ICA; pida al almacén alternativas registradas.",
+          "show_if": [
+            {
+              "question": "gate-agro",
+              "in": [
+                "si"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ext-03",
+          "origin": "extra",
+          "axis": "residuos",
+          "weight": 2,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "micro",
+          "categories": [
+            "fruver"
+          ],
+          "text": "¿Hace el triple lavado y perfora los envases vacíos de agroquímicos antes de entregarlos al programa CampoLimpio?",
+          "frameworks": [
+            "ODS 12.4",
+            "ODS 12.5",
+            "GRI 306-2",
+            "ISO 14001 8.1",
+            "Decreto 1076 de 2015"
+          ],
+          "polarity": "positive",
+          "next_step": "Haga el triple lavado, perfore los envases y entréguelos en la ruta de CampoLimpio.",
+          "show_if": [
+            {
+              "question": "gate-agro",
+              "in": [
+                "si"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ext-04",
+          "origin": "extra",
+          "axis": "residuos",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "micro",
+          "categories": [
+            "fruver"
+          ],
+          "text": "¿Convierte en abono (compost) los residuos orgánicos de la finca?",
+          "frameworks": [
+            "ODS 12.3",
+            "ODS 15.3",
+            "GRI 306-4",
+            "B Corp: Medio ambiente"
+          ],
+          "polarity": "positive",
+          "next_step": "Arme una pila de compost: tres partes de rastrojo seco por una de residuos verdes y estiércol."
+        },
+        {
+          "id": "ext-06",
+          "origin": "extra",
+          "axis": "ddhh",
+          "weight": 2,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "micro",
+          "categories": [
+            "fruver"
+          ],
+          "text": "¿Quienes fumigan usan traje impermeable, guantes de nitrilo, botas y protección respiratoria?",
+          "frameworks": [
+            "ODS 3.9",
+            "ODS 8.8",
+            "GRI 403-7",
+            "Decreto 1072 de 2015"
+          ],
+          "polarity": "positive",
+          "next_step": "Entregue a quienes fumigan traje impermeable, guantes de nitrilo, botas y respirador.",
+          "show_if": [
+            {
+              "question": "gate-agro",
+              "in": [
+                "si"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ext-07",
+          "origin": "extra",
+          "axis": "bpa",
+          "weight": 1,
+          "type": "yes_no_na",
+          "required": true,
+          "min_size": "micro",
+          "categories": [
+            "fruver"
+          ],
+          "text": "¿Mantiene una franja de vegetación de al menos 10 metros junto a ríos, quebradas o nacimientos de agua?",
+          "frameworks": [
+            "ODS 6.6",
+            "ODS 15.1",
+            "GRI 303-1",
+            "GRI 304-2",
+            "ISO 14001 6.1.2"
+          ],
+          "polarity": "positive",
+          "next_step": "Deje sin cultivar al menos 10 metros junto a ríos y quebradas y siembre árboles nativos."
+        }
+      ],
+      "categories": [
+        "fruver"
+      ]
+    },
+    {
+      "code": "lacteos_carnes",
+      "title": "Producción animal",
+      "categories": [
+        "lacteos",
+        "carnes"
+      ],
+      "questions": [
+        {
+          "id": "lc-01",
+          "origin": "extra",
+          "axis": "bpa",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "micro",
+          "categories": [
+            "lacteos",
+            "carnes"
+          ],
+          "polarity": "positive",
+          "text": "¿Los animales tienen agua limpia y alimento todos los días, y atención veterinaria cuando la necesitan?",
+          "next_step": "Asegure bebederos limpios, registre la alimentación y tenga el contacto de un veterinario.",
+          "frameworks": [
+            "ODS 2.4",
+            "GRI 13.11",
+            "Ley 1774 de 2016",
+            "B Corp: Medio ambiente"
+          ]
+        },
+        {
+          "id": "lc-02",
+          "origin": "extra",
+          "axis": "residuos",
+          "weight": 2,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "micro",
+          "categories": [
+            "lacteos",
+            "carnes"
+          ],
+          "polarity": "positive",
+          "text": "¿Maneja el estiércol y las aguas de lavado para que no lleguen a ríos o quebradas?",
+          "next_step": "Construya una zona de acopio de estiércol y conviértalo en abono; no lave corrales hacia el agua.",
+          "frameworks": [
+            "ODS 6.3",
+            "GRI 303-2",
+            "ISO 14001 8.1"
+          ]
+        },
+        {
+          "id": "lc-03",
+          "origin": "extra",
+          "axis": "bpa",
+          "weight": 3,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "micro",
+          "categories": [
+            "lacteos",
+            "carnes"
+          ],
+          "polarity": "positive",
+          "text": "¿Respeta el tiempo de retiro de los medicamentos veterinarios antes de vender leche o carne?",
+          "next_step": "Anote cada tratamiento y no venda leche ni carne hasta que termine el tiempo de retiro de la etiqueta.",
+          "frameworks": [
+            "ODS 3.9",
+            "GRI 416-1",
+            "ICA: medicamentos veterinarios"
+          ],
+          "critical_when": [
+            "no"
+          ],
+          "critical_message": "Vender leche o carne antes del tiempo de retiro deja residuos de medicamentos en el alimento."
+        },
+        {
+          "id": "lc-04",
+          "origin": "extra",
+          "axis": "bpa",
+          "weight": 2,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "micro",
+          "categories": [
+            "lacteos"
+          ],
+          "polarity": "positive",
+          "text": "¿Enfría la leche a 4 °C o menos antes de entregarla?",
+          "next_step": "Use un tanque de frío o entregue la leche en máximo dos horas después del ordeño.",
+          "frameworks": [
+            "ODS 12.3",
+            "GRI 416-1",
+            "Decreto 616 de 2006"
+          ]
+        },
+        {
+          "id": "lc-05",
+          "origin": "extra",
+          "axis": "bpa",
+          "weight": 3,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "micro",
+          "categories": [
+            "carnes"
+          ],
+          "polarity": "positive",
+          "text": "¿El sacrificio de los animales se hace en una planta autorizada por el INVIMA?",
+          "next_step": "Lleve los animales solo a plantas de beneficio autorizadas por el INVIMA.",
+          "frameworks": [
+            "ODS 3.9",
+            "GRI 416-1",
+            "Decreto 1500 de 2007"
+          ],
+          "critical_when": [
+            "no"
+          ],
+          "critical_message": "La carne de animales sacrificados fuera de una planta autorizada no puede venderse a Smile."
+        }
+      ]
+    },
+    {
+      "code": "pescados",
+      "title": "Pesca y acuicultura",
+      "categories": [
+        "pescados_mariscos"
+      ],
+      "questions": [
+        {
+          "id": "pe-01",
+          "origin": "extra",
+          "axis": "bpa",
+          "weight": 3,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "micro",
+          "categories": [
+            "pescados_mariscos"
+          ],
+          "polarity": "positive",
+          "text": "¿Respeta las vedas y las tallas mínimas de captura definidas por la AUNAP?",
+          "next_step": "Consulte el calendario de vedas de la AUNAP y devuelva al agua los ejemplares por debajo de la talla mínima.",
+          "frameworks": [
+            "ODS 14.4",
+            "GRI 304-2",
+            "AUNAP: vedas y tallas mínimas"
+          ],
+          "critical_when": [
+            "no"
+          ],
+          "critical_message": "Pescar en veda o por debajo de la talla mínima pone en riesgo la especie y es ilegal."
+        },
+        {
+          "id": "pe-02",
+          "origin": "extra",
+          "axis": "bpa",
+          "weight": 2,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "micro",
+          "categories": [
+            "pescados_mariscos"
+          ],
+          "polarity": "positive",
+          "text": "¿Mantiene el producto en hielo o refrigeración desde la captura hasta la entrega?",
+          "next_step": "Lleve hielo suficiente y una nevera limpia en cada faena; no rompa la cadena de frío.",
+          "frameworks": [
+            "ODS 12.3",
+            "GRI 416-1"
+          ]
+        },
+        {
+          "id": "pe-03",
+          "origin": "extra",
+          "axis": "residuos",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "micro",
+          "categories": [
+            "pescados_mariscos"
+          ],
+          "polarity": "positive",
+          "text": "¿Recoge y dispone en tierra las redes, plásticos y residuos de pesca?",
+          "next_step": "Regrese a tierra las redes dañadas y los plásticos, y entréguelos para reciclaje.",
+          "frameworks": [
+            "ODS 14.1",
+            "GRI 306-2"
+          ]
+        },
+        {
+          "id": "pe-04",
+          "origin": "extra",
+          "axis": "bpa",
+          "weight": 1,
+          "type": "yes_no_na",
+          "required": true,
+          "min_size": "micro",
+          "categories": [
+            "pescados_mariscos"
+          ],
+          "polarity": "positive",
+          "text": "Si cultiva peces o camarones, ¿controla la calidad del agua y el uso de alimento y medicamentos?",
+          "next_step": "Mida oxígeno y temperatura del estanque cada semana y anote alimento y tratamientos.",
+          "frameworks": [
+            "ODS 14.1",
+            "GRI 303-4",
+            "AUNAP: acuicultura"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "insumos",
+      "title": "Insumos y servicios",
+      "categories": [
+        "insumos_servicios"
+      ],
+      "questions": [
+        {
+          "id": "in-01",
+          "origin": "extra",
+          "axis": "residuos",
+          "weight": 2,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "micro",
+          "categories": [
+            "insumos_servicios"
+          ],
+          "polarity": "positive",
+          "text": "¿Sus empaques son reciclables, reutilizables o compostables?",
+          "next_step": "Cambie a empaques reciclables o retornables y retire los de un solo uso.",
+          "frameworks": [
+            "ODS 12.5",
+            "GRI 301-1",
+            "B Corp: Medio ambiente"
+          ]
+        },
+        {
+          "id": "in-02",
+          "origin": "extra",
+          "axis": "carbono",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "micro",
+          "categories": [
+            "insumos_servicios"
+          ],
+          "polarity": "positive",
+          "text": "¿Consolida entregas u optimiza rutas para reducir viajes y combustible?",
+          "next_step": "Agrupe las entregas por zona y día para hacer menos recorridos.",
+          "frameworks": [
+            "ODS 13.2",
+            "GRI 305-3",
+            "ISO 14001 8.1"
+          ]
+        },
+        {
+          "id": "in-03",
+          "origin": "extra",
+          "axis": "carbono",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "micro",
+          "categories": [
+            "insumos_servicios"
+          ],
+          "polarity": "positive",
+          "text": "¿Usa equipos e iluminación de bajo consumo en su operación?",
+          "next_step": "Cambie a iluminación LED y revise el consumo de sus equipos más grandes.",
+          "frameworks": [
+            "ODS 7.3",
+            "GRI 302-4"
+          ]
+        },
+        {
+          "id": "in-04",
+          "origin": "extra",
+          "axis": "bpa",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "micro",
+          "categories": [
+            "insumos_servicios"
+          ],
+          "polarity": "positive",
+          "text": "¿Entrega fichas técnicas y de seguridad de sus productos?",
+          "next_step": "Prepare una ficha técnica y de seguridad por producto y envíela con cada pedido nuevo.",
+          "frameworks": [
+            "GRI 416-2",
+            "GRI 417-1",
+            "ISO 14001 7.4"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "social",
+      "title": "Gestión social",
+      "questions": [
+        {
+          "id": "gate-menores",
+          "origin": "extra",
+          "axis": null,
+          "weight": 0,
+          "type": "yes_no",
+          "required": true,
+          "role": "branch",
+          "min_size": "micro",
+          "categories": [
+            "fruver",
+            "lacteos",
+            "carnes",
+            "pescados_mariscos"
+          ],
+          "polarity": "positive",
+          "text": "¿Viven o trabajan menores de 18 años en la finca o en su operación?",
+          "note": "Si responde Sí, se muestran ext-05 y ext-18.",
+          "frameworks": []
+        },
+        {
+          "id": "soc-01",
+          "axis": "infantil",
+          "weight": 3,
+          "type": "yes_no",
+          "required": true,
+          "text": "¿Su empresa garantiza que no usa trabajo infantil ni trabajo forzoso en su operación ni en la de sus proveedores?",
+          "critical_when": [
+            "no"
+          ],
+          "critical_message": "Los menores de 15 años no pueden trabajar en la finca. Le mostramos cómo organizar las labores y a quién acudir: Línea 141 ICBF.",
+          "frameworks": [
+            "OIT 138/182",
+            "Ley 1098 de 2006",
+            "GRI 408"
+          ],
+          "origin": "autoeval",
+          "min_size": "micro",
+          "categories": [
+            "all"
+          ],
+          "polarity": "positive",
+          "next_step": "Ningún menor de 15 años puede trabajar. Revise sus contratos y llame a la Línea 141 del ICBF si necesita orientación."
+        },
+        {
+          "id": "ext-05",
+          "origin": "extra",
+          "axis": "infantil",
+          "weight": 3,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "micro",
+          "categories": [
+            "fruver",
+            "lacteos",
+            "carnes",
+            "pescados_mariscos"
+          ],
+          "text": "¿Los menores de 18 años que viven o trabajan en la finca están matriculados y asisten al colegio?",
+          "frameworks": [
+            "ODS 4.1",
+            "ODS 8.7",
+            "GRI 408-1",
+            "Ley 1098 de 2006"
+          ],
+          "critical_when": [
+            "no"
+          ],
+          "critical_message": "Todo menor debe estar estudiando. Si necesita orientación, comuníquese con la Línea 141 del ICBF.",
+          "polarity": "positive",
+          "next_step": "Verifique que cada menor esté matriculado y guarde la constancia del colegio.",
+          "show_if": [
+            {
+              "question": "gate-menores",
+              "in": [
+                "si"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ext-18",
+          "origin": "extra",
+          "axis": "infantil",
+          "weight": 3,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "micro",
+          "categories": [
+            "fruver",
+            "lacteos",
+            "carnes",
+            "pescados_mariscos"
+          ],
+          "polarity": "negative",
+          "show_if": [
+            {
+              "question": "gate-menores",
+              "in": [
+                "si"
+              ]
+            }
+          ],
+          "text": "¿Algún menor de 18 años aplica agroquímicos, carga más de 15 kg o usa herramientas cortantes o de motor?",
+          "critical_when": [
+            "si"
+          ],
+          "critical_message": "Los menores no pueden hacer esas labores. Retírelos de ellas de inmediato; puede pedir orientación en la Línea 141 del ICBF.",
+          "next_step": "Retire a los menores de inmediato de esas labores y asígneles solo tareas livianas permitidas.",
+          "frameworks": [
+            "OIT 182",
+            "Ley 1098 de 2006 art. 117",
+            "Resolución 1796 de 2018 (MinTrabajo)",
+            "GRI 408-1",
+            "ODS 8.7"
+          ]
+        },
+        {
+          "id": "soc-02",
+          "axis": "ddhh",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "text": "¿Los trabajadores de su empresa cuentan con las prestaciones sociales obligatorias? (salud, pensión, riesgos laborales, etc)?",
+          "frameworks": [
+            "Decreto 1072 de 2015",
+            "GRI 401"
+          ],
+          "origin": "autoeval",
+          "min_size": "micro",
+          "categories": [
+            "all"
+          ],
+          "polarity": "positive",
+          "next_step": "Afilie a sus trabajadores a salud, pensión y riesgos laborales (ARL)."
+        },
+        {
+          "id": "soc-03",
+          "axis": "ddhh",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "text": "¿Su empresa cuenta con un sistema de gestión de salud y seguridad ocupacional?",
+          "frameworks": [
+            "Decreto 1072 de 2015 (SG-SST)",
+            "GRI 403"
+          ],
+          "origin": "autoeval",
+          "min_size": "micro",
+          "categories": [
+            "all"
+          ],
+          "polarity": "positive",
+          "next_step": "Inicie su sistema de seguridad y salud en el trabajo con la guía gratuita de su ARL."
+        },
+        {
+          "id": "soc-04",
+          "axis": "ddhh",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "text": "¿Su empresa respeta la libertad de asociación y negociación colectiva de sus trabajadores?",
+          "frameworks": [
+            "OIT 87/98",
+            "GRI 407"
+          ],
+          "origin": "autoeval",
+          "min_size": "micro",
+          "categories": [
+            "all"
+          ],
+          "polarity": "positive",
+          "next_step": "Informe por escrito a sus trabajadores que pueden asociarse sin represalias."
+        },
+        {
+          "id": "soc-05",
+          "axis": "ddhh",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "text": "¿Su empresa cuenta con políticas formales de no discriminación (género, etnia, discapacidad, orientación sexual, edad, etc)?",
+          "frameworks": [
+            "GRI 406",
+            "B Corp"
+          ],
+          "origin": "autoeval",
+          "min_size": "micro",
+          "categories": [
+            "all"
+          ],
+          "polarity": "positive",
+          "next_step": "Escriba una política de no discriminación y compártala con todo el personal."
+        },
+        {
+          "id": "soc-06",
+          "axis": "ddhh",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "text": "¿Su empresa vincula laboralmente a población vulnerable (víctimas del conflicto, en reintegración, jóvenes en primer empleo)",
+          "frameworks": [
+            "B Corp",
+            "ODS 8"
+          ],
+          "origin": "autoeval",
+          "min_size": "micro",
+          "categories": [
+            "all"
+          ],
+          "polarity": "positive",
+          "next_step": "Pregunte por programas de primer empleo y de inclusión laboral en su municipio."
+        }
+      ],
+      "categories": [
+        "all"
+      ]
+    },
+    {
+      "code": "gestion",
+      "title": "Gestión de la empresa",
+      "intro": "Preguntas sobre cómo su empresa mide y gestiona su impacto.",
+      "questions": [
+        {
+          "id": "ext-08",
+          "origin": "extra",
+          "axis": "carbono",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "pequena",
+          "categories": [
+            "all"
+          ],
+          "text": "¿Mide su consumo de agua y energía al menos una vez al mes?",
+          "frameworks": [
+            "ODS 6.4",
+            "ODS 7.3",
+            "GRI 302-1",
+            "GRI 303-5",
+            "ISO 14001 9.1.1"
+          ],
+          "polarity": "positive",
+          "next_step": "Anote cada mes el consumo de agua y energía de sus recibos para comparar."
+        },
+        {
+          "id": "ext-09",
+          "origin": "extra",
+          "axis": "bpa",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "pequena",
+          "categories": [
+            "all"
+          ],
+          "text": "¿Tiene identificados los impactos ambientales de su operación y un control para cada uno?",
+          "frameworks": [
+            "ISO 14001 6.1.2",
+            "GRI 3-3",
+            "B Corp: Medio ambiente",
+            "ODS 12.2"
+          ],
+          "polarity": "positive",
+          "next_step": "Haga una lista de sus impactos ambientales y escriba una medida para cada uno."
+        },
+        {
+          "id": "ext-10",
+          "origin": "extra",
+          "axis": "ddhh",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "pequena",
+          "categories": [
+            "all"
+          ],
+          "text": "¿Paga lo mismo a hombres y mujeres por el mismo trabajo?",
+          "frameworks": [
+            "ODS 5.1",
+            "ODS 8.5",
+            "GRI 405-2",
+            "B Corp: Trabajadores"
+          ],
+          "polarity": "positive",
+          "next_step": "Revise su nómina y pague el mismo jornal a hombres y mujeres por la misma labor."
+        },
+        {
+          "id": "ext-11",
+          "origin": "extra",
+          "axis": "residuos",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "pequena",
+          "categories": [
+            "all"
+          ],
+          "text": "¿Mide cuántos kilos de residuos genera y cuántos aprovecha o recicla?",
+          "frameworks": [
+            "ODS 12.5",
+            "GRI 306-3",
+            "GRI 306-4",
+            "ISO 14001 9.1.1"
+          ],
+          "polarity": "positive",
+          "next_step": "Pese sus residuos una vez al mes y anote cuánto recicla o aprovecha."
+        },
+        {
+          "id": "ext-12",
+          "origin": "extra",
+          "axis": "ddhh",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "pequena",
+          "categories": [
+            "all"
+          ],
+          "text": "¿Tiene un canal para que trabajadores y comunidades presenten quejas o reporten irregularidades?",
+          "frameworks": [
+            "ODS 16.7",
+            "GRI 2-25",
+            "GRI 2-26",
+            "B Corp: Gobernanza"
+          ],
+          "polarity": "positive",
+          "next_step": "Habilite un buzón o un número de WhatsApp para recibir quejas y responda cada una."
+        },
+        {
+          "id": "ext-13",
+          "origin": "extra",
+          "axis": "carbono",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "grande",
+          "categories": [
+            "all"
+          ],
+          "text": "¿Calcula sus emisiones de gases de efecto invernadero (alcances 1 y 2) y tiene una meta de reducción con fecha?",
+          "frameworks": [
+            "ODS 13.2",
+            "GRI 305-1",
+            "GRI 305-2",
+            "GRI 305-5",
+            "ISO 14001 6.2",
+            "TCFD"
+          ],
+          "polarity": "positive",
+          "next_step": "Calcule sus emisiones de alcances 1 y 2 y fije una meta de reducción con fecha."
+        },
+        {
+          "id": "ext-14",
+          "origin": "extra",
+          "axis": "bpa",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "grande",
+          "categories": [
+            "all"
+          ],
+          "text": "¿Tiene un sistema de gestión ambiental con objetivos, auditoría interna y revisión por la dirección?",
+          "frameworks": [
+            "ISO 14001 6.2",
+            "ISO 14001 9.2",
+            "ISO 14001 9.3",
+            "GRI 2-23"
+          ],
+          "polarity": "positive",
+          "next_step": "Defina objetivos ambientales, haga una auditoría interna al año y revísela con la gerencia."
+        },
+        {
+          "id": "ext-15",
+          "origin": "extra",
+          "axis": "bpa",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "grande",
+          "categories": [
+            "all"
+          ],
+          "text": "¿Publica un reporte de sostenibilidad con indicadores basados en los Estándares GRI?",
+          "frameworks": [
+            "GRI 1",
+            "GRI 2-3",
+            "ODS 12.6",
+            "B Corp: Gobernanza"
+          ],
+          "polarity": "positive",
+          "next_step": "Publique un reporte anual con indicadores GRI de agua, energía, residuos y personas."
+        },
+        {
+          "id": "ext-16",
+          "origin": "extra",
+          "axis": "ddhh",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "grande",
+          "categories": [
+            "all"
+          ],
+          "text": "¿Evalúa al menos una vez al año a sus proveedores críticos en derechos humanos y medio ambiente?",
+          "frameworks": [
+            "GRI 308-1",
+            "GRI 414-1",
+            "ISO 20400",
+            "B Corp: Comunidad"
+          ],
+          "polarity": "positive",
+          "next_step": "Evalúe cada año a sus proveedores críticos con preguntas de derechos humanos y ambiente."
+        },
+        {
+          "id": "ext-17",
+          "origin": "extra",
+          "axis": "ddhh",
+          "weight": 1,
+          "type": "yes_no",
+          "required": true,
+          "min_size": "grande",
+          "categories": [
+            "all"
+          ],
+          "text": "¿Sus estatutos incluyen el compromiso de considerar a trabajadores, comunidad y ambiente en sus decisiones (por ejemplo, Sociedad BIC o Empresa B)?",
+          "frameworks": [
+            "B Corp: Gobernanza",
+            "Ley 1901 de 2018 (BIC)",
+            "ODS 12.6"
+          ],
+          "polarity": "positive",
+          "next_step": "Evalúe convertirse en Sociedad BIC (Ley 1901 de 2018) e incluir el compromiso en sus estatutos."
+        }
+      ],
+      "categories": [
+        "all"
+      ]
+    }
+  ],
+  "sizes_order": [
+    "micro",
+    "pequena",
+    "mediana",
+    "grande"
+  ],
+  "composition": "Una pregunta (o sección) es visible si: (1) su `categories` incluye la categoría del proveedor o 'all'; (2) su `min_size` <= tamaño del proveedor; (3) se cumplen todas sus condiciones `show_if` (la pregunta referida fue respondida con un valor de la lista `in`). Las preguntas ocultas no puntúan ni cuentan en el denominador. Regla S-19; casos en form-paths.json.",
+  "categories": [
+    "fruver",
+    "lacteos",
+    "carnes",
+    "pescados_mariscos",
+    "insumos_servicios"
+  ],
+  "polarity": "positive (por defecto): si=1, no=0. negative: la respuesta 'si' es la de riesgo, si=0, no=1 (S-21).",
+  "next_step_rule": "El plan toma los 3 ejes de mayor brecha (S-09). Para cada eje, el siguiente paso es el `next_step` de la pregunta visible y puntuable con peor resultado en ese eje: primero las críticas incumplidas, luego mayor peso, luego orden del banco (S-20). Si el eje no tiene preguntas incumplidas (meta 'mantener'), se usa `maintain_step` del eje.",
+  "axes": [
+    {
+      "code": "bpa",
+      "name": "Buenas prácticas e inocuidad",
+      "guide": "guia-bpa",
+      "maintain_step": "Mantenga sus registros al día y renueve sus certificaciones antes de que venzan."
+    },
+    {
+      "code": "residuos",
+      "name": "Residuos y economía circular",
+      "guide": "guia-residuos",
+      "maintain_step": "Siga separando y aprovechando sus residuos; registre cuántos kilos aprovecha cada mes."
+    },
+    {
+      "code": "carbono",
+      "name": "Huella de carbono y energía",
+      "guide": "guia-carbono",
+      "maintain_step": "Calcule su huella cada cuatrimestre con la calculadora de la guía para ver su avance."
+    },
+    {
+      "code": "infantil",
+      "name": "Cero trabajo infantil",
+      "guide": "guia-infantil",
+      "maintain_step": "Conserve las copias de cédula del personal y las constancias de matrícula escolar de los menores."
+    },
+    {
+      "code": "ddhh",
+      "name": "Derechos humanos y trabajo seguro",
+      "guide": "guia-ddhh",
+      "maintain_step": "Revise cada cuatrimestre que todo el personal tenga prestaciones y elementos de protección."
+    }
+  ]
+}

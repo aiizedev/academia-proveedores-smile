@@ -4,7 +4,7 @@ import { appSchema, tableSchema } from "@nozbe/watermelondb";
    de sync: mismo nombre que en `/api/v1/sync/pull`. Montos COP como enteros,
    cantidades con la unidad original (la normalización es del backend, RF-ERP-008).
    Al cambiar el esquema: subir `version` y agregar migración en migrations.ts. */
-export const SCHEMA_VERSION = 3;
+export const SCHEMA_VERSION = 4;
 
 export const consentsTable = tableSchema({
   name: "consents",
@@ -39,6 +39,19 @@ export const supplierProfileTable = tableSchema({
   ],
 });
 
+// P2 — Declaración de veracidad al enviar (RF-PRV-004), append-only.
+export const declarationsTable = tableSchema({
+  name: "declarations",
+  columns: [
+    { name: "assessment_id", type: "string", isIndexed: true },
+    { name: "text_version", type: "string" },
+    { name: "signer_name", type: "string" },
+    { name: "method", type: "string" }, // nombre (la firma táctil llega después)
+    { name: "device_at", type: "number" },
+    { name: "created_at", type: "number" },
+  ],
+});
+
 export const schema = appSchema({
   version: SCHEMA_VERSION,
   tables: [
@@ -62,12 +75,15 @@ export const schema = appSchema({
     consentsTable,
     // P2 — Ficha del proveedor, una sola fila (RF-SUP-001, CU-04).
     supplierProfileTable,
+    declarationsTable,
     // P2 — Autoevaluación (RF-ASM-003, RF-ASM-004)
     tableSchema({
       name: "assessments",
       columns: [
         { name: "cycle_id", type: "string", isIndexed: true }, // p. ej. 2026-C3
         { name: "form_version", type: "string" },
+        { name: "category", type: "string", isOptional: true }, // categoría del banco (fruver, lacteos…)
+        { name: "size", type: "string", isOptional: true }, // micro | pequena | mediana | grande
         { name: "status", type: "string" }, // draft | submitted
         { name: "current_index", type: "number" },
         { name: "submitted_at", type: "number", isOptional: true },
@@ -80,7 +96,8 @@ export const schema = appSchema({
       columns: [
         { name: "assessment_id", type: "string", isIndexed: true },
         { name: "question_id", type: "string" },
-        { name: "answer", type: "string" }, // si | aveces | no | na | pnr
+        { name: "answer", type: "string" }, // si | no | na | pnr, o JSON de códigos (multiselección)
+        { name: "detail", type: "string", isOptional: true }, // texto libre opcional, no puntúa
         { name: "answered_at", type: "number" },
       ],
     }),

@@ -32,3 +32,20 @@ export async function acceptConsent(page: Page): Promise<void> {
   await page.getByRole("button", { name: "No autorizo", exact: true }).click();
   await expect(page).toHaveURL(/\/app$/);
 }
+
+/** Completa la ficha mínima de un proveedor Fruver (CU-04). */
+export async function completeProfile(page: Page): Promise<void> {
+  await page.goto("/app/ficha");
+  await page.getByText("Persona natural").click();
+  await page.getByLabel("NIT o cédula").fill("900123456");
+  await page.getByLabel("DV").fill("8");
+  await page.getByLabel("Nombre completo").fill("María Fernanda Rojas");
+  await page.getByRole("button", { name: "Siguiente" }).click();
+  await page.getByLabel("Departamento").selectOption({ label: "Cundinamarca" });
+  await page.getByLabel("Municipio").selectOption({ label: "Fusagasugá" });
+  await page.getByRole("button", { name: "Siguiente" }).click();
+  await page.getByText("WhatsApp").click();
+  await page.getByLabel("Categoría principal").selectOption("fruver");
+  await page.getByRole("button", { name: "Guardar ficha" }).click();
+  await expect(page.getByRole("heading", { name: /Ficha guardada/ })).toBeVisible();
+}
