@@ -26,3 +26,9 @@ class RefreshTokenRepository(Protocol):
     async def mark_replaced(self, token: RefreshToken, by: uuid.UUID, at: datetime) -> None: ...
 
     async def revoke_family(self, family_id: uuid.UUID, at: datetime) -> None: ...
+
+
+class SupplierLookup(Protocol):
+    """Proveedor de una cuenta PROVEEDOR (lo resuelve `suppliers.public`)."""
+
+    async def supplier_id_for(self, user_id: uuid.UUID) -> uuid.UUID | None: ...

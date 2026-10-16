@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 from smile.modules.iam.application.ports.passwords import PasswordHasher
 from smile.modules.iam.application.ports.repositories import (
     RefreshTokenRepository,
+    SupplierLookup,
     UserRepository,
 )
 from smile.modules.iam.application.ports.tokens import TokenService
@@ -55,8 +56,10 @@ class _Sessions:
         refresh_tokens: RefreshTokenRepository,
         tokens: TokenService,
         clock: Clock,
+        suppliers: SupplierLookup,
     ) -> None:
         self._uow = uow
+        self._suppliers = suppliers
         self._users = users
         self._refresh = refresh_tokens
         self._tokens = tokens
@@ -78,7 +81,9 @@ class _Sessions:
         return (
             SessionTokens(
                 user=user,
-                access_token=self._tokens.issue_access(user),
+                access_token=self._tokens.issue_access(
+                    user, await self._suppliers.supplier_id_for(user.id)
+                ),
                 refresh_token=raw,
                 expires_in=self._tokens.access_ttl_seconds,
             ),
@@ -94,11 +99,12 @@ class Login(_Sessions):
         refresh_tokens: RefreshTokenRepository,
         tokens: TokenService,
         clock: Clock,
+        suppliers: SupplierLookup,
         *,
         hasher: PasswordHasher,
         policy: LoginPolicy,
     ) -> None:
-        super().__init__(uow, users, refresh_tokens, tokens, clock)
+        super().__init__(uow, users, refresh_tokens, tokens, clock, suppliers)
         self._hasher = hasher
         self._policy = policy
 

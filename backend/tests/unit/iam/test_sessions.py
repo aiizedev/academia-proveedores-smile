@@ -55,8 +55,8 @@ class Tokens:
     refresh_ttl_days = 30
     n = 0
 
-    def issue_access(self, user: User) -> str:
-        return f"access-{user.id}"
+    def issue_access(self, user: User, supplier_id: uuid.UUID | None) -> str:
+        return f"access-{user.id}-{supplier_id}"
 
     def new_refresh(self) -> tuple[str, bytes]:
         self.n += 1
@@ -86,6 +86,14 @@ class Refresh:
                 t.revoked_at = at
 
 
+class Suppliers:
+    def __init__(self) -> None:
+        self.by_user: dict[uuid.UUID, uuid.UUID] = {}
+
+    async def supplier_id_for(self, user_id: uuid.UUID) -> uuid.UUID | None:
+        return self.by_user.get(user_id)
+
+
 class Hasher:
     def hash(self, password: str) -> str:
         return f"h:{password}"
@@ -103,10 +111,13 @@ def env() -> dict[str, object]:
         phone="3001234567",
         email="ana@smile.test",
     )
-    clock, refresh = Clock(), Refresh()
-    args = (Uow(), Users(user), refresh, Tokens(), clock)
+    clock, refresh, suppliers = Clock(), Refresh(), Suppliers()
+    supplier_id = uuid.uuid4()
+    suppliers.by_user[user.id] = supplier_id
+    args = (Uow(), Users(user), refresh, Tokens(), clock, suppliers)
     return {
         "user": user,
+        "supplier_id": supplier_id,
         "clock": clock,
         "refresh_repo": refresh,
         "login": Login(
@@ -122,6 +133,7 @@ async def test_login_by_phone_or_email(env: dict) -> None:
     s2 = await env["login"](LoginCommand(identifier="ANA@smile.test", password="Smile2026!"))
     assert s1.user.id == s2.user.id
     assert s1.expires_in == 900
+    assert s1.access_token.endswith(str(env["supplier_id"]))
 
 
 async def test_unknown_identifier_is_invalid_credentials(env: dict) -> None:
