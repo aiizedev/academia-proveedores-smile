@@ -7,7 +7,7 @@ Artefactos que comparten `frontend/` y `backend/`. Un cambio aquí rompe el CI d
 | `fixtures/assessment-scoring.json` | Casos de prueba de las reglas de puntaje por eje, niveles, críticas, Pilar 1 y orden del plan de 3 metas (RF-ASM-005…008, RF-IMP-001, S-01, S-02, S-03, S-09) | `backend/tests/unit/assessment`, `frontend/src/domain/*.test.ts` |
 | `fixtures/question-bank.json` | Banco de preguntas: núcleo del formulario de Smile (DOC-AUTOEVAL) + extras ODS, GRI, ISO 14001 y B Corp, con eje, peso, criticidad, nivel de tamaño y categorías (C-16, S-18, S-19) | backend (migración de datos de referencia y composición), frontend (formulario offline) |
 | `fixtures/form-paths.json` | Casos de caminos del formulario (qué preguntas ve cada sector y tamaño según sus respuestas), puntaje por eje, P1 y plan con siguiente paso (S-19, S-20, S-21) | backend (composición y plan), frontend (formulario offline y diagnóstico) |
-| `openapi.json` (generado con `make openapi`) | Contrato HTTP exportado por FastAPI, claves ordenadas | CI (job backend): falla y muestra el diff si no coincide con la API. El frontend genera su cliente TS desde este archivo |
+| `openapi.json` (generado con `make openapi`) | Contrato HTTP exportado por FastAPI, claves ordenadas | CI (job backend): falla y muestra el diff si no coincide con la API. Job frontend: `npm run api:check` falla si `frontend/src/data/api/schema.d.ts` no se regeneró (`npm run api:gen`) |
 
 Ver [ADR-0005](../docs/adr/ADR-0005-local-first-watermelondb.md).
 
