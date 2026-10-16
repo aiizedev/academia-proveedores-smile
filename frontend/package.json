@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "description": "Academia de Proveedores Grupo Smile — PWA del proveedor y back-office (Next.js)",
-  "engines": { "node": ">=22.12.0" },
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -35,6 +37,7 @@
     "@types/react-dom": "19.3.0",
     "eslint": "9.39.5",
     "eslint-config-next": "15.5.26",
+    "eslint-plugin-boundaries": "5.4.0",
     "tailwindcss": "4.3.3",
     "typescript": "5.9.3",
     "vite": "7.3.6",

@@ -21,7 +21,7 @@ export function StatusBar() {
         aria-live="polite"
         className={cn(
           "inline-flex items-center gap-[0.35rem] rounded-pill py-[0.28rem] pr-[0.7rem] pl-2 text-[0.7rem] font-bold",
-          "transition-colors duration-[0.4s]",
+          "transition-colors duration-[var(--dur-s)]",
           online ? "bg-olive-100 text-olive-800" : "bg-rose-100 text-rose-700",
         )}
       >

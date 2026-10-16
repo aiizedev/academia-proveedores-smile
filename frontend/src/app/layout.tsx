@@ -13,7 +13,9 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#3D4A3E", // --brand-olive (GUIA_VISUAL §6); metadata no acepta var()
+  // --brand-olive (GUIA_VISUAL §6): metadata no acepta var(), única excepción.
+  // eslint-disable-next-line no-restricted-syntax
+  themeColor: "#3D4A3E",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
