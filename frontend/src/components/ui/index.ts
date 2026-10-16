@@ -11,3 +11,6 @@ export { Field, SelectField } from "./Field";
 export { Answer } from "./Answer";
 export { LeafBar } from "./LeafBar";
 export { QuestionChip } from "./QuestionChip";
+export { AxisRow } from "./AxisRow";
+export { CriticalAlert } from "./CriticalAlert";
+export { ScoreRing } from "./ScoreRing";
