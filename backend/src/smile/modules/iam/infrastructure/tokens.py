@@ -2,6 +2,7 @@
 
 import hashlib
 import secrets
+import uuid
 from datetime import UTC, datetime, timedelta
 
 import jwt
@@ -15,16 +16,17 @@ class JwtTokenService:
         self.access_ttl_seconds = access_ttl_min * 60
         self.refresh_ttl_days = refresh_ttl_days
 
-    def issue_access(self, user: User) -> str:
+    def issue_access(self, user: User, supplier_id: uuid.UUID | None) -> str:
         now = datetime.now(UTC)
-        claims = {
+        claims: dict[str, object] = {
             "sub": str(user.id),
             "role": user.role.value,
             "typ": "access",
             "iat": now,
             "exp": now + timedelta(seconds=self.access_ttl_seconds),
         }
-        # supplier_id se agrega cuando `suppliers` exista (HU-PRV/HU-SUP).
+        if supplier_id is not None:
+            claims["supplier_id"] = str(supplier_id)  # propiedad del recurso (RNF-SEC-004)
         return jwt.encode(claims, self._secret, algorithm="HS256")
 
     def new_refresh(self) -> tuple[str, bytes]:

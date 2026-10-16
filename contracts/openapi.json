@@ -210,6 +210,44 @@
         "title": "MeOut",
         "type": "object"
       },
+      "MySupplierOut": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "profile": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProfileOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "profile_completed_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Profile Completed At"
+          }
+        },
+        "required": [
+          "id",
+          "profile_completed_at",
+          "profile"
+        ],
+        "title": "MySupplierOut",
+        "type": "object"
+      },
       "ParameterSetOut": {
         "properties": {
           "valid_from": {
@@ -251,6 +289,119 @@
           "priority"
         ],
         "title": "PlanItemOut",
+        "type": "object"
+      },
+      "ProfileOut": {
+        "properties": {
+          "contact_channel": {
+            "enum": [
+              "whatsapp",
+              "llamada",
+              "correo"
+            ],
+            "title": "Contact Channel",
+            "type": "string"
+          },
+          "department_code": {
+            "title": "Department Code",
+            "type": "string"
+          },
+          "latitude": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latitude"
+          },
+          "legal_name": {
+            "title": "Legal Name",
+            "type": "string"
+          },
+          "legal_rep": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Legal Rep"
+          },
+          "longitude": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Longitude"
+          },
+          "main_category": {
+            "title": "Main Category",
+            "type": "string"
+          },
+          "municipality_code": {
+            "title": "Municipality Code",
+            "type": "string"
+          },
+          "person_type": {
+            "enum": [
+              "natural",
+              "juridica"
+            ],
+            "title": "Person Type",
+            "type": "string"
+          },
+          "secondary_categories": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Secondary Categories",
+            "type": "array"
+          },
+          "tax_dv": {
+            "title": "Tax Dv",
+            "type": "string"
+          },
+          "tax_id": {
+            "title": "Tax Id",
+            "type": "string"
+          },
+          "vereda": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vereda"
+          }
+        },
+        "required": [
+          "person_type",
+          "tax_id",
+          "tax_dv",
+          "legal_name",
+          "legal_rep",
+          "department_code",
+          "municipality_code",
+          "vereda",
+          "latitude",
+          "longitude",
+          "contact_channel",
+          "main_category",
+          "secondary_categories"
+        ],
+        "title": "ProfileOut",
         "type": "object"
       },
       "RefreshIn": {
@@ -696,6 +847,33 @@
         "summary": "Me",
         "tags": [
           "auth"
+        ]
+      }
+    },
+    "/api/v1/me/supplier": {
+      "get": {
+        "description": "Ficha del proveedor autenticado; `profile` es nulo hasta completarla (HU-SUP-01).\n\nLa escritura llega por sync (`supplier_profile`, P2), no por REST (PLAN_BACKEND §5).",
+        "operationId": "my_supplier_api_v1_me_supplier_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MySupplierOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "My Supplier",
+        "tags": [
+          "suppliers"
         ]
       }
     },

@@ -27,6 +27,7 @@ from smile.modules.iam.infrastructure.repositories import (
     SqlUserRepository,
 )
 from smile.modules.iam.infrastructure.tokens import JwtTokenService
+from smile.modules.suppliers.public import SupplierDirectory
 from smile.shared.api.deps import get_uow
 from smile.shared.infrastructure.clock import SystemClock
 from smile.shared.infrastructure.event_bus import InMemoryEventBus
@@ -50,6 +51,7 @@ def _session_args(uow: SqlAlchemyUnitOfWork) -> tuple[Any, ...]:
         SqlRefreshTokenRepository(uow.session),
         _tokens(),
         SystemClock(),
+        SupplierDirectory(uow.session),
     )
 
 
