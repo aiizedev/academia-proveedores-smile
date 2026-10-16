@@ -9,13 +9,17 @@ ENV_FILE ?= infra/.env
 COMPOSE  := docker compose -f infra/docker-compose.yml --env-file $(ENV_FILE)
 COMPOSE_DEV := docker compose -f infra/docker-compose.yml -f infra/docker-compose.dev.yml --env-file $(ENV_FILE) --profile dev
 
+# BuildKit obligatorio: los Dockerfiles usan cache mounts (arquitectura.md §7.4)
+export DOCKER_BUILDKIT := 1
+export COMPOSE_BAKE := true
+
 s ?=
 m ?=
 f ?=
 
-.PHONY: help env up up-dev down clean build build-dev logs ps migrate migration \
+.PHONY: help env doctor up up-dev down clean reset-demo build build-dev logs ps migrate migration \
         shell-backend psql test test-backend test-frontend test-docker lint \
-        lint-backend lint-frontend smoke backup restore config openapi
+        lint-backend lint-frontend smoke image-size backup restore config openapi
 
 help: ## Lista los comandos disponibles
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUso: make \033[36m<comando>\033[0m [s=servicio] [m=mensaje] [f=archivo]\n\n"} \
@@ -28,15 +32,20 @@ env: ## Crea infra/.env desde infra/.env.example si no existe
 $(ENV_FILE):
 	@$(MAKE) --no-print-directory env
 
+doctor: ## Verifica Docker Compose y buildx (BuildKit)
+	@docker compose version >/dev/null 2>&1 || (echo 'Falta docker compose v2' && exit 1)
+	@docker buildx version >/dev/null 2>&1 || (echo 'Falta docker buildx (BuildKit). Arch: sudo pacman -S docker-buildx · Debian/Ubuntu: apt install docker-buildx-plugin' && exit 1)
+	@echo "docker compose y buildx OK"
+
 config: $(ENV_FILE) ## Valida la configuración de compose (base y dev)
 	@$(COMPOSE) config --quiet && echo "compose base OK"
 	@$(COMPOSE_DEV) config --quiet && echo "compose dev OK"
 
-up: $(ENV_FILE) ## Levanta el stack con imágenes de producción (runtime/runner)
+up: doctor $(ENV_FILE) ## Levanta el stack con imágenes de producción (runtime/runner)
 	$(COMPOSE) up -d --build
 	@echo "Frontend http://localhost:3000 · API http://localhost:8000/docs · S3 (SeaweedFS) http://localhost:9000"
 
-up-dev: $(ENV_FILE) ## Levanta el stack de desarrollo (hot reload + mailpit)
+up-dev: doctor $(ENV_FILE) ## Levanta el stack de desarrollo (hot reload + mailpit)
 	$(COMPOSE_DEV) up -d --build
 	@echo "Frontend http://localhost:3000 · API http://localhost:8000/docs · Mailpit http://localhost:8025"
 
@@ -47,10 +56,14 @@ clean: ## Detiene todo y BORRA volúmenes (base de datos y archivos)
 	@read -r -p "Se borrarán los volúmenes db-data y storage-data. Escribe 'borrar': " ok; \
 	if [ "$$ok" = "borrar" ]; then $(COMPOSE_DEV) down -v --remove-orphans; else echo "Cancelado."; fi
 
-build: $(ENV_FILE) ## Construye las imágenes de producción
+reset-demo: ## Borra volúmenes y vuelve a levantar con los datos de demo iniciales
+	$(COMPOSE_DEV) down -v --remove-orphans
+	@$(MAKE) --no-print-directory up
+
+build: doctor $(ENV_FILE) ## Construye las imágenes de producción
 	$(COMPOSE) build
 
-build-dev: $(ENV_FILE) ## Construye las imágenes de desarrollo
+build-dev: doctor $(ENV_FILE) ## Construye las imágenes de desarrollo
 	$(COMPOSE_DEV) build
 
 logs: ## Sigue los logs (todos o s=<servicio>)
@@ -97,6 +110,10 @@ openapi: ## Regenera contracts/openapi.json desde FastAPI (HU-PLAT-05)
 
 smoke: ## Prueba de humo del stack levantado
 	infra/scripts/smoke.sh
+
+image-size: ## Tamaño descomprimido y usuario de las imágenes locales (STRICT=1 falla)
+	infra/scripts/image-size.sh smile/backend:local 250
+	infra/scripts/image-size.sh smile/frontend:local 200
 
 backup: ## Backup de PostgreSQL en infra/backups/
 	infra/scripts/backup-db.sh

@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1.17
 # Frontend Academia Smile — build multistage (ADR-0003, arquitectura.md §7.4)
 #   deps    → instala dependencias exactas (npm ci)
 #   builder → next build (output: standalone) + service worker de Serwist
@@ -15,7 +16,7 @@ FROM ${NODE_IMAGE} AS deps
 WORKDIR /app
 RUN apk add --no-cache libc6-compat
 COPY package.json package-lock.json .npmrc ./
-RUN npm ci && npm cache clean --force
+RUN --mount=type=cache,target=/root/.npm npm ci
 
 # ---------- builder ----------
 FROM ${NODE_IMAGE} AS builder
@@ -26,7 +27,7 @@ ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL} \
     NODE_ENV=production
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-RUN npm run build
+RUN --mount=type=cache,target=/app/.next/cache npm run build
 
 # ---------- dev ----------
 FROM ${NODE_IMAGE} AS dev

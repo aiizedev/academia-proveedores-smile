@@ -2,6 +2,7 @@
 # Backup lógico de PostgreSQL (formato custom) en infra/backups/.
 # RNF-REL-002 · PLAN_INFRA §I4
 set -euo pipefail
+# shellcheck source=infra/scripts/_compose.sh
 source "$(dirname "$0")/_compose.sh"
 mkdir -p "$INFRA_DIR/backups"
 OUT="$INFRA_DIR/backups/smile-$(date +%Y%m%d-%H%M%S).dump"
