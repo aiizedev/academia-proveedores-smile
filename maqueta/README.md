@@ -65,6 +65,8 @@ La demo **no** usa Lenis ni ScrollTrigger, para mantenerla liviana.
 
 ## 3. Sistema de diseño (`css/tokens.css`)
 
+> **La fuente de verdad del sistema visual y de movimiento es [`docs/diseno/GUIA_VISUAL.md`](../docs/diseno/GUIA_VISUAL.md)** (con `tokens.css` y `motion.js` canónicos). Esta sección resume lo que usa la maqueta.
+
 Basado en la línea gráfica de Grupo Smile: verde oliva, palo de rosa y una estética cálida y elegante.
 
 **Paleta**
