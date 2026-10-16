@@ -53,6 +53,9 @@ export function PlanScreen() {
           );
         })}
       </div>
+      <Link href="/app/ficha/resumen" className="inline-flex min-h-12 items-center font-bold text-olive-800 underline underline-offset-4">
+        Imprimir o compartir mi ficha resumen
+      </Link>
     </section>
   );
 }

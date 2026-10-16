@@ -177,3 +177,12 @@ html.no-anim *, html.no-anim *::before, html.no-anim *::after {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
+
+/* Ficha resumen impresa (RF-IMP-007, GUIA_VISUAL §8.8): A4, 14 mm, blanco y
+   negro de alto contraste. El chrome de la PWA no se imprime. */
+@media print {
+  @page { size: A4; margin: 14mm; }
+  body { background: var(--white); color: var(--ink); }
+  nav, [data-print="hidden"] { display: none !important; }
+  * { box-shadow: none !important; }
+}

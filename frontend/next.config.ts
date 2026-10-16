@@ -13,7 +13,7 @@ const withSerwist = withSerwistInit({
   // El documento del shell entra al precache: la primera visita ocurre antes
   // de que el SW controle la página, así que no quedaría en la caché de runtime
   // (HU-PLAT-03 "shell disponible sin conexión"). Revisión nueva en cada build.
-  additionalPrecacheEntries: ["/app", "/app/consentimiento", "/app/ficha", "/app/autoevaluacion", "/app/diagnostico", "/app/plan", ...["bpa", "residuos", "carbono", "infantil", "ddhh"].map((axis) => `/app/plan/${axis}`), "/app/offline", "/ingresar"].map((url) => ({ url, revision: buildRevision })),
+  additionalPrecacheEntries: ["/app", "/app/consentimiento", "/app/ficha", "/app/ficha/resumen", "/app/autoevaluacion", "/app/diagnostico", "/app/plan", ...["bpa", "residuos", "carbono", "infantil", "ddhh"].map((axis) => `/app/plan/${axis}`), "/app/offline", "/ingresar"].map((url) => ({ url, revision: buildRevision })),
   reloadOnOnline: false,
   disable: process.env.NODE_ENV === "development",
 });

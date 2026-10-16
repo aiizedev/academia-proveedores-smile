@@ -6,7 +6,7 @@ import guidesJson from "@/data/catalog/guides.json";
 import { useLocalDb } from "@/data/db/context";
 import { flushLocalDb } from "@/data/db/flush";
 import type { GoalCheck } from "@/data/db/models";
-import { diagnose } from "@/domain/assessment/diagnosis";
+import { diagnose, type Diagnosis } from "@/domain/assessment/diagnosis";
 import { buildGoals, type Goal, type Guide } from "@/domain/improvement/plan";
 import { BANK, useAssessment } from "./hooks";
 
@@ -18,7 +18,7 @@ const AXIS_NAMES = Object.fromEntries(BANK.axes.map((a) => [a.code, a.name]));
 export type PlanState =
   | { status: "loading" }
   | { status: "empty" }
-  | { status: "ready"; goals: Goal[]; goalKey: (axis: string) => string; checked: Record<string, Set<string>> };
+  | { status: "ready"; goals: Goal[]; diagnosis: Diagnosis; cycleId: string; goalKey: (axis: string) => string; checked: Record<string, Set<string>> };
 
 export function useLocalPlan(): PlanState {
   const db = useLocalDb();
@@ -28,11 +28,11 @@ export function useLocalPlan(): PlanState {
   const ready = assessmentState.status === "ready" && assessmentState.assessment?.status === "submitted" ? assessmentState : null;
   const assessmentId = ready?.assessment?.id;
 
-  const goals = useMemo(() => {
+  const computed = useMemo(() => {
     if (!ready) return null;
     const answers = Object.fromEntries(Object.entries(ready.answers).map(([id, s]) => [id, s.answer]));
-    const d = diagnose(BANK, ready.profile, answers);
-    return buildGoals(d.plan, d.axes, AXIS_NAMES, GUIDES, ready.cycleId);
+    const diagnosis = diagnose(BANK, ready.profile, answers);
+    return { diagnosis, cycleId: ready.cycleId, goals: buildGoals(diagnosis.plan, diagnosis.axes, AXIS_NAMES, GUIDES, ready.cycleId) };
   }, [ready]);
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export function useLocalPlan(): PlanState {
   }, [db, assessmentId]);
 
   if (assessmentState.status === "loading") return { status: "loading" };
-  if (!goals || !assessmentId) return { status: "empty" };
+  if (!computed || !assessmentId) return { status: "empty" };
   if (checks === null) return { status: "loading" };
 
   const checked: Record<string, Set<string>> = {};
@@ -54,7 +54,7 @@ export function useLocalPlan(): PlanState {
     if (!c.checked) continue;
     (checked[c.goalKey] ??= new Set()).add(c.itemId);
   }
-  return { status: "ready", goals, goalKey: (axis) => `${assessmentId}:${axis}`, checked };
+  return { status: "ready", ...computed, goalKey: (axis) => `${assessmentId}:${axis}`, checked };
 }
 
 /** Marca o desmarca un ítem del checklist (entra a la cola P2 por su tabla). */

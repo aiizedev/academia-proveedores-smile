@@ -366,7 +366,7 @@ Resumen superior en `--olive-800` con número grande. Línea vertical 2px `--oli
 
 ### 8.8 Ficha imprimible
 
-Tarjeta `--radius-dock`. Cabecera `--olive-800` con marca, nombre de la finca en Fraunces 1.6rem y hoja decorativa `--olive-600` al 60 % en la esquina. Cuerpo: puntaje 3rem, tabla por eje con punto de color de nivel, acciones numeradas en círculos `--rose-100`. Pie crema. **Impresión:** A4, margen 14 mm, ancho máx. 170 mm, 11 pt, `print-color-adjust: exact`.
+Tarjeta `--radius-dock`. Cabecera `--olive-800` con marca, nombre de la finca en Fraunces 1.6rem y hoja decorativa `--olive-600` al 60 % en la esquina. Cuerpo: puntaje 3rem, tabla por eje con punto de color de nivel, acciones numeradas en círculos `--rose-100`. Pie crema. **Impresión:** A4, margen 14 mm, ancho máx. 170 mm, 11 pt, **monocroma de alto contraste** (RF-IMP-007): fondo `--white`, texto y bordes `--ink`, sin degradados ni sombras; el nivel va siempre en texto. Botones, tabbar y barra de estado no se imprimen.
 
 ### 8.9 Tabbar
 
