@@ -42,7 +42,7 @@ export function StatTile({
       </p>
       <div className="relative z-[2] mt-3 flex items-end justify-between gap-2">
         {delta ? (
-          <p className={`text-app-caption font-semibold ${strong ? "text-olive-100" : "text-ink-soft"}`}>
+          <p className={`whitespace-nowrap text-app-caption font-semibold ${strong ? "text-olive-100" : "text-ink-soft"}`}>
             <span aria-hidden="true" className={good ? (strong ? "text-rose-300" : "text-olive-600") : "text-rose-700"}>
               {delta.value >= 0 ? "▲" : "▼"}
             </span>{" "}

@@ -69,19 +69,19 @@ export function ChartCard({
   const show = useCallback((t: NonNullable<Tip>) => setTip(t), []);
   const hide = useCallback(() => setTip(null), []);
   return (
-    <section className={`chart-card relative rounded-[var(--radius-card)] border border-line bg-white p-6 ${className}`}>
+    <section className={`chart-card relative min-w-0 rounded-[var(--radius-card)] border border-line bg-white p-6 ${className}`}>
       <header className="mb-4 flex items-start justify-between gap-4">
         <div>
           <h3 className="font-display text-[1.25rem] leading-tight tracking-[-0.02em]">{title}</h3>
           {subtitle ? <p className="mt-1 text-app-small text-ink-soft">{subtitle}</p> : null}
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2 whitespace-nowrap">
           {actions}
           {table ? (
             <button
               type="button"
               onClick={() => setAsTable((v) => !v)}
-              className="rounded-[var(--radius-pill)] border border-line px-3 py-1.5 text-app-caption font-semibold text-ink-soft transition-colors hover:bg-cream-200"
+              className="shrink-0 whitespace-nowrap rounded-[var(--radius-pill)] border border-line px-3 py-1.5 text-app-caption font-semibold text-ink-soft transition-colors hover:bg-cream-200"
               aria-pressed={asTable}
             >
               {asTable ? "Ver gráfica" : "Ver tabla"}

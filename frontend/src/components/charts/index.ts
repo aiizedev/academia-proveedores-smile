@@ -9,3 +9,7 @@ export type { Series } from "./line";
 export { RiskMatrix, SEGMENT_COLOR } from "./scatter";
 export type { Point } from "./scatter";
 export { StatTile, ProgressRing } from "./stat";
+export { Heatmap } from "./heatmap";
+export type { HeatCell } from "./heatmap";
+export { StackedBars } from "./stacked";
+export type { StackRow } from "./stacked";

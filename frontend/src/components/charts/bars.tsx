@@ -30,7 +30,7 @@ export function BarList({
           const pct = (d.value / top) * 100;
           const dim = selected && selected !== d.id;
           return (
-            <li key={d.id}>
+            <motion.li key={d.id} layout="position" transition={T.reveal}>
               <button
                 type="button"
                 className="group grid w-full grid-cols-[minmax(7rem,30%)_1fr_auto] items-center gap-3 rounded-[var(--radius-control)] px-1 py-1 text-left transition-colors hover:bg-cream"
@@ -56,7 +56,7 @@ export function BarList({
                   {d.display ?? `${compact(d.value)}${unit}`}
                 </span>
               </button>
-            </li>
+            </motion.li>
           );
         })}
       </ul>
@@ -123,17 +123,24 @@ export function ColumnChart({
                   className="cursor-default outline-none"
                 />
                 <motion.path
-                  d={columnPath(cx - bw / 2, y(0), bw, h)}
                   style={{ fill: color, transformOrigin: `${cx}px ${y(0)}px` }}
-                  initial={{ scaleY: 0 }}
+                  initial={{ scaleY: 0, d: columnPath(cx - bw / 2, y(0), bw, h) }}
                   whileInView={{ scaleY: 1 }}
+                  animate={{ d: columnPath(cx - bw / 2, y(0), bw, h) }}
                   viewport={{ once: true }}
-                  transition={{ ...T.bar, delay: i * STAGGER.tight }}
+                  transition={{ scaleY: { ...T.bar, delay: i * STAGGER.tight }, d: T.reveal }}
                   pointerEvents="none"
                 />
-                <text x={cx} y={y(d.value) - 6} textAnchor="middle" className="fill-[var(--ink)] text-[11px] font-bold">
+                <motion.text
+                  x={cx}
+                  initial={{ y: y(d.value) - 6 }}
+                  animate={{ y: y(d.value) - 6 }}
+                  transition={T.reveal}
+                  textAnchor="middle"
+                  className="fill-[var(--ink)] text-[11px] font-bold"
+                >
                   {label}
-                </text>
+                </motion.text>
                 <text x={cx} y={height - 8} textAnchor="middle" className="fill-[var(--ink-soft)] text-[11px]">
                   {d.label}
                 </text>
@@ -165,7 +172,18 @@ function columnPath(x: number, base: number, w: number, h: number) {
 
 export type Stage = { id: string; label: string; short: string; count: number };
 /** Funnel de 6 etapas (ordinal): barra por etapa + conversión respecto de la anterior. Interactivo. */
-export function FunnelChart({ stages, onSelect, selected }: { stages: Stage[]; onSelect?: (id: string | null) => void; selected?: string | null }) {
+export function FunnelChart({
+  stages,
+  onSelect,
+  selected,
+  note = "previous",
+}: {
+  stages: Stage[];
+  onSelect?: (id: string | null) => void;
+  selected?: string | null;
+  /** Texto bajo cada cifra: conversión desde la etapa anterior (conteos acumulados) o % del total (conteos por etapa). */
+  note?: "previous" | "share";
+}) {
   const tip = useTooltip();
   const max = Math.max(...stages.map((s) => s.count), 1);
   const total = stages.reduce((a, s) => a + s.count, 0);
@@ -174,6 +192,9 @@ export function FunnelChart({ stages, onSelect, selected }: { stages: Stage[]; o
       {stages.map((s, i) => {
         const prev = stages[i - 1];
         const conv = prev && prev.count > 0 ? Math.round((s.count / prev.count) * 100) : null;
+        const share = Math.round((s.count / Math.max(1, total)) * 100);
+        const w = Math.max(14, (s.count / max) * 100);
+        const outside = w < 46; // etiqueta fuera de la barra si no cabe
         const active = selected === s.id;
         const dim = selected && !active;
         return (
@@ -193,27 +214,38 @@ export function FunnelChart({ stages, onSelect, selected }: { stages: Stage[]; o
                 })
               }
               onBlur={tip.hide}
-              className="group grid w-full grid-cols-[3.2rem_1fr_4.5rem] items-center gap-3 rounded-[var(--radius-control)] p-1 text-left transition-[opacity,background-color] hover:bg-cream"
+              className="group grid w-full grid-cols-[3.2rem_1fr_6rem] items-center gap-3 rounded-[var(--radius-control)] p-1 text-left transition-[opacity,background-color] hover:bg-cream"
               style={{ opacity: dim ? 0.4 : 1 }}
             >
               <span className="text-app-caption font-bold text-ink-soft">{s.short}</span>
               <span className="relative block h-10">
                 <motion.span
-                  className="absolute inset-y-0 left-0 flex items-center rounded-[var(--radius-control)] px-3 text-app-small font-semibold"
+                  className="absolute inset-y-0 left-0 flex items-center overflow-hidden rounded-[var(--radius-control)] px-3 text-app-small font-semibold"
                   style={{ background: ORDINAL[i], color: i >= 3 ? "var(--cream)" : "var(--olive-900)" }}
                   initial={{ width: "0%" }}
-                  whileInView={{ width: `${Math.max(14, (s.count / max) * 100)}%` }}
+                  whileInView={{ width: `${w}%` }}
                   viewport={{ once: true }}
                   transition={{ ...T.bar, delay: i * STAGGER.base }}
                 >
-                  <span className="truncate">{s.label}</span>
+                  {outside ? null : <span className="truncate">{s.label}</span>}
                 </motion.span>
+                {outside ? (
+                  <motion.span
+                    className="absolute inset-y-0 right-0 flex min-w-0 items-center pl-3 text-app-small font-semibold whitespace-nowrap text-ink"
+                    initial={{ left: "0%", opacity: 0 }}
+                    whileInView={{ left: `${w}%`, opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ ...T.bar, delay: i * STAGGER.base }}
+                  >
+                    <span className="truncate">{s.label}</span>
+                  </motion.span>
+                ) : null}
               </span>
               <span className="text-right">
                 <strong className="block text-[1.05rem] leading-none" style={{ fontVariantNumeric: "tabular-nums" }}>
                   {s.count}
                 </strong>
-                <span className="text-app-caption text-ink-soft">{conv === null ? "inicio" : `${conv} % pasa`}</span>
+                <span className="text-app-caption text-ink-soft">{note === "share" ? `${share} % del total` : conv === null ? "inicio" : `${conv} % pasa`}</span>
               </span>
             </button>
           </li>

@@ -253,6 +253,7 @@ Media queries de capacidad: `(hover: none), (pointer: coarse)` desactiva cursor 
 | `--radius-device` | 58px | Marco del teléfono (pantalla interior 47px) |
 | `--radius-pill` | 999px | Chips, insignias, botones píldora, toast |
 | `--leaf-shape` | `0 100% 0 100%` | Forma de hoja: confeti, marquee, adorno de ficha |
+| `--radius-rise` | `50% 50% 0 0 / 30% 30% 0 0` | Capa que sube en hover (tarjeta de eje, tarjetas de reporte del back-office); se aplana al llegar |
 
 **Regla:** elementos táctiles grandes → 20–24px; contenedores → 24–28px; nunca esquinas rectas salvo pantalla completa en móvil.
 

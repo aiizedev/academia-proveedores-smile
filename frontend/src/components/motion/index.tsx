@@ -12,7 +12,7 @@ import {
   useTransform,
   type HTMLMotionProps,
 } from "framer-motion";
-import { useEffect, useRef, type ReactNode } from "react";
+import { Fragment, useEffect, useRef, type ReactNode } from "react";
 import {
   maskUpVariants,
   pageVariants,
@@ -100,12 +100,15 @@ export function MaskWords({
       animate="show"
     >
       {words.map((w, i) => (
-        <span key={`${w}-${i}`} aria-hidden="true" className="inline-block overflow-hidden pb-[0.08em] align-bottom">
-          <motion.span className="inline-block" variants={maskUpVariants}>
-            {emphasis?.includes(w.replace(/[.,:;!?]/g, "")) ? <em>{w}</em> : w}
-          </motion.span>
+        // El espacio va fuera del bloque con máscara: dentro de un inline-block se colapsa.
+        <Fragment key={`${w}-${i}`}>
+          <span aria-hidden="true" className="inline-block overflow-hidden pb-[0.08em] align-bottom">
+            <motion.span className="inline-block" variants={maskUpVariants}>
+              {emphasis?.includes(w.replace(/[.,:;!?]/g, "")) ? <em>{w}</em> : w}
+            </motion.span>
+          </span>
           {i < words.length - 1 ? " " : ""}
-        </span>
+        </Fragment>
       ))}
     </Tag>
   );

@@ -188,6 +188,7 @@
   --radius-sheet: 36px;        /* [nuevo] cabeceras curvas (g-hero) */
   --radius-device: 58px;
   --radius-pill: 999px;
+  --radius-rise: 50% 50% 0 0 / 30% 30% 0 0; /* [nuevo] capa que sube en hover (tarjeta de eje, §8.12) */
   --leaf-shape: 0 100% 0 100%; /* [nuevo] hoja: confeti, marquee, ficha */
 
   --border: 1px solid var(--line);
