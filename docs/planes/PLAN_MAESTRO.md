@@ -2,6 +2,8 @@
 
 **Versión 1.0 · 15 de octubre de 2026** · Horizonte: 19/10/2026 – 11/06/2027 (17 sprints de 2 semanas)
 
+> **Modo POC activo:** el alcance, la profundidad de pruebas y las reglas de ahorro de tokens se rigen por [`MODO_POC.md`](MODO_POC.md), que prevalece sobre este plan. Prioridad 1: datos de demostración y usuarios precreados (MODO_POC §3).
+
 Este documento coordina los tres planes de ejecución. No repite su detalle: dice **qué se entrega cuándo, en qué orden y con qué criterio se da por terminado**.
 
 | Plan | Alcance |
