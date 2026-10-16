@@ -15,7 +15,7 @@ f ?=
 
 .PHONY: help env up up-dev down clean build build-dev logs ps migrate migration \
         shell-backend psql test test-backend test-frontend test-docker lint \
-        lint-backend lint-frontend smoke backup restore config
+        lint-backend lint-frontend smoke backup restore config openapi
 
 help: ## Lista los comandos disponibles
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUso: make \033[36m<comando>\033[0m [s=servicio] [m=mensaje] [f=archivo]\n\n"} \
@@ -91,6 +91,9 @@ lint-backend: ## ruff + mypy + import-linter
 
 lint-frontend: ## eslint + typecheck + tokens de diseño
 	cd frontend && npm run lint && npm run typecheck && npm run design:check
+
+openapi: ## Regenera contracts/openapi.json desde FastAPI (HU-PLAT-05)
+	cd backend && uv run python scripts/export_openapi.py
 
 smoke: ## Prueba de humo del stack levantado
 	infra/scripts/smoke.sh

@@ -1,0 +1,347 @@
+{
+  "components": {
+    "schemas": {
+      "AnswerIn": {
+        "properties": {
+          "answer": {
+            "enum": [
+              "si",
+              "aveces",
+              "no",
+              "na",
+              "pnr"
+            ],
+            "title": "Answer",
+            "type": "string"
+          },
+          "axis": {
+            "maxLength": 32,
+            "minLength": 1,
+            "title": "Axis",
+            "type": "string"
+          },
+          "critical_when": {
+            "items": {
+              "enum": [
+                "si",
+                "aveces",
+                "no",
+                "na",
+                "pnr"
+              ],
+              "type": "string"
+            },
+            "title": "Critical When",
+            "type": "array"
+          },
+          "id": {
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Id",
+            "type": "string"
+          },
+          "weight": {
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Weight",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "axis",
+          "weight",
+          "answer"
+        ],
+        "title": "AnswerIn",
+        "type": "object"
+      },
+      "AxisOut": {
+        "description": "Puntajes como número JSON con 2 decimales (ya redondeados half-up en el dominio).",
+        "properties": {
+          "level": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Level"
+          },
+          "score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Score"
+          },
+          "urgent": {
+            "title": "Urgent",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "score",
+          "level",
+          "urgent"
+        ],
+        "title": "AxisOut",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "PlanItemOut": {
+        "properties": {
+          "axis": {
+            "title": "Axis",
+            "type": "string"
+          },
+          "priority": {
+            "title": "Priority",
+            "type": "string"
+          }
+        },
+        "required": [
+          "axis",
+          "priority"
+        ],
+        "title": "PlanItemOut",
+        "type": "object"
+      },
+      "ScorePreviewIn": {
+        "properties": {
+          "answers": {
+            "items": {
+              "$ref": "#/components/schemas/AnswerIn"
+            },
+            "maxItems": 25,
+            "minItems": 1,
+            "title": "Answers",
+            "type": "array"
+          },
+          "category": {
+            "default": "fruver",
+            "title": "Category",
+            "type": "string"
+          }
+        },
+        "required": [
+          "answers"
+        ],
+        "title": "ScorePreviewIn",
+        "type": "object"
+      },
+      "ScorePreviewOut": {
+        "properties": {
+          "axes": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/AxisOut"
+            },
+            "title": "Axes",
+            "type": "object"
+          },
+          "pillar1": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pillar1"
+          },
+          "plan": {
+            "items": {
+              "$ref": "#/components/schemas/PlanItemOut"
+            },
+            "title": "Plan",
+            "type": "array"
+          }
+        },
+        "required": [
+          "axes",
+          "pillar1",
+          "plan"
+        ],
+        "title": "ScorePreviewOut",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "title": "Academia de Proveedores Smile API",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/v1/assessment/score-preview": {
+      "post": {
+        "description": "Calcula ejes, Pilar 1 y plan de 3 metas sin persistir (RF-ASM-005…008, RF-IMP-001).",
+        "operationId": "score_preview_api_v1_assessment_score_preview_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScorePreviewIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScorePreviewOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Score Preview",
+        "tags": [
+          "assessment"
+        ]
+      }
+    },
+    "/health/live": {
+      "get": {
+        "operationId": "live_health_live_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "title": "Response Live Health Live Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Live",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "operationId": "ready_health_ready_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Ready Health Ready Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Ready",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/metrics": {
+      "get": {
+        "operationId": "metrics_metrics_get",
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Metrics",
+        "tags": [
+          "health"
+        ]
+      }
+    }
+  }
+}
