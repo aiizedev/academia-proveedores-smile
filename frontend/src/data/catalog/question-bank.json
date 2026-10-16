@@ -1,5 +1,5 @@
 {
-  "version": "banco-2026-v3",
+  "version": "banco-2026-v4",
   "source": "Núcleo: DOC-AUTOEVAL (formulario vigente de Smile, ISO 20400), texto literal salvo dos correcciones ortográficas (\"sosetnibilidad\", \"pestcidas\"). Extras: criterios ODS, GRI, ISO 14001 y B Corp, con prácticas de campo de DOC-FRUVER. Decisión: C-16.",
   "answer_values": {
     "si": 1,
@@ -1256,7 +1256,7 @@
           "categories": [
             "all"
           ],
-          "text": "¿Publica un reporte de sostenibilidad con indicadores basados en los Estándares GRI?",
+          "text": "¿Publica cada año un reporte de sostenibilidad con indicadores medibles, siguiendo un estándar reconocido (por ejemplo, GRI)?",
           "frameworks": [
             "GRI 1",
             "GRI 2-3",
@@ -1264,7 +1264,7 @@
             "B Corp: Gobernanza"
           ],
           "polarity": "positive",
-          "next_step": "Publique un reporte anual con indicadores GRI de agua, energía, residuos y personas."
+          "next_step": "Publique cada año un reporte con sus cifras de agua, energía, residuos y personal, siguiendo un estándar reconocido."
         },
         {
           "id": "ext-16",
@@ -1360,5 +1360,11 @@
       "guide": "guia-ddhh",
       "maintain_step": "Revise cada cuatrimestre que todo el personal tenga prestaciones y elementos de protección."
     }
-  ]
+  ],
+  "certification_proximity": {
+    "bpa_ica": {
+      "framework": "Res. ICA 30021 de 2017",
+      "rule": "Puntos obtenidos / puntos posibles (ponderados por peso) de las preguntas visibles y respondidas (sin na/pnr) cuyo frameworks incluye el valor de framework; null si no hay ninguna (RF-ASM-009)."
+    }
+  }
 }
