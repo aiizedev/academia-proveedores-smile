@@ -4,7 +4,7 @@ import { appSchema, tableSchema } from "@nozbe/watermelondb";
    de sync: mismo nombre que en `/api/v1/sync/pull`. Montos COP como enteros,
    cantidades con la unidad original (la normalización es del backend, RF-ERP-008).
    Al cambiar el esquema: subir `version` y agregar migración en migrations.ts. */
-export const SCHEMA_VERSION = 2;
+export const SCHEMA_VERSION = 3;
 
 export const consentsTable = tableSchema({
   name: "consents",
@@ -17,6 +17,25 @@ export const consentsTable = tableSchema({
     { name: "text_sha256", type: "string" },
     { name: "device_at", type: "number" },
     { name: "created_at", type: "number" },
+  ],
+});
+
+export const supplierProfileTable = tableSchema({
+  name: "supplier_profile",
+  columns: [
+    { name: "person_type", type: "string", isOptional: true }, // natural | juridica
+    { name: "tax_id", type: "string" },
+    { name: "tax_dv", type: "string" },
+    { name: "legal_name", type: "string" },
+    { name: "legal_rep", type: "string", isOptional: true },
+    { name: "department_code", type: "string" }, // DIVIPOLA 2 dígitos
+    { name: "municipality_code", type: "string" }, // DIVIPOLA 5 dígitos
+    { name: "vereda", type: "string", isOptional: true },
+    { name: "contact_channel", type: "string", isOptional: true }, // whatsapp | llamada | correo
+    { name: "main_category", type: "string" },
+    { name: "completed_at", type: "number", isOptional: true },
+    { name: "created_at", type: "number" },
+    { name: "updated_at", type: "number" },
   ],
 });
 
@@ -41,6 +60,8 @@ export const schema = appSchema({
     }),
     // P2 — Consentimiento append-only (RF-PRV-003): nunca se actualiza ni borra.
     consentsTable,
+    // P2 — Ficha del proveedor, una sola fila (RF-SUP-001, CU-04).
+    supplierProfileTable,
     // P2 — Autoevaluación (RF-ASM-003, RF-ASM-004)
     tableSchema({
       name: "assessments",

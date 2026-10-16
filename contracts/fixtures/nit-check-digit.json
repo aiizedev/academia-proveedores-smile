@@ -1,0 +1,73 @@
+{
+  "_comment": "Dígito de verificación DIAN módulo 11 (RF-SUP-001, CU-04 E3.1). Pesos 3,7,13,17,19,23,29,37,41,43,47,53,59,67,71 desde la derecha; r = suma mod 11; DV = r si r < 2, si no 11 - r. El número admite puntos, espacios y guiones, que se ignoran; debe quedar con 5 a 15 dígitos.",
+  "valid": [
+    {
+      "number": "900123456",
+      "dv": "8"
+    },
+    {
+      "number": "860002964",
+      "dv": "4"
+    },
+    {
+      "number": "899999068",
+      "dv": "1"
+    },
+    {
+      "number": "800197268",
+      "dv": "4"
+    },
+    {
+      "number": "1023456789",
+      "dv": "4"
+    },
+    {
+      "number": "79123456",
+      "dv": "0"
+    },
+    {
+      "number": "52345678",
+      "dv": "3"
+    },
+    {
+      "number": "12345",
+      "dv": "8"
+    },
+    {
+      "number": "123456789012345",
+      "dv": "2"
+    }
+  ],
+  "invalid": [
+    {
+      "number": "900123456",
+      "dv": "9",
+      "code": "nit_check_digit_mismatch"
+    },
+    {
+      "number": "1234",
+      "dv": "0",
+      "code": "invalid_nit"
+    },
+    {
+      "number": "12A456789",
+      "dv": "0",
+      "code": "invalid_nit"
+    },
+    {
+      "number": "1234567890123456",
+      "dv": "0",
+      "code": "invalid_nit"
+    }
+  ],
+  "normalize": [
+    {
+      "input": "900.123.456",
+      "number": "900123456"
+    },
+    {
+      "input": "900 123-456",
+      "number": "900123456"
+    }
+  ]
+}
