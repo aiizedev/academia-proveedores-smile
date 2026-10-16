@@ -1,0 +1,235 @@
+# ==========================================================
+# CI — Academia Proveedores Smile
+# Filtra por rutas: solo corre lo que cambió (ADR-0003).
+# RNF-MNT-001…004, RNF-PERF-001, RNF-POR-001
+# ==========================================================
+name: CI
+
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop, main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  PYTHON_VERSION: "3.12"
+  NODE_VERSION: "22"
+
+jobs:
+  changes:
+    name: Detectar cambios
+    runs-on: ubuntu-24.04
+    permissions:
+      pull-requests: read
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+      contracts: ${{ steps.filter.outputs.contracts }}
+      infra: ${{ steps.filter.outputs.infra }}
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: dorny/paths-filter@v3.0.2
+        id: filter
+        with:
+          filters: |
+            backend:
+              - 'backend/**'
+              - 'contracts/**'
+            frontend:
+              - 'frontend/**'
+              - 'contracts/**'
+              - 'docs/diseno/tokens.css'
+              - 'docs/diseno/motion.js'
+            contracts:
+              - 'contracts/**'
+            infra:
+              - 'infra/**'
+              - 'Makefile'
+              - 'backend/Dockerfile'
+              - 'frontend/Dockerfile'
+              - '.github/workflows/**'
+
+  backend:
+    name: Backend (lint, tipos, arquitectura, pruebas)
+    needs: changes
+    if: needs.changes.outputs.backend == 'true'
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: backend
+    services:
+      db:
+        image: timescale/timescaledb:2.17.2-pg16
+        env:
+          POSTGRES_USER: smile
+          POSTGRES_PASSWORD: smile
+          POSTGRES_DB: smile_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U smile -d smile_test"
+          --health-interval 5s --health-timeout 5s --health-retries 20
+    env:
+      APP_ENV: test
+      DATABASE_URL: postgresql+asyncpg://smile:smile@localhost:5432/smile_test
+      JWT_SECRET: ci-only-secret-not-for-production-0123456789
+      STORAGE_PROVIDER: s3
+      S3_ENDPOINT_URL: http://localhost:9000
+      S3_PUBLIC_ENDPOINT_URL: http://localhost:9000
+      S3_ACCESS_KEY: smile
+      S3_SECRET_KEY: smile-secret
+      S3_BUCKET: smile-files
+      S3_REGION: us-east-1
+      TZ: America/Bogota
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: astral-sh/setup-uv@v6.0.1
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+          cache-dependency-glob: backend/uv.lock
+      - name: Instalar dependencias
+        run: uv sync --frozen
+      - name: Ruff
+        run: uv run ruff check . && uv run ruff format --check .
+      - name: Mypy
+        run: uv run mypy src
+      - name: Contratos de arquitectura (import-linter)
+        run: uv run lint-imports
+      - name: Pytest + cobertura
+        run: uv run pytest --cov=src/smile --cov-report=xml --cov-report=term
+      - uses: actions/upload-artifact@v4.6.2
+        if: always()
+        with:
+          name: backend-coverage
+          path: backend/coverage.xml
+          if-no-files-found: ignore
+
+  frontend:
+    name: Frontend (tokens, lint, tipos, pruebas, build, presupuesto)
+    needs: changes
+    if: needs.changes.outputs.frontend == 'true'
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: frontend
+    env:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: actions/setup-node@v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - name: Tokens sincronizados con docs/diseno
+        run: npm run design:check
+      - run: npm run lint
+      - run: npm run typecheck
+      - name: Vitest
+        run: npm test -- --coverage
+      - name: Build (standalone)
+        run: npm run build
+      - name: Presupuesto de bundle (RNF-PERF-001 < 2,0 MB comprimido)
+        run: |
+          node -e '
+            const fs = require("fs"), path = require("path"), zlib = require("zlib");
+            const walk = d => fs.readdirSync(d, { withFileTypes: true }).flatMap(e =>
+              e.isDirectory() ? walk(path.join(d, e.name)) : [path.join(d, e.name)]);
+            const files = walk(".next/static").filter(f => /\.(js|css)$/.test(f));
+            const total = files.reduce((s, f) => s + zlib.gzipSync(fs.readFileSync(f)).length, 0);
+            const limit = 2_000_000;
+            console.log(`JS+CSS estático gzip: ${(total / 1e6).toFixed(3)} MB (límite ${limit / 1e6} MB)`);
+            if (total > limit) { console.error("Presupuesto excedido"); process.exit(1); }
+          '
+
+  contracts:
+    name: Fixtures compartidos (Python ↔ TypeScript)
+    needs: changes
+    if: needs.changes.outputs.contracts == 'true'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: astral-sh/setup-uv@v6.0.1
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+          cache-dependency-glob: backend/uv.lock
+      - uses: actions/setup-node@v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Validar JSON
+        run: python -m json.tool contracts/fixtures/assessment-scoring.json > /dev/null
+      - name: Backend contra fixtures
+        working-directory: backend
+        run: uv sync --frozen && uv run pytest tests/unit/assessment -q
+      - name: Frontend contra fixtures
+        working-directory: frontend
+        run: npm ci && npx vitest run src/domain
+
+  docker:
+    name: Imágenes multistage (sin push)
+    needs: changes
+    if: needs.changes.outputs.backend == 'true' || needs.changes.outputs.frontend == 'true' || needs.changes.outputs.infra == 'true'
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: backend
+            context: backend
+            target: runtime
+            max_mb: 250
+          - name: frontend
+            context: frontend
+            target: runner
+            max_mb: 200
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: docker/setup-buildx-action@v3.10.0
+      - uses: docker/build-push-action@v6.15.0
+        with:
+          context: ${{ matrix.context }}
+          target: ${{ matrix.target }}
+          push: false
+          load: true
+          tags: smile/${{ matrix.name }}:ci
+          build-args: |
+            NEXT_PUBLIC_API_URL=http://localhost:8000
+          cache-from: type=gha,scope=${{ matrix.name }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.name }}
+      - name: Tamaño de imagen (RNF-POR-001)
+        run: |
+          size=$(docker image inspect smile/${{ matrix.name }}:ci --format '{{.Size}}')
+          mb=$((size / 1000000))
+          echo "smile/${{ matrix.name }}:ci = ${mb} MB (límite ${{ matrix.max_mb }} MB)"
+          [ "$mb" -le "${{ matrix.max_mb }}" ]
+      - name: Usuario no root
+        run: |
+          user=$(docker image inspect smile/${{ matrix.name }}:ci --format '{{.Config.User}}')
+          echo "USER=$user"; [ -n "$user" ] && [ "$user" != "root" ] && [ "$user" != "0" ]
+
+  compose:
+    name: Docker Compose config
+    needs: changes
+    if: needs.changes.outputs.infra == 'true'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - name: Base
+        run: docker compose -f infra/docker-compose.yml --env-file infra/.env.example config --quiet
+      - name: Dev
+        run: docker compose -f infra/docker-compose.yml -f infra/docker-compose.dev.yml --env-file infra/.env.example --profile dev config --quiet
+      - name: Scripts (shellcheck)
+        run: shellcheck infra/scripts/*.sh

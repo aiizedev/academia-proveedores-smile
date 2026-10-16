@@ -1,0 +1,65 @@
+# ==========================================================
+# Override de desarrollo: targets `dev`, código montado y hot reload.
+# make up-dev  ==  docker compose -f infra/docker-compose.yml \
+#                  -f infra/docker-compose.dev.yml --env-file infra/.env \
+#                  --profile dev up -d
+# ==========================================================
+services:
+  migrate:
+    image: smile/backend:dev
+    build:
+      target: dev
+    volumes:
+      - ../backend/src:/app/src
+      - ../backend/migrations:/app/migrations
+      - ../backend/alembic.ini:/app/alembic.ini:ro
+
+  backend:
+    image: smile/backend:dev
+    build:
+      target: dev
+    command: ["uvicorn", "smile.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload", "--reload-dir", "/app/src"]
+    environment:
+      APP_ENV: development
+      LOG_LEVEL: DEBUG
+      WATCHFILES_FORCE_POLLING: "true"
+      CONTRACTS_DIR: /contracts
+    volumes:
+      - ../backend/src:/app/src
+      - ../backend/migrations:/app/migrations
+      - ../backend/tests:/app/tests
+      - ../backend/alembic.ini:/app/alembic.ini:ro
+      - ../contracts:/contracts:ro
+    ports:
+      - "${BACKEND_DEBUG_PORT:-5678}:5678"   # debugpy
+
+  worker:
+    image: smile/backend:dev
+    build:
+      target: dev
+    command: ["watchfiles", "--filter", "python", "python -m smile.worker", "/app/src"]
+    volumes:
+      - ../backend/src:/app/src
+
+  frontend:
+    image: smile/frontend:dev
+    build:
+      target: dev
+    command: ["npm", "run", "dev", "--", "--hostname", "0.0.0.0", "--port", "3000"]
+    environment:
+      NODE_ENV: development
+      WATCHPACK_POLLING: "true"
+      NEXT_TELEMETRY_DISABLED: "1"
+    volumes:
+      - ../frontend/src:/app/src
+      - ../frontend/public:/app/public
+      - ../docs/diseno:/docs/diseno:ro
+      - ../contracts:/contracts:ro
+    ports:
+      - "${FRONTEND_DEBUG_PORT:-9229}:9229"  # inspector de Node
+    depends_on:
+      backend:
+        condition: service_started
+
+  mailpit:
+    profiles: [dev]

@@ -1,0 +1,229 @@
+# ==========================================================
+# Academia Proveedores Smile — Docker Compose (base)
+# Contrato: docs/sistema/arquitectura.md §7 · ADR-0003, ADR-0004, ADR-0007
+#
+# Uso (desde la raíz):  make up        → stack de producción local
+#                       make up-dev    → + docker-compose.dev.yml (hot reload)
+# Directo:  docker compose -f infra/docker-compose.yml --env-file infra/.env up -d
+# ==========================================================
+name: smile
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+x-backend-image: &backend-build
+  context: ../backend
+  dockerfile: Dockerfile
+  target: runtime
+
+# Contrato de variables: docs/sistema/arquitectura.md §7.2.
+# Se pasan explícitas (interpoladas desde --env-file) para que el compose
+# funcione con infra/.env o infra/.env.example; infra/.env, si existe, añade extras.
+x-env-file: &env-file
+  - path: .env
+    required: false
+
+x-backend-env: &backend-env
+  APP_ENV: ${APP_ENV:-development}
+  LOG_LEVEL: ${LOG_LEVEL:-INFO}
+  TZ: ${TZ:-America/Bogota}
+  DATABASE_URL: ${DATABASE_URL}
+  JWT_SECRET: ${JWT_SECRET}
+  JWT_ACCESS_TTL_MIN: ${JWT_ACCESS_TTL_MIN:-15}
+  JWT_REFRESH_TTL_DAYS: ${JWT_REFRESH_TTL_DAYS:-30}
+  CORS_ORIGINS: ${CORS_ORIGINS}
+  STORAGE_PROVIDER: ${STORAGE_PROVIDER:-s3}
+  S3_ENDPOINT_URL: ${S3_ENDPOINT_URL}
+  S3_PUBLIC_ENDPOINT_URL: ${S3_PUBLIC_ENDPOINT_URL}
+  S3_ACCESS_KEY: ${S3_ACCESS_KEY}
+  S3_SECRET_KEY: ${S3_SECRET_KEY}
+  S3_BUCKET: ${S3_BUCKET}
+  S3_REGION: ${S3_REGION:-us-east-1}
+  SMTP_HOST: ${SMTP_HOST:-mailpit}
+  SMTP_PORT: ${SMTP_PORT:-1025}
+
+x-backend-common: &backend-common
+  image: smile/backend:local
+  env_file: *env-file
+  environment: *backend-env
+  networks: [smile]
+  logging: *logging
+
+services:
+  # ---------- Datos ----------
+  db:
+    image: timescale/timescaledb:2.17.2-pg16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      TZ: ${TZ:-America/Bogota}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+    restart: unless-stopped
+    mem_limit: 1g
+    networks: [smile]
+    logging: *logging
+
+  # Almacenamiento S3 compatible para desarrollo: SeaweedFS (imagen oficial,
+  # Apache-2.0); las imágenes oficiales de MinIO dejaron de publicarse. ADR-0008.
+  storage:
+    image: chrislusf/seaweedfs:3.97
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        set -e
+        printf '{"identities":[{"name":"smile","credentials":[{"accessKey":"%s","secretKey":"%s"}],"actions":["Admin","Read","Write","List","Tagging"]}]}' "$$S3_ACCESS_KEY" "$$S3_SECRET_KEY" > /tmp/s3.json
+        exec weed server -dir=/data -ip=storage -ip.bind=0.0.0.0 -volume.max=0 -master.volumeSizeLimitMB=256 -s3 -s3.port=8333 -s3.config=/tmp/s3.json
+    environment:
+      S3_ACCESS_KEY: ${S3_ACCESS_KEY}
+      S3_SECRET_KEY: ${S3_SECRET_KEY}
+      TZ: ${TZ:-America/Bogota}
+    ports:
+      - "${STORAGE_S3_PORT:-9000}:8333"
+    volumes:
+      - storage-data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:9333/cluster/status && wget -q -O /dev/null http://127.0.0.1:8333/healthz"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 5s
+    restart: unless-stopped
+    mem_limit: 512m
+    networks: [smile]
+    logging: *logging
+
+  # Crea el bucket (privado: todo acceso exige firma S3) y termina. Idempotente.
+  storage-init:
+    image: chrislusf/seaweedfs:3.97
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        set -e
+        if echo "s3.bucket.list" | weed shell -master=storage:9333 | grep -qw "$$S3_BUCKET"; then
+          echo "bucket $$S3_BUCKET ya existe"
+        else
+          echo "s3.bucket.create -name $$S3_BUCKET" | weed shell -master=storage:9333
+        fi
+    environment:
+      S3_BUCKET: ${S3_BUCKET}
+    depends_on:
+      storage:
+        condition: service_healthy
+    restart: "no"
+    networks: [smile]
+    logging: *logging
+
+  # ---------- Backend ----------
+  migrate:
+    <<: *backend-common
+    build: *backend-build
+    command: ["alembic", "upgrade", "head"]
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+    mem_limit: 512m
+
+  backend:
+    <<: *backend-common
+    build: *backend-build
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      storage-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/health/ready', timeout=4).status == 200 else 1)"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 15s
+    restart: unless-stopped
+    mem_limit: 768m
+
+  worker:
+    <<: *backend-common
+    build: *backend-build
+    command: ["python", "-m", "smile.worker"]
+    # El worker no sirve HTTP: se reemplaza el HEALTHCHECK de la imagen por el
+    # heartbeat que escribe tras cada sondeo exitoso del outbox (≤ 60 s).
+    healthcheck:
+      test: ["CMD", "python", "-c", "import os,sys,time; p='/tmp/smile-worker-heartbeat'; sys.exit(0 if os.path.exists(p) and time.time()-os.path.getmtime(p) < 60 else 1)"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+      start_period: 20s
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      storage-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    mem_limit: 512m
+
+  # ---------- Frontend ----------
+  frontend:
+    image: smile/frontend:local
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+      target: runner
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+    env_file: *env-file
+    environment:
+      TZ: ${TZ:-America/Bogota}
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+      API_INTERNAL_URL: ${API_INTERNAL_URL}
+      HOSTNAME: 0.0.0.0
+      PORT: "3000"
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    restart: unless-stopped
+    mem_limit: 512m
+    networks: [smile]
+    logging: *logging
+
+  # ---------- Utilidades de desarrollo ----------
+  mailpit:
+    image: axllent/mailpit:v1.24.1
+    profiles: [dev]
+    ports:
+      - "${MAILPIT_UI_PORT:-8025}:8025"
+      - "${MAILPIT_SMTP_PORT:-1025}:1025"
+    restart: unless-stopped
+    mem_limit: 128m
+    networks: [smile]
+    logging: *logging
+
+networks:
+  smile:
+    name: smile-net
+
+volumes:
+  db-data:
+  storage-data:
