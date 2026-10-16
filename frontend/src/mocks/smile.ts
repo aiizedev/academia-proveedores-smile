@@ -262,3 +262,7 @@ export function formatCop(value: number): string {
 }
 
 export const STAGE_LABEL: Record<Stage, string> = Object.fromEntries(STAGES.map((s) => [s.code, `${s.code} · ${s.name}`])) as Record<Stage, string>;
+
+/* Banco de preguntas publicado (contracts/fixtures/question-bank.json, copia del frontend).
+   Se re-exporta aquí porque /smile no puede importar src/data/catalog (límites de ESLint). */
+export { default as QUESTION_BANK } from "@/data/catalog/question-bank.json";
