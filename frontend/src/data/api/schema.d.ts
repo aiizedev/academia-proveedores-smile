@@ -136,6 +136,47 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/sync/pull": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Pull
+         * @description Cambios del proveedor posteriores a `last_pulled_at` (ms) y el nuevo `timestamp`.
+         */
+        get: operations["pull_api_v1_sync_pull_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/sync/push": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Push
+         * @description Aplica el lote registro por registro; reenviar el mismo `mutation_id` devuelve el
+         *     resultado guardado (RF-SYN-002). Acepta `Content-Encoding: gzip`.
+         */
+        post: operations["push_api_v1_sync_push_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/health/live": {
         parameters: {
             query?: never;
@@ -333,10 +374,58 @@ export interface components {
             /** Vereda */
             vereda: string | null;
         };
+        /** PullOut */
+        PullOut: {
+            /** Changes */
+            changes: {
+                [key: string]: {
+                    [key: string]: unknown[];
+                };
+            };
+            /** Timestamp */
+            timestamp: number;
+        };
+        /** PushIn */
+        PushIn: {
+            /** Changes */
+            changes: {
+                [key: string]: components["schemas"]["TableChangesIn"];
+            };
+            /** Last Pulled At */
+            last_pulled_at?: number | null;
+            /**
+             * Mutation Id
+             * Format: uuid
+             */
+            mutation_id: string;
+            /**
+             * Priority
+             * @enum {string}
+             */
+            priority: "P1" | "P2" | "P3";
+        };
+        /** PushOut */
+        PushOut: {
+            /** Accepted */
+            accepted: string[];
+            /** Rejected */
+            rejected: components["schemas"]["RejectedOut"][];
+        };
         /** RefreshIn */
         RefreshIn: {
             /** Refresh Token */
             refresh_token: string;
+        };
+        /** RejectedOut */
+        RejectedOut: {
+            /** Code */
+            code: string;
+            /** Id */
+            id: string;
+            /** Message */
+            message: string;
+            /** Table */
+            table: string;
         };
         /** ScorePreviewIn */
         ScorePreviewIn: {
@@ -374,6 +463,19 @@ export interface components {
              */
             token_type: "bearer";
             user: components["schemas"]["MeOut"];
+        };
+        /** TableChangesIn */
+        TableChangesIn: {
+            /** Created */
+            created?: {
+                [key: string]: unknown;
+            }[];
+            /** Deleted */
+            deleted?: string[];
+            /** Updated */
+            updated?: {
+                [key: string]: unknown;
+            }[];
         };
         /** ValidationError */
         ValidationError: {
@@ -606,6 +708,71 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["MySupplierOut"];
+                };
+            };
+        };
+    };
+    pull_api_v1_sync_pull_get: {
+        parameters: {
+            query?: {
+                last_pulled_at?: number;
+                schema_version?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PullOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    push_api_v1_sync_push_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PushIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PushOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };
