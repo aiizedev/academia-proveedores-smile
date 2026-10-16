@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "description": "Academia de Proveedores Grupo Smile — PWA del proveedor y back-office (Next.js)",
-  "engines": { "node": ">=22.12.0" },
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -14,14 +16,18 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "design:sync": "node scripts/design-sync.mjs",
-    "design:check": "node scripts/design-sync.mjs --check"
+    "design:check": "node scripts/design-sync.mjs --check",
+    "api:gen": "node scripts/api-gen.mjs",
+    "api:check": "node scripts/api-gen.mjs --check"
   },
   "dependencies": {
     "@fontsource-variable/fraunces": "5.3.0",
     "@fontsource-variable/manrope": "5.3.0",
     "@nozbe/watermelondb": "0.28.0",
     "@serwist/next": "9.5.12",
+    "gsap": "3.13.0",
     "next": "15.5.26",
+    "openapi-fetch": "0.14.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "serwist": "9.5.12"
@@ -35,6 +41,8 @@
     "@types/react-dom": "19.3.0",
     "eslint": "9.39.5",
     "eslint-config-next": "15.5.26",
+    "eslint-plugin-boundaries": "5.4.0",
+    "openapi-typescript": "7.8.0",
     "tailwindcss": "4.3.3",
     "typescript": "5.9.3",
     "vite": "7.3.6",

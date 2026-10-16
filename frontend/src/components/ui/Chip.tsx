@@ -13,11 +13,11 @@ const LABEL: Record<Priority, string> = {
 };
 
 const STYLE: Record<Priority, string> = {
-  urgente: "bg-[var(--prio-urgente-bg)] text-[var(--prio-urgente-fg)]",
-  alta: "bg-[var(--prio-alta-bg)] text-[var(--prio-alta-fg)]",
-  media: "bg-[var(--prio-media-bg)] text-[var(--prio-media-fg)]",
-  mantener: "bg-[var(--prio-mantener-bg)] text-[var(--prio-mantener-fg)]",
-  completa: "bg-[var(--prio-done-bg)] text-[var(--prio-done-fg)]",
+  urgente: "bg-prio-urgente-bg text-prio-urgente-fg",
+  alta: "bg-prio-alta-bg text-prio-alta-fg",
+  media: "bg-prio-media-bg text-prio-media-fg",
+  mantener: "bg-prio-mantener-bg text-prio-mantener-fg",
+  completa: "bg-prio-done-bg text-prio-done-fg",
 };
 
 export function Chip({ priority, children, className }: { priority: Priority; children?: ReactNode; className?: string }) {

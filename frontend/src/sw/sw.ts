@@ -19,8 +19,13 @@ declare global {
 
 declare const self: ServiceWorkerGlobalScope;
 
+// /smile es online y de escritorio: sus chunks no ocupan el presupuesto de
+// precache de la PWA (HU-PLAT-03, PLAN_FRONTEND §6).
+const isBackoffice = (entry: PrecacheEntry | string) =>
+  (typeof entry === "string" ? entry : entry.url).includes("/(backoffice)/");
+
 const serwist = new Serwist({
-  precacheEntries: self.__SW_MANIFEST,
+  precacheEntries: self.__SW_MANIFEST?.filter((entry) => !isBackoffice(entry)),
   skipWaiting: true,
   clientsClaim: true,
   navigationPreload: true,

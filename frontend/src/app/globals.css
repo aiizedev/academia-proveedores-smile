@@ -40,6 +40,35 @@
   --color-accent: var(--accent);
   --color-on-accent: var(--on-accent);
   --color-focus: var(--focus);
+  --color-line-olive: var(--line-olive);
+  --color-surface-page: var(--surface-page);
+  --color-surface-card: var(--surface-card);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-strong: var(--surface-strong);
+  --color-surface-ink: var(--surface-ink);
+  --color-on-strong: var(--on-strong);
+  --color-on-strong-soft: var(--on-strong-soft);
+  --color-on-strong-tint-bg: var(--on-strong-tint-bg);
+  --color-on-strong-tint-line: var(--on-strong-tint-line);
+  --color-lvl-inicial-bg: var(--lvl-inicial-bg);
+  --color-lvl-inicial-fg: var(--lvl-inicial-fg);
+  --color-lvl-inicial-bar: var(--lvl-inicial-bar);
+  --color-lvl-desarrollo-bg: var(--lvl-desarrollo-bg);
+  --color-lvl-desarrollo-fg: var(--lvl-desarrollo-fg);
+  --color-lvl-desarrollo-bar: var(--lvl-desarrollo-bar);
+  --color-lvl-avanzado-bg: var(--lvl-avanzado-bg);
+  --color-lvl-avanzado-fg: var(--lvl-avanzado-fg);
+  --color-lvl-avanzado-bar: var(--lvl-avanzado-bar);
+  --color-prio-urgente-bg: var(--prio-urgente-bg);
+  --color-prio-urgente-fg: var(--prio-urgente-fg);
+  --color-prio-alta-bg: var(--prio-alta-bg);
+  --color-prio-alta-fg: var(--prio-alta-fg);
+  --color-prio-media-bg: var(--prio-media-bg);
+  --color-prio-media-fg: var(--prio-media-fg);
+  --color-prio-mantener-bg: var(--prio-mantener-bg);
+  --color-prio-mantener-fg: var(--prio-mantener-fg);
+  --color-prio-done-bg: var(--prio-done-bg);
+  --color-prio-done-fg: var(--prio-done-fg);
 
   /* Tipografía */
   --font-display: var(--font-display);
@@ -59,6 +88,10 @@
   --text-app-chip: var(--fs-app-chip);
 
   /* Forma */
+  --radius-s: var(--radius-s);
+  --radius-m: var(--radius-m);
+  --radius-l: var(--radius-l);
+  --radius-xl: var(--radius-xl);
   --radius-check: var(--radius-check);
   --radius-control: var(--radius-control);
   --radius-button: var(--radius-button);
@@ -74,6 +107,10 @@
   /* Movimiento */
   --ease-out: var(--ease-out);
   --ease-expo-out: var(--ease-expo-out);
+  --ease-in-out: var(--ease-in-out);
+  --ease-expo-in-out: var(--ease-expo-in-out);
+  --ease-in: var(--ease-in);
+  --ease-back: var(--ease-back);
 }
 
 @layer base {
@@ -131,6 +168,12 @@
   }
 }
 
+/* GUIA_VISUAL §10.3 — sin animación: todo visible y cambios instantáneos (HU-DS-04). */
+html.no-anim *, html.no-anim *::before, html.no-anim *::after {
+  transition-duration: 0.01ms !important;
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+}
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }

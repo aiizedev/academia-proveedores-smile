@@ -135,6 +135,8 @@ jobs:
       - run: npm ci
       - name: Tokens sincronizados con docs/diseno
         run: npm run design:check
+      - name: Cliente OpenAPI al día con contracts/openapi.json
+        run: npm run api:check
       - run: npm run lint
       - run: npm run typecheck
       - name: Vitest

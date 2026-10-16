@@ -6,9 +6,9 @@ export type Level = "inicial" | "desarrollo" | "avanzado";
 
 const LABEL: Record<Level, string> = { inicial: "Inicial", desarrollo: "En desarrollo", avanzado: "Avanzado" };
 const STYLE: Record<Level, string> = {
-  inicial: "bg-[var(--lvl-inicial-bg)] text-[var(--lvl-inicial-fg)]",
-  desarrollo: "bg-[var(--lvl-desarrollo-bg)] text-[var(--lvl-desarrollo-fg)]",
-  avanzado: "bg-[var(--lvl-avanzado-bg)] text-[var(--lvl-avanzado-fg)]",
+  inicial: "bg-lvl-inicial-bg text-lvl-inicial-fg",
+  desarrollo: "bg-lvl-desarrollo-bg text-lvl-desarrollo-fg",
+  avanzado: "bg-lvl-avanzado-bg text-lvl-avanzado-fg",
 };
 
 export function LevelBadge({ level, className }: { level: Level; className?: string }) {

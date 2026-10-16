@@ -20,7 +20,7 @@ export function TabBar() {
   return (
     <nav
       aria-label="Secciones"
-      className="fixed inset-x-3 bottom-[calc(0.8rem+env(safe-area-inset-bottom,0px))] z-[var(--z-tabbar)] mx-auto max-w-[430px] rounded-dock bg-[color-mix(in_srgb,var(--olive-900)_94%,transparent)] p-[0.4rem] shadow-dock backdrop-blur-[12px]"
+      className="fixed inset-x-3 bottom-[calc(0.8rem+env(safe-area-inset-bottom,0px))] z-[var(--z-tabbar)] mx-auto max-w-[430px] rounded-dock bg-[color-mix(in_srgb,var(--olive-900)_94%,transparent)] p-[0.4rem] shadow-dock [backdrop-filter:var(--blur-dock)] [-webkit-backdrop-filter:var(--blur-dock)]"
     >
       <ul className="grid grid-cols-4">
         {TABS.map((tab) => {
@@ -32,7 +32,7 @@ export function TabBar() {
                 aria-current={active ? "page" : undefined}
                 className={cn(
                   "grid min-h-12 justify-items-center gap-[0.2rem] rounded-button pt-[0.55rem] pb-2",
-                  "text-app-chip font-bold transition-colors duration-[0.35s]",
+                  "text-app-chip font-bold transition-colors duration-[var(--dur-s)]",
                   "[-webkit-tap-highlight-color:transparent]",
                   active ? "bg-rose-500 text-olive-900" : "text-olive-300",
                 )}
