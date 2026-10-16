@@ -41,3 +41,9 @@ class LockedError(DomainError):
     """Recurso bloqueado temporalmente (p. ej. cuenta tras intentos fallidos). HTTP 423."""
 
     code = "locked"
+
+
+class ValidationFailedError(DomainError):
+    """Un registro no cumple la forma esperada (p. ej. en sync). HTTP 400."""
+
+    code = "validation_error"

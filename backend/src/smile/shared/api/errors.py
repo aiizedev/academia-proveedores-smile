@@ -19,6 +19,7 @@ from smile.shared.domain.errors import (
     LockedError,
     NotFoundError,
     PermissionDeniedError,
+    ValidationFailedError,
 )
 
 _DOMAIN_STATUS: tuple[tuple[type[DomainError], int], ...] = (
@@ -27,6 +28,7 @@ _DOMAIN_STATUS: tuple[tuple[type[DomainError], int], ...] = (
     (ConflictError, 409),
     (AuthenticationError, 401),
     (LockedError, 423),
+    (ValidationFailedError, 400),
 )
 _HTTP_CODES = {
     400: "bad_request",

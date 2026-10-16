@@ -203,6 +203,8 @@ frontend/
 - `GET /api/v1/sync/pull?last_pulled_at=<ms>&schema_version=<n>` → `{ changes: {tabla: {created, updated, deleted}}, timestamp }`.
 - `POST /api/v1/sync/push` con `{ mutation_id, priority, last_pulled_at, changes }` → `{ accepted: [ids], rejected: [{id, table, code, message}] }`.
 - Idempotencia: tabla `sync.processed_mutations(mutation_id PK, user_id, processed_at, result)`; reenvíos devuelven el resultado guardado.
+- `priority` viaja como `"P1"|"P2"|"P3"`; el cuerpo puede llegar con `Content-Encoding: gzip` (tope 1 MB descomprimido → 413). Códigos de rechazo en mayúsculas (`VALIDATION_ERROR`, `NIT_CHECK_DIGIT_MISMATCH`, `UNKNOWN_TABLE`…); un rechazo no revierte los demás registros del lote (savepoint por registro).
+- Cada módulo dueño registra su tabla con `sync.public.register_table(nombre, priority, factory)`.
 - IDs: UUID v4 generados en el cliente; el servidor nunca reasigna IDs.
 - Conflictos: RF-SYN-005.
 

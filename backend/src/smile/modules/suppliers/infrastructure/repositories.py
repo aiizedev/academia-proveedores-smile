@@ -1,6 +1,7 @@
 """Repositorio SQLAlchemy de `suppliers`."""
 
 import uuid
+from datetime import datetime
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -96,3 +97,9 @@ class SqlSupplierRepository:
             self._session.add(m)
         for key, value in profile_columns(supplier).items():
             setattr(m, key, value)
+        await self._session.flush()
+
+    async def updated_at(self, supplier_id: uuid.UUID) -> datetime | None:
+        return await self._session.scalar(
+            select(SupplierModel.updated_at).where(SupplierModel.id == supplier_id)
+        )
