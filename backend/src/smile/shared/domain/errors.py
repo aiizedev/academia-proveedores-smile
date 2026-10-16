@@ -23,3 +23,9 @@ class PermissionDeniedError(DomainError):
     """El usuario no puede operar sobre el recurso (RF-IAM-004). HTTP 403."""
 
     code = "permission_denied"
+
+
+class ConflictError(DomainError):
+    """Conflicto con el estado actual (p. ej. ALREADY_SUBMITTED). HTTP 409."""
+
+    code = "conflict"
