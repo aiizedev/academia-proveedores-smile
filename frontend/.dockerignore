@@ -1,0 +1,17 @@
+node_modules
+.next
+coverage
+playwright-report
+test-results
+tests
+*.tsbuildinfo
+.env*
+public/sw.js
+public/swe-worker-*.js
+Dockerfile
+.dockerignore
+README.md
+src/**/*.test.ts
+src/**/*.test.tsx
+vitest.config.ts
+playwright.config.ts

@@ -1,0 +1,136 @@
+/* Capa de diseño: tokens canónicos (docs/diseno/tokens.css, GUIA_VISUAL v1.1)
+   expuestos a Tailwind 4 con @theme. Ningún componente usa hex literales. */
+@import "tailwindcss";
+@import "../design/tokens.css";
+
+/* Las fuentes autoalojadas (next/font/local) definen --font-fraunces y
+   --font-manrope; aquí se anteponen a la pila declarada en los tokens. */
+:root {
+  --font-display: var(--font-fraunces), "Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-body: var(--font-manrope), "Manrope", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Nota: claves como --radius-card o --font-display coinciden con el nombre del
+   token, así que Tailwind emite `--x: var(--x)` dentro de @layer theme. No hay
+   ciclo efectivo: tokens.css se importa sin capa y siempre gana la cascada. */
+@theme inline {
+  /* Color */
+  --color-olive-900: var(--olive-900);
+  --color-olive-800: var(--olive-800);
+  --color-olive-700: var(--olive-700);
+  --color-olive-600: var(--olive-600);
+  --color-olive-400: var(--olive-400);
+  --color-olive-300: var(--olive-300);
+  --color-olive-100: var(--olive-100);
+  --color-olive-50: var(--olive-50);
+  --color-olive-25: var(--olive-25);
+  --color-rose-700: var(--rose-700);
+  --color-rose-600: var(--rose-600);
+  --color-rose-500: var(--rose-500);
+  --color-rose-300: var(--rose-300);
+  --color-rose-100: var(--rose-100);
+  --color-cream: var(--cream);
+  --color-cream-200: var(--cream-200);
+  --color-white: var(--white);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-line: var(--line);
+  --color-line-light: var(--line-light);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-focus: var(--focus);
+
+  /* Tipografía */
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-sans: var(--font-body);
+  --text-app-score: var(--fs-app-score);
+  --text-app-stat: var(--fs-app-stat);
+  --text-app-title: var(--fs-app-title);
+  --text-app-question: var(--fs-app-question);
+  --text-app-h3: var(--fs-app-h3);
+  --text-app-answer: var(--fs-app-answer);
+  --text-app-button: var(--fs-app-button);
+  --text-app-body: var(--fs-app-body);
+  --text-app-small: var(--fs-app-small);
+  --text-app-caption: var(--fs-app-caption);
+  --text-app-eyebrow: var(--fs-app-eyebrow);
+  --text-app-chip: var(--fs-app-chip);
+
+  /* Forma */
+  --radius-check: var(--radius-check);
+  --radius-control: var(--radius-control);
+  --radius-button: var(--radius-button);
+  --radius-card: var(--radius-card);
+  --radius-dock: var(--radius-dock);
+  --radius-sheet: var(--radius-sheet);
+  --radius-pill: var(--radius-pill);
+
+  /* Elevación */
+  --shadow-float: var(--shadow-float);
+  --shadow-dock: var(--shadow-dock);
+
+  /* Movimiento */
+  --ease-out: var(--ease-out);
+  --ease-expo-out: var(--ease-expo-out);
+}
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    color: var(--ink);
+    background: var(--surface-page);
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  ::selection { background: var(--rose-500); color: var(--olive-900); }
+}
+
+@layer components {
+  .brand {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    font-variation-settings: var(--fv-accent);
+  }
+  .brand .dot { color: var(--rose-500); }
+  .a-eyebrow {
+    font-size: var(--fs-app-eyebrow);
+    font-weight: var(--fw-body-black);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--olive-600);
+  }
+  .a-title {
+    font-family: var(--font-display);
+    font-weight: var(--fw-display);
+    font-size: var(--fs-app-title);
+    line-height: var(--lh-heading);
+    letter-spacing: var(--tracking-heading);
+    font-variation-settings: var(--fv-app);
+  }
+  .a-title em { font-style: italic; color: var(--rose-700); font-variation-settings: var(--fv-accent); }
+  .grain { position: relative; }
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--grain);
+    opacity: var(--grain-opacity);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}

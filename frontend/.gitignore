@@ -1,0 +1,13 @@
+node_modules/
+.next/
+out/
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
+next-env.d.ts
+.env*.local
+# Generados por Serwist en el build
+public/sw.js
+public/sw.js.map
+public/swe-worker-*.js
