@@ -1,12 +1,19 @@
 import type { NextConfig } from "next";
+import { randomUUID } from "node:crypto";
 import withSerwistInit from "@serwist/next";
 
 // Service worker (Serwist, sucesor de next-pwa basado en Workbox): ADR-0005.
 // En desarrollo se desactiva para no cachear código mientras se edita.
+const buildRevision = process.env.GIT_SHA ?? randomUUID();
+
 const withSerwist = withSerwistInit({
   swSrc: "src/sw/sw.ts",
   swDest: "public/sw.js",
   cacheOnNavigation: true,
+  // El documento del shell entra al precache: la primera visita ocurre antes
+  // de que el SW controle la página, así que no quedaría en la caché de runtime
+  // (HU-PLAT-03 "shell disponible sin conexión"). Revisión nueva en cada build.
+  additionalPrecacheEntries: ["/app", "/app/offline"].map((url) => ({ url, revision: buildRevision })),
   reloadOnOnline: false,
   disable: process.env.NODE_ENV === "development",
 });
