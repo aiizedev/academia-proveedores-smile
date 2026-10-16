@@ -15,6 +15,8 @@ Plataforma **CRM & Mini ERP sostenible** para los 450 proveedores de Grupo Smile
 | [`docs/`](docs/README.md) | **Specs (fuente de verdad)**, requerimientos, casos de uso, historias, arquitectura, ADR, guía visual y planes |
 | [`maqueta/`](maqueta/README.md) | Prototipo navegable original (paleta v1.0; referencia de interacción) |
 
+> **Ver la demo del POC:** [`docs/DEMO.md`](docs/DEMO.md) — comandos, recorrido sugerido y qué es real vs. simulado.
+
 ## Empezar
 
 Requisitos: Docker con Compose v2, **buildx** (BuildKit) y `make`. `make doctor` lo verifica.
