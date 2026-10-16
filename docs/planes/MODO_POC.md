@@ -54,3 +54,7 @@ Categorías (solo Fruver activa), 5 ejes Fruver, banco de preguntas = `contracts
 
 ## 4. Protocolo de revisión del coordinador
 El coordinador (sesión `guia-visual-diseno-docs`) revisa cada push a `develop` y responde por mensaje a la sesión autora con: ✅ aprobado / ⚠️ ajustar (lista corta). Revisa: alcance POC, reglas de arquitectura (hexagonal, `public.py`, tokens de diseño, local-first), contratos, que exista el *seed* de lo nuevo, y señales de gasto innecesario de tokens (diffs enormes, documentos reescritos, código generado sin uso).
+
+## 5. Estado al cierre (16/10/2026)
+
+POC navegable entregado: ver [`../DEMO.md`](../DEMO.md). Por pedido del usuario, la parte restante del frontend se resolvió con **datos simulados** y **rutas abiertas** (`NEXT_PUBLIC_DEMO_OPEN=true`); el backend quedó congelado con login, roles, catálogo y ficha reales. La sincronización (PR #19) quedó abierta sin fusionar. Pendientes priorizados en DEMO.md §5.

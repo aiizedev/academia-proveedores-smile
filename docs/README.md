@@ -4,6 +4,7 @@ Orden de lectura recomendado para alguien nuevo en el proyecto: 1 → 2 → 3 �
 
 | # | Carpeta / archivo | Qué contiene |
 |---|---|---|
+| 0 | [`DEMO.md`](DEMO.md) | **Cómo ver la demo del POC** y qué está simulado. |
 | 1 | [`specs/`](specs/README.md) | **Fuente de verdad.** Specs PDF y documentos de dominio, con índice por secciones y regla de precedencia. |
 | 2 | [`sistema/vision-y-alcance.md`](sistema/vision-y-alcance.md) | Problema, visión, objetivos medibles, interesados, riesgos. |
 | 3 | [`sistema/requerimientos.md`](sistema/requerimientos.md) | SRS (ISO/IEC/IEEE 29148): RF/RNF con ID, prioridad, fuente, verificación y release; catálogo de casos de uso; trazabilidad. |
