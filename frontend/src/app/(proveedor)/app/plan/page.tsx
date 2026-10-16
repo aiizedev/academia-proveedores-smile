@@ -1,7 +1,7 @@
-import { PageStub } from "@/components/shell/PageStub";
+import { PlanScreen } from "@/features/assessment/PlanScreen";
 
-export const metadata = { title: "Guías" };
+export const metadata = { title: "Su ruta" };
 
 export default function PlanPage() {
-  return <PageStub eyebrow="Guías" title={<>Su ruta de <em>crecimiento</em></>} refs="CU-07 · RF-IMP-001…004" />;
+  return <PlanScreen />;
 }

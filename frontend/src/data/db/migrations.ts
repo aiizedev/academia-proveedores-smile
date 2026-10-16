@@ -1,5 +1,5 @@
 import { addColumns, createTable, schemaMigrations } from "@nozbe/watermelondb/Schema/migrations";
-import { consentsTable, declarationsTable, supplierProfileTable } from "./schema";
+import { consentsTable, declarationsTable, goalChecksTable, supplierProfileTable } from "./schema";
 
 /* Migraciones del esquema local (PLAN_FRONTEND §3.2 paso 3). Cada cambio de
    schema.ts sube SCHEMA_VERSION y agrega aquí el paso `toVersion` que lo lleva
@@ -25,5 +25,7 @@ export const migrations = schemaMigrations({
         createTable({ name: declarationsTable.name, columns: Object.values(declarationsTable.columns) }),
       ],
     },
+    // v5 · HU-IMP-03: checklist de las metas.
+    { toVersion: 5, steps: [createTable({ name: goalChecksTable.name, columns: Object.values(goalChecksTable.columns) })] },
   ],
 });
