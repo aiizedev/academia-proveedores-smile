@@ -101,7 +101,9 @@ export function DashboardScreen() {
           </p>
         </div>
         <div className="flex flex-col gap-2 border-t border-dashed border-line pt-3">
-          <p className="text-app-caption font-bold text-ink-soft">Le faltan {d.bpaMissing.length} requisitos</p>
+          <p className="text-app-caption font-bold text-ink-soft">
+            {d.bpaProximity >= 100 ? "Siguientes pasos para obtener el sello" : `Le faltan ${d.bpaMissing.length} requisitos`}
+          </p>
           <ul className="flex flex-col gap-1.5 text-app-small">
             {d.bpaMissing.map((m, i) => (
               <motion.li key={m} className="flex items-start gap-2" initial={{ opacity: 0, x: 16 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ ...T.enter, delay: 0.3 + i * 0.08 }}>

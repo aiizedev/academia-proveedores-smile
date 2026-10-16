@@ -218,7 +218,7 @@ export const DASHBOARD: {
     { id: "inventario", label: "Inventario", value: 715, unit: "kg", delta: -40, deltaUnit: " kg", deltaLabel: "esta semana", goodWhen: "up", trend: [690, 760, 820, 740, 755, 715] },
   ],
   bpaProximity: 100, // igual al diagnóstico sembrado (form-paths caso 1)
-  bpaMissing: ["Registro de aplicaciones al día", "Bodega de agroquímicos con llave", "Análisis de agua del último año"],
+  bpaMissing: ["Reúna sus registros de cosecha y de agua del último año", "Solicite la visita de certificación al ICA", "Prepare la finca para la auditoría con su técnico"],
   benefits: [
     { id: "agro", label: "Agroquímicos", value: 186_000, hint: "Ahorro: dosis según etiqueta y monitoreo de plagas" },
     { id: "mermas", label: "Mermas", value: 142_500, hint: "Evitadas: cosecha un día antes y canastillas limpias" },
