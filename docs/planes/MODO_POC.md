@@ -49,7 +49,7 @@ Contraseña de todos: **`Smile2026!`** (solo demo, documentada en el README).
 | `proveedor01…30@smile.test` | PROVEEDOR | Generados: municipios de Cundinamarca y Boyacá, 5 marcados ESTRATÉGICO, distribuidos en las etapas E1–E6, mermas de recepción entre 3 % y 20 %, scores variados para que el funnel, el Pareto y la matriz de riesgo se vean con datos |
 
 ### 3.3 Catálogo de demo
-Categorías (solo Fruver activa), 5 ejes Fruver, ≥ 25 preguntas Fruver (base `maqueta/js/data.js` + DOC-FRUVER + DOC-AUTOEVAL), guías de los 5 ejes, 10 productos Fruver con unidades, 5 agroquímicos con períodos de carencia de ficha técnica (marcados `source=demo`), parámetros S-01…S-17 versión 1.
+Categorías (solo Fruver activa), 5 ejes Fruver, banco de preguntas = `contracts/fixtures/question-bank.json` (núcleo DOC-AUTOEVAL + extras ODS/GRI/ISO 14001/B Corp, C-16), cargado como **dato de referencia** en una migración, no en el seed, guías de los 5 ejes, 10 productos Fruver con unidades, 5 agroquímicos con períodos de carencia de ficha técnica (marcados `source=demo`), parámetros S-01…S-17 versión 1.
 
 ## 4. Protocolo de revisión del coordinador
 El coordinador (sesión `guia-visual-diseno-docs`) revisa cada push a `develop` y responde por mensaje a la sesión autora con: ✅ aprobado / ⚠️ ajustar (lista corta). Revisa: alcance POC, reglas de arquitectura (hexagonal, `public.py`, tokens de diseño, local-first), contratos, que exista el *seed* de lo nuevo, y señales de gasto innecesario de tokens (diffs enormes, documentos reescritos, código generado sin uso).
