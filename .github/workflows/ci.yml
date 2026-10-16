@@ -242,8 +242,11 @@ jobs:
         run: make env && make config
       - name: Levantar
         run: make up
-      - name: Esperar backend
-        run: TIMEOUT=180 infra/scripts/wait-for-backend.sh
+      - name: Esperar backend y frontend
+        run: |
+          TIMEOUT=180 infra/scripts/wait-for-backend.sh
+          for i in $(seq 90); do curl -fsS http://localhost:3000/api/health >/dev/null && exit 0; sleep 2; done
+          echo "frontend no respondió" >&2; exit 1
       - name: Smoke
         run: make smoke
       - name: Estado y logs
