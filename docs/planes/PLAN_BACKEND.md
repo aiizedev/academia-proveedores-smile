@@ -35,7 +35,7 @@ El esqueleto vive en `backend/` (ver [`backend/README.md`](../../backend/README.
 |---|---|---|
 | Imagen `runtime` de 315 MB (objetivo RNF-POR-001: < 250 MB) | `python:3.12-slim` = 178 MB + `.venv` = 127 MB (boto3/botocore es la mayor parte) | Evaluar `python:3.12-alpine` (asyncpg y argon2 tienen wheels musllinux), reemplazar boto3 por un cliente S3 liviano para firmar (p. ej. `aiobotocore` mínimo o firma SigV4 propia), o ajustar el objetivo con un ADR si no es alcanzable |
 | Sin `RUN --mount=type=cache` | El builder clásico de este host no soporta *cache mounts*; el Dockerfile usa capas `COPY uv.lock` + `uv sync` | Con buildx (CI lo tiene) se puede reintroducir sin romper el builder clásico usando un Dockerfile `# syntax=docker/dockerfile:1` y documentar el requisito |
-| Exportador OpenAPI | Aún no existe `scripts/export_openapi.py` ni `make openapi` | Paso 5 de B0 |
+| Exportador OpenAPI | ✅ 16/10/2026: `backend/scripts/export_openapi.py`, `make openapi` y verificación en CI | Paso 5 de B0 |
 | Cableado de dependencias | `api` no puede importar `infrastructure`; cada `module.py` expone `dependency_overrides` que `main.py` aplica | Mantener: es el patrón oficial (documentado en `backend/README.md`) |
 
 ## 3. Receta para implementar una historia (aplica a todas las fases)
@@ -72,7 +72,7 @@ Cada fase lista: objetivo · historias · pasos · plan de ejecución (orden y p
 2. `shared/api/errors.py`: mapa `DomainError.code → HTTP` y cuerpo uniforme `{ "error": { "code", "message", "details", "request_id" } }`.
 3. Middleware `request_id` (cabecera `X-Request-ID`, generada si no viene) y logging JSON con `structlog`; filtro que elimina campos de PII conocidos (`email`, `phone`, `document_number`, `name`) — RNF-OBS-001.
 4. `/health/live`, `/health/ready` (DB `SELECT 1` + `FileStorage.head_bucket`), `/metrics` con `prometheus-client` (latencia por ruta, errores, tamaño de lotes de sync).
-5. Script `scripts/export_openapi.py` → `contracts/openapi.json` (orden estable de claves); objetivo `make openapi`; job de CI que falla si hay diff.
+5. Script `scripts/export_openapi.py` → `contracts/openapi.json` (orden estable de claves); objetivo `make openapi`; job de CI que falla si hay diff. ✅ 16/10/2026
 6. Fixture de pytest con base de datos real (servicio `db` de compose o testcontainers) y *rollback* por test; fábricas de datos con `factory-boy` o funciones propias.
 7. `pyproject` con umbral de cobertura por paquete (`domain`, `application`) y reporte en CI.
 

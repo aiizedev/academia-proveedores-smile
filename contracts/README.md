@@ -5,7 +5,7 @@ Artefactos que comparten `frontend/` y `backend/`. Un cambio aquí rompe el CI d
 | Ruta | Qué es | Quién lo valida |
 |---|---|---|
 | `fixtures/assessment-scoring.json` | Casos de prueba de las reglas de puntaje por eje, niveles, críticas, Pilar 1 y orden del plan de 3 metas (RF-ASM-005…008, RF-IMP-001, S-01, S-02, S-03, S-09) | `backend/tests/unit/assessment`, `frontend/src/domain/*.test.ts` |
-| `openapi.json` (generado) | Contrato HTTP exportado por FastAPI | CI: el cliente TS se regenera y no debe haber diff |
+| `openapi.json` (generado con `make openapi`) | Contrato HTTP exportado por FastAPI, claves ordenadas | CI (job backend): falla y muestra el diff si no coincide con la API. El frontend genera su cliente TS desde este archivo |
 
 Ver [ADR-0005](../docs/adr/ADR-0005-local-first-watermelondb.md).
 
