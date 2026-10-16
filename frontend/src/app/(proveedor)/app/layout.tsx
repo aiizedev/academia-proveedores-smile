@@ -12,7 +12,7 @@ export const metadata: Metadata = { title: { default: "Mi finca", template: "%s 
 
 export default function ProveedorLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="mx-auto flex min-h-dvh max-w-[430px] flex-col bg-cream">
+    <div className="mx-auto flex min-h-dvh max-w-[430px] flex-col bg-cream print:max-w-none print:bg-white">
       <StatusBar />
       <main className="flex-1 px-[var(--screen-x)] pt-[0.6rem] pb-[var(--tabbar-clearance)]">
         <SessionGuard>

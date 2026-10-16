@@ -2,8 +2,8 @@ import { expect, test, type Page } from "@playwright/test";
 import bank from "../../../contracts/fixtures/question-bank.json";
 import { acceptConsent, completeProfile, installApp, seedProveedorSession } from "./session";
 
-/* HU-ASM-03/05 · CU-05/06 en modo avión: una pregunta por pantalla, pausa y
-   reanudación, declaración obligatoria, envío y diagnóstico. */
+/* HU-ASM-03/05 · HU-IMP-01…03 en modo avión: una pregunta por pantalla, pausa y
+   reanudación, declaración, envío, diagnóstico, plan, checklist y ficha resumen. */
 const questions = (bank.sections as Array<{ questions: Array<{ id: string; text: string }> }>).flatMap((s) => s.questions);
 const textOf = (id: string) => questions.find((q) => q.id === id)!.text;
 
@@ -22,7 +22,7 @@ async function answerCurrent(page: Page) {
   await expect(heading).not.toHaveText(before);
 }
 
-test("autoevaluación sin conexión: pausa, reanuda, declara y envía", async ({ page, context }) => {
+test("R1 sin conexión: autoevaluación, diagnóstico y plan de 3 metas", async ({ page, context }) => {
   test.setTimeout(120_000);
   await page.emulateMedia({ reducedMotion: "reduce" }); // avance a 150 ms
   await seedProveedorSession(context);
@@ -66,6 +66,38 @@ test("autoevaluación sin conexión: pausa, reanuda, declara y envía", async ({
   await expect(page.getByText("Su siguiente paso")).toBeVisible();
   await expect(page.getByText("Urgente").first()).toBeVisible();
   await expect(page.locator("main")).not.toContainText(/\b(GRI|TCFD|SASB)\b/);
+
+  // HU-IMP-01/02/03: plan de 3 metas, guía offline y checklist que completa la meta.
+  await page.goto("/app/plan");
+  const cards = page.locator("main a[href^='/app/plan/']");
+  await expect(cards).toHaveCount(3);
+  await cards.first().click();
+  await expect(page.getByText("Paso a paso")).toBeVisible();
+  await expect(page.getByText(/^Fuente: /)).toBeVisible();
+  await expect(page.getByText("Fecha límite")).toBeVisible();
+  const items = page.locator("main label:has(input[type=checkbox])");
+  await expect(items).toHaveCount(4);
+  for (let i = 0; i < 4; i++) await items.nth(i).click();
+  await expect(page.getByRole("status").filter({ hasText: "Meta completa" })).toBeVisible();
+  await page.reload();
+  await expect(page.getByText("4 de 4")).toBeVisible();
+  await items.nth(3).click();
+  await expect(page.getByText("En progreso")).toBeVisible();
+
+  // HU-IMP-04: ficha resumen sin conexión, WhatsApp < 1 KB e impresión sin chrome.
+  await page.goto("/app/ficha/resumen");
+  await expect(page.getByRole("heading", { name: "María Fernanda Rojas" })).toBeVisible();
+  await expect(page.locator("main ol > li")).toHaveCount(3);
+  const href = await page.getByRole("link", { name: "Enviar por WhatsApp" }).getAttribute("href");
+  expect(href).toMatch(/^https:\/\/wa\.me\/\?text=/);
+  const shared = decodeURIComponent(href!.split("text=")[1]!);
+  expect(new TextEncoder().encode(shared).length).toBeLessThan(1024);
+  expect(shared).toContain("María Fernanda Rojas");
+  await expect(page.getByRole("button", { name: "Descargar o imprimir" })).toBeVisible();
+  await page.emulateMedia({ media: "print" });
+  await expect(page.getByRole("navigation", { name: "Secciones" })).toBeHidden();
+  await expect(page.getByRole("button", { name: "Descargar o imprimir" })).toBeHidden();
+  await expect(page.getByRole("heading", { name: "María Fernanda Rojas" })).toBeVisible();
 
   await page.goto("/app/autoevaluacion");
   await expect(page.getByRole("heading", { name: /Autoevaluación enviada/ })).toBeVisible();

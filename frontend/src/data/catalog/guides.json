@@ -1,0 +1,260 @@
+{
+  "_comment": "Guías de las metas (RF-IMP-003, CU-07), una por eje; `id` = axes[].guide del banco. Contenido base de la maqueta adaptado a 'usted' y ≤ 20 palabras por oración (guía de usabilidad §5). Los `checklist[].id` son estables: goal_checks.item_id.",
+  "version": "guias-2026-v1",
+  "guides": [
+    {
+      "id": "guia-bpa",
+      "axis": "bpa",
+      "title": "Agroquímicos bajo control",
+      "minutes": 8,
+      "intro": "Usar bien los agroquímicos protege su salud, su tierra y la confianza de quien le compra.",
+      "steps": [
+        {
+          "title": "Compre solo lo registrado",
+          "detail": "Busque el número de registro ICA en la etiqueta. Si no lo tiene, no lo use."
+        },
+        {
+          "title": "Mire la banda de color",
+          "detail": "Roja y amarilla son las más tóxicas. Pida al agrónomo opciones de banda azul o verde."
+        },
+        {
+          "title": "Protéjase siempre",
+          "detail": "Guantes, tapabocas con filtro, gafas, botas y manga larga. Lave esa ropa aparte."
+        },
+        {
+          "title": "Respete el período de carencia",
+          "detail": "Son los días antes de cosechar después de la última aplicación. Están en la etiqueta."
+        },
+        {
+          "title": "Anote cada aplicación",
+          "detail": "Fecha, lote, producto, dosis y quién aplicó. Es la base de la certificación BPA."
+        }
+      ],
+      "checklist": [
+        {
+          "id": "bpa-1",
+          "text": "Bodega de agroquímicos con llave, lejos de la casa y del agua"
+        },
+        {
+          "id": "bpa-2",
+          "text": "Cuaderno de aplicaciones al día"
+        },
+        {
+          "id": "bpa-3",
+          "text": "Equipo de protección completo para cada persona"
+        },
+        {
+          "id": "bpa-4",
+          "text": "Bomba de fumigar calibrada esta temporada"
+        }
+      ],
+      "tip": "La certificación en Buenas Prácticas Agrícolas del ICA abre puertas con compradores grandes.",
+      "source": "Resolución ICA 30021 de 2017 (BPA en producción primaria de vegetales).",
+      "expected_evidence": "Foto del cuaderno de aplicaciones con las últimas cuatro semanas."
+    },
+    {
+      "id": "guia-residuos",
+      "axis": "residuos",
+      "title": "Finca limpia, menos pérdidas",
+      "minutes": 7,
+      "intro": "Lo que hoy es basura puede ser abono, y lo que se pierde en la cosecha es dinero.",
+      "steps": [
+        {
+          "title": "Separe en tres",
+          "detail": "Verde: orgánicos. Blanco: plástico y cartón limpios. Negro: lo que no se aprovecha."
+        },
+        {
+          "title": "Triple lavado, etapa 1",
+          "detail": "Llene el envase vacío hasta un cuarto con agua, tápelo y agítelo 30 segundos."
+        },
+        {
+          "title": "Triple lavado, etapa 2",
+          "detail": "Vierta esa agua en la bomba de fumigar. Repita el enjuague dos veces más."
+        },
+        {
+          "title": "Triple lavado, etapa 3",
+          "detail": "Perfore el fondo del envase para que nadie lo reutilice con agua o alimentos."
+        },
+        {
+          "title": "Triple lavado, etapa 4",
+          "detail": "Lleve los envases a un punto de CampoLimpio. Pregunte en su almacén agrícola."
+        },
+        {
+          "title": "Haga compost",
+          "detail": "Capas de residuos de cosecha, estiércol y hojas secas. Voltee cada 15 días."
+        }
+      ],
+      "checklist": [
+        {
+          "id": "residuos-1",
+          "text": "Tres canecas o puntos de separación señalizados"
+        },
+        {
+          "id": "residuos-2",
+          "text": "Envases vacíos con triple lavado y perforados"
+        },
+        {
+          "id": "residuos-3",
+          "text": "Compostera activa"
+        },
+        {
+          "id": "residuos-4",
+          "text": "Canastillas en lugar de costales"
+        }
+      ],
+      "tip": "Menos merma significa más kilos vendidos con el mismo trabajo.",
+      "source": "Decreto 1076 de 2015 / CampoLimpio (posconsumo de envases de agroquímicos).",
+      "expected_evidence": "Foto de los puntos de separación y del último certificado de entrega de envases."
+    },
+    {
+      "id": "guia-carbono",
+      "axis": "carbono",
+      "title": "Su huella en tres números",
+      "minutes": 6,
+      "intro": "Medir es el primer paso. Con lo que ya compra cada mes puede estimar su huella de carbono.",
+      "steps": [
+        {
+          "title": "Combustible",
+          "detail": "Anote los galones de ACPM o gasolina del mes: bomba, guadaña y transporte."
+        },
+        {
+          "title": "Abono nitrogenado",
+          "detail": "Anote los kilos de urea u otros abonos con nitrógeno. Suelen ser la mayor fuente de emisiones."
+        },
+        {
+          "title": "Electricidad",
+          "detail": "Mire los kWh de su recibo de luz."
+        },
+        {
+          "title": "Abone justo",
+          "detail": "Con el análisis de suelo pone solo lo necesario: ahorra dinero y emisiones."
+        },
+        {
+          "title": "Siembre y comparta",
+          "detail": "Árboles y cercas vivas guardan carbono. Comparta el transporte con vecinos."
+        }
+      ],
+      "checklist": [
+        {
+          "id": "carbono-1",
+          "text": "Registro mensual de combustible"
+        },
+        {
+          "id": "carbono-2",
+          "text": "Registro de abonos aplicados"
+        },
+        {
+          "id": "carbono-3",
+          "text": "Plan de siembra de árboles o cercas vivas"
+        },
+        {
+          "id": "carbono-4",
+          "text": "Transporte compartido al menos una vez al mes"
+        }
+      ],
+      "tip": "Lo que baja la huella casi siempre baja también el costo.",
+      "source": "Factores de emisión versionados en el catálogo de Smile (IPCC 2019).",
+      "expected_evidence": "Recibos de combustible y de energía de los últimos tres meses."
+    },
+    {
+      "id": "guia-infantil",
+      "axis": "infantil",
+      "title": "Infancia protegida",
+      "minutes": 6,
+      "intro": "El lugar de los niños y niñas es la escuela y el juego. Protegerlos también protege su negocio.",
+      "steps": [
+        {
+          "title": "Conozca la regla",
+          "detail": "Menores de 15 años no pueden trabajar. De 15 a 17 solo con permiso del inspector de trabajo."
+        },
+        {
+          "title": "Tareas prohibidas",
+          "detail": "Ningún menor aplica agroquímicos, carga pesos, usa machete ni maquinaria."
+        },
+        {
+          "title": "Registre a su equipo",
+          "detail": "Nombre, documento, edad y fecha de ingreso de cada persona que trabaja con usted."
+        },
+        {
+          "title": "Escuela primero",
+          "detail": "Acuerde horarios que no choquen con la escuela."
+        },
+        {
+          "title": "Ruta de ayuda",
+          "detail": "Si conoce un caso de riesgo, llame gratis a la Línea 141 del ICBF."
+        }
+      ],
+      "checklist": [
+        {
+          "id": "infantil-1",
+          "text": "Registro de trabajadores con documento y edad"
+        },
+        {
+          "id": "infantil-2",
+          "text": "Ningún menor en tareas peligrosas"
+        },
+        {
+          "id": "infantil-3",
+          "text": "Niños y niñas de la finca estudiando"
+        },
+        {
+          "id": "infantil-4",
+          "text": "Línea 141 del ICBF visible en la finca"
+        }
+      ],
+      "tip": "Los compradores grandes revisan este eje primero. Tenerlo en orden abre puertas.",
+      "source": "Ley 1098 de 2006 (Código de Infancia y Adolescencia) y Resolución 1796 de 2018.",
+      "expected_evidence": "Registro de trabajadores con documento y edad de cada persona."
+    },
+    {
+      "id": "guia-ddhh",
+      "axis": "ddhh",
+      "title": "Trabajo digno en la finca",
+      "minutes": 7,
+      "intro": "Un equipo bien tratado trabaja mejor, se queda más tiempo y cuida su cosecha.",
+      "steps": [
+        {
+          "title": "Pago justo y a tiempo",
+          "detail": "Al menos el salario mínimo proporcional al jornal. Deje registro de cada pago."
+        },
+        {
+          "title": "Seguridad social",
+          "detail": "Salud, pensión y riesgos laborales. Si paga por días, pregunte por el Piso de Protección Social."
+        },
+        {
+          "title": "Lo básico",
+          "detail": "Agua potable, baño, sombra y descansos. Protección sin costo para el trabajador."
+        },
+        {
+          "title": "Trato respetuoso",
+          "detail": "Sin discriminación ni acoso. Nunca retenga documentos ni pagos."
+        },
+        {
+          "title": "Canal de quejas",
+          "detail": "Un buzón o una persona de confianza para hablar sin miedo."
+        }
+      ],
+      "checklist": [
+        {
+          "id": "ddhh-1",
+          "text": "Registro o recibo de cada pago"
+        },
+        {
+          "id": "ddhh-2",
+          "text": "Afiliación a seguridad social de su equipo"
+        },
+        {
+          "id": "ddhh-3",
+          "text": "Agua potable y baño disponibles"
+        },
+        {
+          "id": "ddhh-4",
+          "text": "Canal de quejas conocido por todos"
+        }
+      ],
+      "tip": "Estas prácticas son las que piden los sellos de comercio justo.",
+      "source": "Convenios fundamentales de la OIT y Decreto 1072 de 2015.",
+      "expected_evidence": "Planilla de afiliación a seguridad social o recibos de pago del último mes."
+    }
+  ]
+}

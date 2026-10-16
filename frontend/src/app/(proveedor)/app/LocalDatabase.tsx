@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui";
 import { LocalDbContext, type LocalDbState } from "@/data/db/context";
 import { getDatabase } from "@/data/db";
+import { DEMO_OPEN } from "@/lib/env";
 
 /* Abre WatermelonDB después del primer pintado (PLAN_FRONTEND §6) y, si el
    navegador no deja abrirla, muestra cómo recuperarse en vez de una pantalla vacía. */
@@ -12,7 +13,12 @@ export function LocalDatabase({ children }: { children: ReactNode }) {
 
   const open = useCallback(() => {
     setState({ status: "loading" });
-    getDatabase().then(
+    getDatabase()
+      .then(async (database) => {
+        if (DEMO_OPEN) await (await import("@/mocks/app")).seedDemo(database);
+        return database;
+      })
+      .then(
       (database) => setState({ status: "ready", database }),
       (error: unknown) => setState({ status: "error", error: error instanceof Error ? error : new Error(String(error)) }),
     );

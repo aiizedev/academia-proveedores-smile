@@ -4,7 +4,7 @@ import { appSchema, tableSchema } from "@nozbe/watermelondb";
    de sync: mismo nombre que en `/api/v1/sync/pull`. Montos COP como enteros,
    cantidades con la unidad original (la normalización es del backend, RF-ERP-008).
    Al cambiar el esquema: subir `version` y agregar migración en migrations.ts. */
-export const SCHEMA_VERSION = 4;
+export const SCHEMA_VERSION = 5;
 
 export const consentsTable = tableSchema({
   name: "consents",
@@ -52,6 +52,17 @@ export const declarationsTable = tableSchema({
   ],
 });
 
+// P2 — Checklist de las metas (RF-IMP-004); última escritura gana por ítem (RF-SYN-005).
+export const goalChecksTable = tableSchema({
+  name: "goal_checks",
+  columns: [
+    { name: "goal_key", type: "string", isIndexed: true }, // <assessment_id>:<eje> hasta que llegue el plan oficial
+    { name: "item_id", type: "string" }, // guides.json checklist[].id
+    { name: "checked", type: "boolean" },
+    { name: "checked_at", type: "number" },
+  ],
+});
+
 export const schema = appSchema({
   version: SCHEMA_VERSION,
   tables: [
@@ -76,6 +87,7 @@ export const schema = appSchema({
     // P2 — Ficha del proveedor, una sola fila (RF-SUP-001, CU-04).
     supplierProfileTable,
     declarationsTable,
+    goalChecksTable,
     // P2 — Autoevaluación (RF-ASM-003, RF-ASM-004)
     tableSchema({
       name: "assessments",

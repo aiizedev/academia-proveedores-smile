@@ -1,7 +1,7 @@
-import { PageStub } from "@/components/shell/PageStub";
+import { BenefitsScreen } from "@/features/demo/Screens";
 
-export const metadata = { title: "Ruta" };
+export const metadata = { title: "Beneficios" };
 
-export default function BeneficiosPage() {
-  return <PageStub eyebrow="Ruta" title={<>Sus <em>beneficios</em></>} refs="CU-27 · RF-GAM-004…006" />;
+export default function Page() {
+  return <BenefitsScreen />;
 }

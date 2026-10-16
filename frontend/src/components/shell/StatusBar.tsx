@@ -12,7 +12,7 @@ export function StatusBar() {
   const label = statusLabel(online ? { kind: "saved" } : { kind: "offline" });
 
   return (
-    <div className="relative z-[var(--z-status)] flex h-[calc(46px+env(safe-area-inset-top,0px))] items-center justify-between px-[var(--screen-x)] pt-[env(safe-area-inset-top,0px)]">
+    <div data-print="hidden" className="relative z-[var(--z-status)] flex h-[calc(46px+env(safe-area-inset-top,0px))] items-center justify-between px-[var(--screen-x)] pt-[env(safe-area-inset-top,0px)]">
       <p className="brand text-[1.25rem]">
         smile<span className="dot">.</span>
       </p>

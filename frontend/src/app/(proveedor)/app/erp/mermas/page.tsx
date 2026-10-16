@@ -1,7 +1,7 @@
-import { PageStub } from "@/components/shell/PageStub";
+import { WasteLedger } from "@/features/demo/Ledger";
 
 export const metadata = { title: "Mermas" };
 
-export default function ErpMermasPage() {
-  return <PageStub eyebrow="Mermas" title={<>Registrar <em>mermas</em></>} refs="CU-11 · RF-ERP-006" />;
+export default function Page() {
+  return <WasteLedger />;
 }

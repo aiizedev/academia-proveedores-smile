@@ -1,8 +1,15 @@
-import { PageStub } from "@/components/shell/PageStub";
+import guides from "@/data/catalog/guides.json";
+import { GuideScreen } from "@/features/assessment/GuideScreen";
 
-export const metadata = { title: "Meta" };
+export const metadata = { title: "Guía" };
+
+// Una página estática por eje: se precachean para abrir sin conexión (HU-IMP-02).
+export const dynamicParams = false;
+export function generateStaticParams() {
+  return guides.guides.map((g) => ({ metaId: g.axis }));
+}
 
 export default async function MetaPage({ params }: { params: Promise<{ metaId: string }> }) {
   const { metaId } = await params;
-  return <PageStub eyebrow={`Meta ${metaId}`} title={<>Guía de <em>mejora</em></>} refs="CU-07 · RF-IMP-002…004" />;
+  return <GuideScreen axis={metaId} />;
 }

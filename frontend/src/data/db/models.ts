@@ -44,6 +44,14 @@ export class AssessmentAnswer extends Model {
   get detail(): string { return (this._getRaw("detail") as string | null) ?? ""; }
 }
 
+export class GoalCheck extends Model {
+  static override table = "goal_checks";
+
+  get goalKey(): string { return this._getRaw("goal_key") as string; }
+  get itemId(): string { return this._getRaw("item_id") as string; }
+  get checked(): boolean { return Boolean(this._getRaw("checked")); }
+}
+
 export class Declaration extends Model {
   static override table = "declarations";
 }
@@ -106,4 +114,4 @@ export class SupplierProfileRecord extends Model {
   }
 }
 
-export const modelClasses = [Sale, Assessment, AssessmentAnswer, Consent, SupplierProfileRecord, Declaration];
+export const modelClasses = [Sale, Assessment, AssessmentAnswer, Consent, SupplierProfileRecord, Declaration, GoalCheck];
