@@ -1,6 +1,6 @@
 /* GENERADO por scripts/design-sync.mjs desde docs/diseno/tokens.css — no editar aquí. */
 /* ==========================================================
-   Academia Proveedores Smile — Tokens canónicos v1.1
+   Academia Proveedores Smile — Tokens canónicos v1.2
    Fuente de verdad: docs/diseno/GUIA_VISUAL.md
    Derivado de maqueta/ (commit 0d70c11). Solo :root, sin reset:
    el sistema importa este archivo y define su propia base.
@@ -187,7 +187,10 @@
   --radius-dock: 26px;         /* [nuevo] tabbar, ficha */
   --radius-sheet: 36px;        /* [nuevo] cabeceras curvas (g-hero) */
   --radius-device: 58px;
+  --radius-device-screen: 47px; /* [nuevo v1.3] pantalla dentro del marco (58 − bisel 11) */
+  --device-bezel: 11px;         /* [nuevo v1.3] bisel del marco de teléfono */
   --radius-pill: 999px;
+  --radius-rise: 50% 50% 0 0 / 30% 30% 0 0; /* [nuevo] capa que sube en hover (tarjeta de eje, §8.12) */
   --leaf-shape: 0 100% 0 100%; /* [nuevo] hoja: confeti, marquee, ficha */
 
   --border: 1px solid var(--line);
@@ -204,6 +207,8 @@
   --halo-rose: 0 0 0 6px rgba(232, 197, 184, 0.35);
   --ring-field-focus: 0 0 0 4px rgba(95, 105, 94, 0.18);
   --blur-dock: blur(12px);
+  --shadow-lift: 0 22px 44px -22px rgba(40, 48, 40, 0.42); /* [nuevo v1.3] tarjeta elevada al pasar el puntero */
+  --halo-rose-soft: 0 0 0 5px rgba(232, 197, 184, 0.3);   /* [nuevo v1.3] punto activo del panel lateral */
 
   /* ---------- Capas [nuevo] ---------- */
   --z-content: 2;
@@ -247,6 +252,26 @@
   --press-scale: 0.97;
   --press-scale-card: 0.98;
   --press-scale-icon: 0.92;
+
+  /* ---------- Gráficas (v1.2) ----------
+     Validados con el validador de dataviz sobre --white (#fffdf9).
+     La paleta de marca es de croma bajo (se lee gris en marcas de datos):
+     estos pasos conservan los TONOS oliva (h≈147°) y palo de rosa (h≈41°)
+     con más croma. Solo para marcas de datos; nunca para texto ni superficies. */
+  --chart-series: var(--olive-800);  /* una sola serie (barras, líneas) */
+  --chart-highlight: #cb7a5c;        /* énfasis/selección y segmento ESTRATÉGICO */
+  --chart-local: #31743c;            /* segmento LOCAL (par categórico: ΔE normal 23,8; CVD 9,0) */
+  /* Rampa ordinal (etapas E1→E6): monótona, ΔL ≥ 0,06, extremo claro 2,21:1 */
+  --chart-ord-1: #92b695;
+  --chart-ord-2: #7da080;
+  --chart-ord-3: #688a6c;
+  --chart-ord-4: #547658;
+  --chart-ord-5: #416144;
+  --chart-ord-6: #2e4e32;
+  --chart-grid: rgba(43, 43, 43, 0.08);
+  --chart-reference: var(--rose-700); /* líneas de meta / línea base, siempre con etiqueta */
+  --chart-track: var(--olive-100);    /* fondo de barras y anillos */
+  --radius-mark: 4px;                 /* punta redondeada de barras y columnas (dataviz) */
 
   /* ---------- Textura ---------- */
   --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.12 0 0 0 0 0.14 0 0 0 0 0.09 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");

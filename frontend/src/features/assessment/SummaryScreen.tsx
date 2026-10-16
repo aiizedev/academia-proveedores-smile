@@ -2,7 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { Icon } from "@/components/icons";
-import { Button } from "@/components/ui";
+import { motion } from "framer-motion";
+import { MaskWords, Skeleton } from "@/components/motion";
+import { Button, ButtonLink } from "@/components/ui";
+import { EASING } from "@/design/motion-react";
 import { DEPARTMENTS, MUNICIPALITIES } from "@/data/catalog/local";
 import { useLocalDb } from "@/data/db/context";
 import type { SupplierProfileRecord } from "@/data/db/models";
@@ -42,7 +45,14 @@ export function SummaryScreen() {
   const plan = useLocalPlan();
   const farm = useFarm();
 
-  if (plan.status === "loading") return <p className="text-app-body text-ink-soft">Preparando su ficha…</p>;
+  if (plan.status === "loading") {
+    return (
+      <div className="flex flex-col gap-4 pt-2" aria-busy="true">
+        <Skeleton className="h-10 w-56" rounded="var(--radius-m)" />
+        <Skeleton className="h-[30rem]" rounded="var(--radius-dock)" />
+      </div>
+    );
+  }
   if (plan.status === "empty" || !farm || plan.diagnosis.pillar1 === null || plan.diagnosis.level === null) {
     return (
       <section className="flex flex-col gap-4">
@@ -69,13 +79,15 @@ export function SummaryScreen() {
     <section className="flex flex-col gap-5">
       <div className="flex flex-col gap-2 print:hidden">
         <p className="a-eyebrow">Ficha resumen</p>
-        <h1 className="a-title">
-          Comparta su <em>avance</em>
-        </h1>
+        <MaskWords text="Comparta su avance" emphasis={["avance"]} className="a-title" />
       </div>
 
-      <article className="overflow-hidden rounded-dock border border-line bg-white print:max-w-[170mm] print:rounded-none print:border-ink print:text-[11pt]">
-        <header className="grain flex flex-col gap-1 bg-olive-800 px-5 py-4 text-cream print:bg-white print:text-ink print:[&::after]:hidden">
+      <motion.article
+        initial={{ opacity: 0, y: 40, rotate: 1.2 }}
+        animate={{ opacity: 1, y: 0, rotate: 0 }}
+        transition={{ duration: 1.1, ease: EASING.enter, delay: 0.15 }}
+        className="overflow-hidden rounded-dock border border-line bg-white print:max-w-[170mm] print:rounded-none print:border-ink print:text-[11pt]">
+        <header className="grain relative flex flex-col gap-1 overflow-hidden bg-olive-800 px-5 py-4 text-cream print:bg-white print:text-ink print:[&::after]:hidden">
           <p className="brand text-app-h3">
             smile<span className="dot print:text-ink">.</span>
           </p>
@@ -130,21 +142,15 @@ export function SummaryScreen() {
           </div>
         </div>
         <footer className="bg-cream px-5 py-3 text-app-caption text-ink-soft print:bg-white print:text-ink">Academia de Proveedores Smile</footer>
-      </article>
+      </motion.article>
 
       <div className="flex flex-col gap-3 print:hidden">
-        <Button onClick={() => window.print()} icon={<Icon name="doc" />}>
+        <Button onClick={() => window.print()} icon={<Icon name="print" />}>
           Descargar o imprimir
         </Button>
-        <a
-          href={whatsappLink(text)}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex min-h-[3.7rem] items-center justify-center gap-3 rounded-button border-[1.5px] border-line px-[1.4rem] text-app-button font-extrabold text-ink"
-        >
+        <ButtonLink href={whatsappLink(text)} external variant="ghost" icon={<Icon name="chat" />}>
           Enviar por WhatsApp
-          <Icon name="chat" size="1.3rem" />
-        </a>
+        </ButtonLink>
       </div>
     </section>
   );

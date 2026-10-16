@@ -185,3 +185,47 @@ export const BENEFITS: Benefit[] = [
 ];
 
 export const RECOGNITIONS = { flowers: 2, faces: 1 };
+
+/* ---------- Mi tablero (SPEC-DASH, dashboard del proveedor) ---------- */
+export interface DashTile {
+  id: "ventas" | "costos" | "margen" | "inventario";
+  label: string;
+  value: number;
+  unit: "cop" | "pct" | "kg";
+  delta: number;
+  deltaUnit: string;
+  deltaLabel: string;
+  goodWhen: "up" | "down";
+  trend: number[];
+}
+
+export const DASHBOARD: {
+  monthLabel: string;
+  tiles: DashTile[];
+  bpaProximity: number;
+  bpaMissing: string[];
+  benefits: Array<{ id: string; label: string; value: number; hint: string }>;
+  marginWeeks: string[];
+  marginSeries: number[];
+  marginGoal: number;
+  alerts: { cutDays: number; cutLot: string; cutProduct: string; newBadges: number; badgeName: string; flowers: number; flowersGoal: number };
+} = {
+  monthLabel: "Octubre 2026",
+  tiles: [
+    { id: "ventas", label: "Ventas del mes", value: 3_252_500, unit: "cop", delta: 12.4, deltaUnit: " %", deltaLabel: "vs. septiembre", goodWhen: "up", trend: [2.1, 2.4, 2.2, 2.7, 2.9, 3.25] },
+    { id: "costos", label: "Costos del mes", value: 1_230_000, unit: "cop", delta: -6.1, deltaUnit: " %", deltaLabel: "vs. septiembre", goodWhen: "down", trend: [1.42, 1.38, 1.4, 1.33, 1.31, 1.23] },
+    { id: "margen", label: "Margen neto", value: 62.2, unit: "pct", delta: 4.8, deltaUnit: " pts", deltaLabel: "vs. septiembre", goodWhen: "up", trend: [48, 51, 50, 55, 58, 62.2] },
+    { id: "inventario", label: "Inventario", value: 715, unit: "kg", delta: -40, deltaUnit: " kg", deltaLabel: "esta semana", goodWhen: "up", trend: [690, 760, 820, 740, 755, 715] },
+  ],
+  bpaProximity: 100, // igual al diagnóstico sembrado (form-paths caso 1)
+  bpaMissing: ["Reúna sus registros de cosecha y de agua del último año", "Solicite la visita de certificación al ICA", "Prepare la finca para la auditoría con su técnico"],
+  benefits: [
+    { id: "agro", label: "Agroquímicos", value: 186_000, hint: "Ahorro: dosis según etiqueta y monitoreo de plagas" },
+    { id: "mermas", label: "Mermas", value: 142_500, hint: "Evitadas: cosecha un día antes y canastillas limpias" },
+    { id: "bono", label: "Bono +4 %", value: 130_100, hint: "Bonificación: mejor precio de compra al llegar a E5 con BPA" },
+  ],
+  marginWeeks: ["S36", "S37", "S38", "S39", "S40", "S41", "S42"],
+  marginSeries: [47, 52, 50, 56, 58, 61, 62],
+  marginGoal: 60,
+  alerts: { cutDays: 4, cutLot: "L-2026-031", cutProduct: "Tomate chonto", newBadges: 1, badgeName: "Separadora de residuos", flowers: 2, flowersGoal: 3 },
+};

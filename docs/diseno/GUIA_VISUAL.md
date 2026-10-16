@@ -1,6 +1,6 @@
 # Guía visual — Academia Proveedores Smile
 
-**Versión 1.1 · 15 de octubre de 2026** · Movimiento y componentes derivados de la maqueta (commit `0d70c11`); color según los specs oficiales.
+**Versión 1.2 · 16 de octubre de 2026** · Movimiento y componentes derivados de la maqueta (commit `0d70c11`); color según los specs oficiales.
 
 Esta guía es la **fuente de verdad** del sistema visual y de movimiento. Todo lo que se construya encima (la PWA real, nuevas categorías, nuevas pantallas) se diseña y se revisa contra este documento.
 
@@ -133,6 +133,21 @@ En `tokens.css`, `[nuevo]` marca valores que en la maqueta estaban repetidos en 
 
 Todo par nuevo se mide antes de usarse y se agrega a esta tabla.
 
+### 3.6 Gráficas (v1.2)
+
+La paleta de marca tiene croma bajo y se lee gris en marcas de datos. Para gráficas se usan pasos **de los mismos tonos** (oliva h≈147°, palo de rosa h≈41°) con más croma, validados con el validador de la skill de dataviz sobre `--white`. Solo para marcas de datos: nunca texto ni superficies.
+
+| Token | Uso | Validación |
+|---|---|---|
+| `--chart-series` (= olive-800) | Una sola serie (barras, líneas) | contraste ≥ 3:1 |
+| `--chart-highlight` `#cb7a5c` | Énfasis/selección y segmento ESTRATÉGICO | par categórico con `--chart-local`: ΔE normal 23,8 · CVD 9,0 · todos PASS |
+| `--chart-local` `#31743c` | Segmento LOCAL | ídem |
+| `--chart-ord-1…6` `#92b695 → #2e4e32` | Rampa ordinal de etapas E1→E6 | monótona, ΔL ≥ 0,06, extremo claro 2,21:1 · PASS |
+| `--chart-grid`, `--chart-track`, `--chart-reference` | Cuadrícula, fondo de barras/anillos, líneas de meta | — |
+| `--radius-mark` 4 px | Punta redondeada de barras y columnas | — |
+
+**Reglas (skill dataviz):** barras ≤ 24 px con punta de 4 px y base recta; líneas de 2 px; marcadores ≥ 8 px con anillo de 2 px del color de superficie; área al 10 %; cuadrícula de 1 px muy tenue; **un solo eje Y**; leyenda siempre que haya ≥ 2 series; el texto usa tokens de tinta, nunca el color de la serie; cada gráfica tiene tooltip al pasar/enfocar y **vista de tabla**; puntos de dispersión con área de toque ≥ 24 px y forma distinta por segmento (círculo local, rombo estratégico). Las etapas del funnel son **ordinales**: rampa de un tono, nunca colores distintos. La cifra principal de un dashboard va en Manrope semibold (excepción: el puntaje del proveedor en la PWA conserva Fraunces, §8.5). Implementación: `frontend/src/components/charts/`.
+
 ## 4. Tipografía
 
 | Familia | Token | Carga | Rol |
@@ -238,6 +253,7 @@ Media queries de capacidad: `(hover: none), (pointer: coarse)` desactiva cursor 
 | `--radius-device` | 58px | Marco del teléfono (pantalla interior 47px) |
 | `--radius-pill` | 999px | Chips, insignias, botones píldora, toast |
 | `--leaf-shape` | `0 100% 0 100%` | Forma de hoja: confeti, marquee, adorno de ficha |
+| `--radius-rise` | `50% 50% 0 0 / 30% 30% 0 0` | Capa que sube en hover (tarjeta de eje, tarjetas de reporte del back-office); se aplana al llegar |
 
 **Regla:** elementos táctiles grandes → 20–24px; contenedores → 24–28px; nunca esquinas rectas salvo pantalla completa en móvil.
 
@@ -507,6 +523,21 @@ CSS: color y borde 0.3–0.4s; transform de hover 0.5–0.75s con `--ease-out`.
 | Capa de hover (tarjeta de eje, categoría) | `transform` 0.6–0.75s `--ease-out` |
 | Subrayado de link | `scaleX` 0.5s, origen cambia de derecha a izquierda |
 
+### 9.7 Framer Motion en React (v1.2)
+
+La aplicación React usa **Framer Motion** (`frontend/src/design/motion-react.ts`, `frontend/src/components/motion/`); GSAP queda para la landing estática y SplitText/DrawSVG puntuales. Las leyes de §9.1 no cambian. Equivalencias:
+
+| Intención | Framer Motion |
+|---|---|
+| Entrar | `EASING.enter` = `[0.16, 1, 0.3, 1]` (expo.out) |
+| Mover / cortina | `EASING.move` = `[0.87, 0, 0.13, 1]` (expo.inOut) |
+| Salir | `EASING.exit` = `[0.55, 0, 1, 0.45]` (power2.in) |
+| Aparecer con impulso | `EASING.pop` = `[0.34, 1.56, 0.64, 1]` (back.out) |
+| Feedback táctil | `SPRING` (resorte, solo como respuesta al dedo) |
+| Indicador que se desliza (tabs, selección) | `GLIDE` + `layoutId` |
+
+Primitivos: `MotionRoot` (respeta `prefers-reduced-motion`), `PageTransition` (en `template.tsx`, entra en cada navegación), `Reveal`, `Stagger`/`StaggerItem`, `MaskWords` (titular por palabras desde máscara, conserva `aria-label`), `CountUp`, `Pressable`, `FlowerLoader`/`PageLoading` (flor de 4 pétalos de §6 como carga) y `Skeleton`.
+
 ---
 
 ## 10. Reglas técnicas
@@ -547,6 +578,7 @@ CSS: color y borde 0.3–0.4s; transform de hover 0.5–0.75s con `--ease-out`.
 |---|---|---|
 | 1.0 | 2026-10-15 | Primera versión, extraída de la maqueta (commit `0d70c11`). Se elevan a token los valores repetidos (`[nuevo]`) y se proponen `--rose-700` e `.icon-btn` de 48px. |
 | 1.1 | 2026-10-15 | Paleta reemplazada por la oficial de [SPEC-BASE §7.1]: `--brand-olive #3D4A3E`, `--brand-rose #E8C5B8`, `--brand-cream #F9F6F0`, `--brand-charcoal #2B2B2B`. Escala derivada y contraste recalculado (§3). `--rose-700` pasa de propuesto a obligatorio en texto rosa. `--focus` pasa a oliva-800. Estados del funnel CRM (§3.4). |
+| 1.2 | 2026-10-16 | Tokens de gráficas validados (§3.6) y movimiento con Framer Motion en React (§9.7). |
 
 ## 14. Pendientes de marca
 

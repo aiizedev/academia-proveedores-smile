@@ -20,13 +20,13 @@ const STYLE: Record<Priority, string> = {
   completa: "bg-prio-done-bg text-prio-done-fg",
 };
 
-export function Chip({ priority, children, className }: { priority: Priority; children?: ReactNode; className?: string }) {
+export function Chip({ priority, children, className, onDark = false }: { priority: Priority; children?: ReactNode; className?: string; onDark?: boolean }) {
   return (
     <span
       className={cn(
         "inline-flex items-center gap-1 rounded-pill px-[0.6rem] py-[0.28rem]",
         "text-app-chip font-extrabold uppercase tracking-[var(--tracking-chip)]",
-        STYLE[priority],
+        onDark && priority !== "urgente" ? "bg-[var(--on-strong-tint-bg)] text-cream" : STYLE[priority],
         className,
       )}
     >

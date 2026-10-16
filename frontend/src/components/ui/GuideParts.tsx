@@ -1,15 +1,69 @@
+"use client";
+
+import Link from "next/link";
+import { motion } from "framer-motion";
 import type { InputHTMLAttributes, ReactNode } from "react";
-import { Icon } from "@/components/icons";
+import { Icon, type IconName } from "@/components/icons";
+import { GrowBar, MaskWords } from "@/components/motion";
+import { T } from "@/design/motion-react";
 import { cn } from "@/lib/cn";
+import { CheckMark } from "./Checkbox";
 
-/* GUIA_VISUAL §8.6 — piezas de la guía: cabecera, pasos, checklist y consejo. */
+/* GUIA_VISUAL §8.6 — piezas de la guía: cabecera oscura (.g-hero) con grano e
+   ícono gigante, pasos unidos por una línea que se dibuja, checklist con
+   palomita dibujada y consejo. */
 
-export function GuideHero({ eyebrow, title, minutes }: { eyebrow: string; title: string; minutes: number }) {
+export function GuideHero({
+  eyebrow,
+  title,
+  minutes,
+  icon = "book",
+  backHref,
+  chips = [],
+}: {
+  eyebrow: string;
+  title: string;
+  minutes: number;
+  icon?: IconName;
+  backHref?: string;
+  chips?: string[];
+}) {
   return (
-    <header className="grain -mx-[var(--screen-x)] flex flex-col gap-2 rounded-b-sheet bg-olive-800 px-[var(--screen-x)] pt-4 pb-7 text-cream">
-      <p className="text-app-eyebrow font-black uppercase tracking-[var(--tracking-caps)] text-rose-500">{eyebrow}</p>
-      <h1 className="font-display text-app-title leading-[var(--lh-heading)]">{title}</h1>
-      <p className="text-app-small text-olive-300">{minutes} minutos de lectura</p>
+    <header className="grain relative -mx-[var(--screen-x)] -mt-[0.6rem] overflow-hidden rounded-b-sheet bg-olive-800 px-[var(--screen-x)] pt-3 pb-8 text-cream">
+      <motion.span
+        aria-hidden
+        className="pointer-events-none absolute top-10 -right-6 size-36 text-olive-600 [&_svg]:[stroke-width:1]"
+        initial={{ rotate: -30, scale: 0.6, opacity: 0 }}
+        animate={{ rotate: 0, scale: 1, opacity: 0.9 }}
+        transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <Icon name={icon} size="100%" />
+      </motion.span>
+      <div className="relative z-[2] flex items-center justify-between">
+        {backHref ? (
+          <Link
+            href={backHref}
+            aria-label="Volver"
+            className="grid size-12 place-items-center rounded-full border border-[var(--on-strong-tint-line)] bg-[var(--on-strong-tint-bg)] text-cream transition-[scale] duration-[var(--dur-press)] active:scale-[var(--press-scale-icon)] focus-visible:outline-rose-500"
+          >
+            <Icon name="back" size="1.25rem" />
+          </Link>
+        ) : (
+          <span />
+        )}
+        <p className="text-app-eyebrow font-black uppercase tracking-[var(--tracking-caps)] text-rose-500">{eyebrow}</p>
+      </div>
+      <MaskWords as="h1" text={title} delay={0.15} className="relative z-[2] mt-10 max-w-[12ch] font-display text-[2.2rem] leading-none font-[350] tracking-[-0.035em]" />
+      <motion.div className="relative z-[2] mt-4 flex flex-wrap gap-2" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ ...T.enter, delay: 0.5 }}>
+        <span className="inline-flex items-center gap-1 rounded-pill bg-[var(--on-strong-tint-bg)] px-[0.6rem] py-[0.28rem] text-app-chip font-extrabold uppercase tracking-[var(--tracking-chip)] text-cream">
+          <Icon name="clock" size="0.85rem" /> {minutes} min de lectura
+        </span>
+        {chips.map((c) => (
+          <span key={c} className="inline-flex items-center rounded-pill bg-[var(--on-strong-tint-bg)] px-[0.6rem] py-[0.28rem] text-app-chip font-extrabold uppercase tracking-[var(--tracking-chip)] text-cream">
+            {c}
+          </span>
+        ))}
+      </motion.div>
     </header>
   );
 }
@@ -18,28 +72,38 @@ export function Steps({ steps }: { steps: ReadonlyArray<{ title: string; detail:
   return (
     <ol className="flex flex-col">
       {steps.map((step, i) => (
-        <li key={step.title} className="relative flex gap-4 pb-5 last:pb-0">
-          {i < steps.length - 1 ? <span aria-hidden className="absolute top-10 bottom-0 left-[1.2rem] w-[1.5px] bg-olive-100" /> : null}
-          <span aria-hidden className="grid size-[2.4rem] shrink-0 place-items-center rounded-full bg-rose-100 font-display text-app-h3 italic text-rose-700">
+        <motion.li
+          key={step.title}
+          className="relative grid grid-cols-[2.4rem_1fr] gap-[0.9rem] pb-[1.3rem] last:pb-0"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "0px 0px -8% 0px" }}
+          transition={{ ...T.enter, delay: i * 0.08 }}
+        >
+          {i < steps.length - 1 ? (
+            <GrowBar axis="y" className="absolute top-[2.5rem] bottom-[0.2rem] left-[1.2rem] -ml-[0.75px] block w-[1.5px]" fillClassName="h-full w-full bg-olive-100" duration={0.9} ease={[0.65, 0, 0.35, 1]} delay={0.2 + i * 0.12} />
+          ) : null}
+          <span aria-hidden className="grid size-[2.4rem] place-items-center rounded-full bg-rose-100 font-display text-[1.1rem] italic text-rose-700">
             {i + 1}
           </span>
-          <div className="flex flex-col gap-1 pt-1">
-            <p className="font-bold">{step.title}</p>
-            <p className="text-app-body text-ink-soft">{step.detail}</p>
+          <div className="flex flex-col gap-1 pt-[0.4rem]">
+            <p className="font-extrabold">{step.title}</p>
+            <p className="text-[0.92rem] leading-[1.5] text-ink-soft">{step.detail}</p>
           </div>
-        </li>
+        </motion.li>
       ))}
     </ol>
   );
 }
 
-/** Ítem de checklist: casilla 1.8rem; marcado en oliva, fila clara y texto tachado. */
+/** Ítem de checklist: casilla 1.8rem; marcado en oliva con palomita dibujada, fila clara y texto tachado. */
 export function ChecklistItem({ children, className, ...rest }: Omit<InputHTMLAttributes<HTMLInputElement>, "type"> & { children: ReactNode }) {
   return (
     <label
       className={cn(
-        "flex min-h-[3.7rem] cursor-pointer items-center gap-3 rounded-m border-[1.5px] border-line bg-white px-4 py-3 text-app-body font-bold",
-        "transition-[background-color] duration-[var(--dur-s)] has-[:checked]:bg-olive-25",
+        "group grid min-h-[3.7rem] cursor-pointer grid-cols-[auto_1fr] items-center gap-[0.85rem] rounded-m border-[1.5px] border-line bg-white p-[0.95rem] text-[0.93rem] leading-[1.35] font-semibold",
+        "transition-[background-color,border-color,scale] duration-[var(--dur-s)] active:scale-[var(--press-scale-card)] hover:border-olive-300",
+        "has-[:checked]:border-olive-300 has-[:checked]:bg-olive-25 has-[:disabled]:cursor-default",
         "has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-3 has-[:focus-visible]:outline-focus",
         className,
       )}
@@ -47,20 +111,20 @@ export function ChecklistItem({ children, className, ...rest }: Omit<InputHTMLAt
       <input type="checkbox" className="peer sr-only" {...rest} />
       <span
         aria-hidden
-        className="grid size-[1.8rem] shrink-0 place-items-center rounded-check border-[1.5px] border-olive-300 text-transparent peer-checked:border-olive-800 peer-checked:bg-olive-800 peer-checked:text-cream"
+        className="grid size-[1.8rem] shrink-0 place-items-center rounded-check border-[1.8px] border-olive-300 text-cream transition-[background-color,border-color,scale] duration-[var(--dur-m)] ease-[var(--ease-back)] group-active:scale-[0.8] peer-checked:border-olive-800 peer-checked:bg-olive-800"
       >
-        <Icon name="check" size="1.1rem" />
+        <CheckMark />
       </span>
-      <span className="peer-checked:text-ink-soft peer-checked:line-through">{children}</span>
+      <span className="transition-colors duration-[var(--dur-s)] peer-checked:text-ink-soft peer-checked:line-through peer-checked:decoration-olive-300">{children}</span>
     </label>
   );
 }
 
 export function Tip({ children }: { children: ReactNode }) {
   return (
-    <aside className="flex gap-3 rounded-button bg-rose-100 p-4 text-app-body">
+    <aside className="flex gap-3 rounded-button bg-rose-100 p-4 text-[0.92rem] leading-[1.45]">
       <span className="text-rose-600">
-        <Icon name="bpa" size="1.4rem" />
+        <Icon name="sparkle" size="1.4rem" />
       </span>
       <p>{children}</p>
     </aside>

@@ -99,10 +99,14 @@
   --radius-dock: var(--radius-dock);
   --radius-sheet: var(--radius-sheet);
   --radius-pill: var(--radius-pill);
+  --radius-device: var(--radius-device);
+  --radius-device-screen: var(--radius-device-screen);
 
   /* Elevación */
   --shadow-float: var(--shadow-float);
   --shadow-dock: var(--shadow-dock);
+  --shadow-lift: var(--shadow-lift);
+  --shadow-device: var(--shadow-device);
 
   /* Movimiento */
   --ease-out: var(--ease-out);
@@ -167,6 +171,98 @@
     pointer-events: none;
   }
 }
+
+@layer components {
+  /* Escenario cálido con grano (maqueta: .stage + .grain). */
+  .stage-bg {
+    position: relative;
+    background: var(--grad-stage);
+    isolation: isolate;
+  }
+  .stage-bg::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: var(--grain);
+    opacity: var(--grain-opacity-subtle);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+  /* Esqueleto de carga con brillo (sin animación si hay movimiento reducido). */
+  .skeleton {
+    background: linear-gradient(100deg, var(--cream-200) 30%, var(--white) 50%, var(--cream-200) 70%);
+    background-size: 220% 100%;
+    animation: skeleton-shine var(--dur-2xl) var(--ease-in-out) infinite;
+  }
+  /* Tarjeta con elevación suave al pasar el puntero (translate: GSAP no la usa aquí). */
+  .lift { transition: translate var(--dur-m) var(--ease-out), box-shadow var(--dur-m) var(--ease-out); }
+  .lift:hover { translate: 0 -3px; box-shadow: var(--shadow-float); }
+}
+/* Marco de la PWA (maqueta: .stage + .phone). En móvil la app ocupa toda la
+   pantalla; desde 900 px va dentro de un teléfono centrado junto a un panel de
+   contexto. `transform` en la pantalla vuelve a .app-screen el bloque contenedor
+   de lo `fixed` (tabbar, toast, confeti): quedan dentro del teléfono. */
+@layer components {
+  .app-stage { min-height: 100dvh; }
+  .app-phone { position: relative; z-index: var(--z-content); display: flex; width: 100%; max-width: 30rem; min-height: 100dvh; margin-inline: auto; flex-direction: column; background: var(--cream); }
+  .app-screen { position: relative; display: flex; flex: 1; flex-direction: column; background: var(--cream); }
+  .app-scroll { position: relative; flex: 1; }
+  .app-scroll::-webkit-scrollbar { display: none; }
+  @media (min-width: 900px) {
+    .app-stage {
+      --stage-pad: clamp(0.9rem, 2.4vh, 1.6rem);
+      display: grid;
+      height: 100dvh;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: clamp(2rem, 6vw, 7rem);
+      padding: var(--stage-pad) clamp(1.5rem, 6vw, 7rem);
+      overflow: hidden;
+    }
+    .app-phone {
+      width: var(--device-w);
+      height: min(var(--device-h), calc(100dvh - 2 * var(--stage-pad)));
+      min-height: 0;
+      padding: var(--device-bezel);
+      border-radius: var(--radius-device);
+      background: var(--grad-device);
+      box-shadow: var(--shadow-device);
+    }
+    .app-screen { height: 100%; overflow: hidden; border-radius: var(--radius-device-screen); transform: translateZ(0); isolation: isolate; }
+    .app-scroll { overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }
+  }
+  @media print {
+    .app-stage { display: block; height: auto; padding: 0; overflow: visible; background: var(--white); }
+    .app-phone, .app-screen { width: auto; height: auto; padding: 0; overflow: visible; border-radius: 0; background: var(--white); box-shadow: none; transform: none; }
+  }
+  /* Palomita que se dibuja (GUIA §8.6: stroke-dashoffset 24 → 0). */
+  .draw-check path { stroke-dasharray: 24; stroke-dashoffset: 24; transition: stroke-dashoffset var(--dur-s) var(--ease-out) 0.05s; }
+  .peer:checked ~ * .draw-check path, .peer:checked ~ .draw-check path, .draw-check.is-on path { stroke-dashoffset: 0; }
+  /* Capa que sube al pasar el puntero (maqueta: .axis-card__overlay). */
+  .rise-card { position: relative; isolation: isolate; overflow: hidden; transition: color var(--dur-m) var(--ease-out), border-color var(--dur-m) var(--ease-out); }
+  .rise-card > :not(.rise-card__layer) { position: relative; z-index: 2; }
+  .rise-card__layer {
+    position: absolute;
+    inset: -2px;
+    z-index: 1;
+    background: var(--olive-800);
+    border-radius: 50% 50% 0 0 / 30% 30% 0 0;
+    translate: 0 101%;
+    transition: translate 0.75s var(--ease-out), border-radius 0.75s var(--ease-out);
+  }
+  @media (hover: hover) {
+    .rise-card:hover, .rise-card:focus-visible { color: var(--cream); border-color: transparent; }
+    .rise-card:hover .rise-card__layer, .rise-card:focus-visible .rise-card__layer { translate: 0 0; border-radius: 0; }
+    .rise-card:hover .rise-card__icon { rotate: -12deg; scale: 1.08; background: var(--rose-500); color: var(--olive-900); }
+    .rise-card:hover .rise-card__muted { color: var(--olive-300); }
+    .rise-card:hover .rise-card__go { translate: 4px 0; background: var(--rose-500); color: var(--olive-900); }
+  }
+  .rise-card__icon, .rise-card__go { transition: rotate 0.7s var(--ease-out), scale 0.7s var(--ease-out), translate var(--dur-m) var(--ease-out), background-color var(--dur-m) var(--ease-out), color var(--dur-m) var(--ease-out); }
+  .rise-card__muted { transition: color var(--dur-m) var(--ease-out); }
+}
+@keyframes scroll-line { 0% { translate: 0 -100%; } 60%, 100% { translate: 0 100%; } }
+@keyframes skeleton-shine { from { background-position: 120% 0; } to { background-position: -120% 0; } }
 
 /* GUIA_VISUAL §10.3 — sin animación: todo visible y cambios instantáneos (HU-DS-04). */
 html.no-anim *, html.no-anim *::before, html.no-anim *::after {

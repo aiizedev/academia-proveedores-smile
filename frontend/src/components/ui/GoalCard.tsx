@@ -1,9 +1,18 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { Icon, type IconName } from "@/components/icons";
+import { GrowBar } from "@/components/motion";
+import { PRESS, SPRING } from "@/design/motion-react";
 import { cn } from "@/lib/cn";
 import { Chip, type Priority } from "./Chip";
 
-/* GUIA_VISUAL §8.6 — tarjeta de meta: chips de prioridad y minutos, título
-   Fraunces, barra de 6 px. La primera (`top`) va invertida en oliva. */
+/* GUIA_VISUAL §8.6 — tarjeta de meta (.g-card): chips de prioridad y minutos,
+   título Fraunces, ícono a la derecha y barra de 6 px que se llena al entrar.
+   La primera (`top`) va invertida en oliva con acentos rosa y grano. */
+const MotionLink = motion.create(Link);
+
 export function GoalCard({
   href,
   priority,
@@ -12,7 +21,9 @@ export function GoalCard({
   axisName,
   done,
   total,
+  icon = "book",
   top = false,
+  index = 0,
 }: {
   href: string;
   priority: Priority;
@@ -21,33 +32,44 @@ export function GoalCard({
   axisName: string;
   done: number;
   total: number;
+  icon?: IconName;
   top?: boolean;
+  index?: number;
 }) {
   const percent = total ? Math.round((done / total) * 100) : 0;
+  const complete = done === total && total > 0;
   return (
-    <Link
+    <MotionLink
       href={href}
+      whileTap={{ scale: PRESS.card }}
+      whileHover={{ y: -3 }}
+      transition={SPRING}
       className={cn(
-        "flex flex-col gap-3 rounded-card border-[1.5px] p-[1.1rem] transition-[scale] duration-[var(--dur-press)] active:scale-[var(--press-scale-card)]",
-        top ? "border-olive-800 bg-olive-800 text-cream" : "border-line bg-white text-ink",
+        "relative grid grid-cols-[1fr_auto] gap-[0.9rem] overflow-hidden rounded-card border p-[1.1rem] transition-shadow duration-[var(--dur-m)] hover:shadow-lift",
+        top ? "grain border-transparent bg-olive-800 text-cream" : "border-line bg-white text-ink",
       )}
     >
-      <div className="flex flex-wrap items-center gap-2">
-        <Chip priority={done === total && total > 0 ? "completa" : priority} />
-        <span className={cn("text-app-chip font-bold", top ? "text-olive-300" : "text-ink-soft")}>{minutes} min</span>
+      <div className="relative z-[2] flex flex-wrap items-center gap-[0.4rem]">
+        <Chip priority={complete ? "completa" : priority} onDark={top && !complete} />
+        <span className={cn("inline-flex items-center gap-1 rounded-pill px-[0.6rem] py-[0.28rem] text-app-chip font-extrabold uppercase tracking-[var(--tracking-chip)]", top ? "bg-[var(--on-strong-tint-bg)] text-cream" : "bg-cream-200 text-ink-soft")}>
+          <Icon name="clock" size="0.85rem" /> {minutes} min
+        </span>
       </div>
-      <div className="flex flex-col gap-1">
-        <span className={cn("text-app-caption font-bold uppercase tracking-[var(--tracking-caps)]", top ? "text-rose-500" : "text-olive-600")}>{axisName}</span>
-        <span className="font-display text-app-h3">{title}</span>
+      <span className={cn("relative z-[2] row-span-2 grid size-[3.2rem] place-items-center self-start rounded-full", top ? "bg-rose-500 text-olive-900" : "bg-rose-100 text-olive-800")}>
+        <Icon name={icon} size="1.6rem" />
+      </span>
+      <div className="relative z-[2] flex flex-col gap-1">
+        <span className={cn("text-app-chip font-extrabold uppercase tracking-[var(--tracking-caps)]", top ? "text-rose-300" : "text-olive-600")}>{axisName}</span>
+        <span className="font-display text-[1.3rem] leading-[1.08] font-[420] tracking-[-0.02em]">{title}</span>
       </div>
-      <div className="flex items-center gap-3">
+      <div className={cn("relative z-[2] col-span-2 flex items-center gap-[0.7rem] text-[0.75rem] font-bold", top ? "text-olive-300" : "text-ink-soft")}>
         <div className={cn("h-1.5 flex-1 overflow-hidden rounded-pill", top ? "bg-[var(--on-strong-tint-bg)]" : "bg-olive-100")}>
-          <div className={cn("h-full rounded-pill", top ? "bg-rose-500" : "bg-olive-600")} style={{ width: `${percent}%` }} />
+          <GrowBar className="block h-full" trackStyle={{ width: `${percent}%` }} fillClassName={cn("h-full rounded-pill", top ? "bg-rose-500" : "bg-olive-600")} delay={0.25 + index * 0.08} />
         </div>
-        <span className="text-app-caption font-bold tabular-nums">
+        <span className="tabular-nums">
           {done} de {total}
         </span>
       </div>
-    </Link>
+    </MotionLink>
   );
 }
