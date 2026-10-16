@@ -1,6 +1,6 @@
 # Demo del POC — cómo verla y qué es real
 
-**Estado al 16/10/2026.** Prueba de concepto navegable de la Academia de Proveedores Smile. Alcance y reglas: [`planes/MODO_POC.md`](planes/MODO_POC.md).
+**Estado al 16/10/2026** (incluye el rediseño visual con Framer Motion, PR #23). Prueba de concepto navegable de la Academia de Proveedores Smile. Alcance y reglas: [`planes/MODO_POC.md`](planes/MODO_POC.md).
 
 ## 1. Levantar
 
@@ -26,10 +26,12 @@ make smoke        # verifica que todo responde
 
 ## 2. Recorrido sugerido (10 minutos)
 
-1. `/` → índice de la demo.
-2. **Proveedor**: `/app/ficha` (identificación con NIT validado) → `/app/autoevaluacion` (formulario por caminos: pruebe responder "No" a "¿Usa agroquímicos?" y ver cómo se omiten preguntas) → `/app/diagnostico` (puntaje, nivel, alertas, cercanía a BPA ICA y **su siguiente paso**) → `/app/plan` (3 metas con guía y checklist) → `/app/ficha/resumen` (imprimible y WhatsApp).
-3. Active el **modo avión** del navegador (DevTools → Network → Offline) y repita: la PWA sigue funcionando.
-4. **Smile**: `/smile` (funnel de 6 etapas y merma vs meta) → `/smile/proveedores` (filtros) → un expediente → `/smile/recepciones` → `/smile/reportes` (descarga CSV).
+Ábralo en escritorio: la PWA se muestra dentro de un marco de teléfono con el recorrido al lado.
+
+1. `/` → índice editorial con enlaces a todo.
+2. **Proveedor**: `/app` (inicio) → `/app/tablero` (ventas, costos, margen, inventario, cercanía a BPA, beneficio económico) → `/app/autoevaluacion?nueva=1` (**formulario abierto en modo práctica**: pruebe "No" en "¿Usa agroquímicos?" y vea cómo se omiten preguntas; al enviar, pantalla "Analizando") → `/app/diagnostico` (puntaje, nivel, alertas y **su siguiente paso**) → `/app/plan` (3 metas con guía y checklist) → `/app/lotes` (carencia y rótulo) → `/app/beneficios`.
+3. Active el **modo avión** (DevTools → Network → Offline): la PWA sigue funcionando.
+4. **Smile**: `/smile` (resumen ejecutivo: use los filtros de arriba; clic en un punto de la matriz abre el expediente; clic en una etapa del funnel filtra la lista) → `/smile/riesgo` → `/smile/calidad` → `/smile/impacto` → `/smile/esg` → `/smile/proveedores` y un expediente → `/smile/reportes` (descarga CSV con los filtros aplicados). Toda gráfica tiene tooltip y botón "Ver tabla".
 
 ## 3. Qué es real y qué está simulado
 
@@ -39,8 +41,8 @@ make smoke        # verifica que todo responde
 | API: login, roles, catálogo, ficha del proveedor | **Real** | Probado de punta a punta con los usuarios demo |
 | PWA: base local, consentimiento, ficha, autoevaluación, diagnóstico | **Real, offline** | Datos en IndexedDB (WatermelonDB); reglas validadas contra `contracts/fixtures/` |
 | PWA: plan de mejora, guías, checklist, ficha resumen | **Real, offline** | Mismo motor de reglas |
-| PWA: inicio con indicadores, Mini ERP, lotes y rótulos, score, aprender, beneficios, mensajes, recepciones | **Simulado** | Datos fijos en `frontend/src/mocks/app.ts` |
-| Back-office `/smile` completo | **Simulado** | Datos en `frontend/src/mocks/smile.ts`, coherentes con el seed |
+| PWA: inicio, **tablero**, Mini ERP, lotes y rótulos, score, aprender, beneficios, mensajes, recepciones | **Simulado** | Datos fijos en `frontend/src/mocks/app.ts` |
+| Back-office `/smile` completo (resumen, riesgo, calidad, impacto, funnel, ESG, proveedores, expediente, recepciones, reportes, banco) | **Simulado** | Datos en `frontend/src/mocks/smile.ts`, coherentes con el seed |
 | Sincronización PWA ↔ servidor | **No conectada** | Los datos de la PWA se quedan en el dispositivo. El endpoint está en el PR #19 (congelado) |
 
 ## 4. Usuarios de la API
