@@ -189,6 +189,7 @@
   --radius-device-screen: 47px; /* [nuevo v1.3] pantalla dentro del marco (58 − bisel 11) */
   --device-bezel: 11px;         /* [nuevo v1.3] bisel del marco de teléfono */
   --radius-pill: 999px;
+  --radius-rise: 50% 50% 0 0 / 30% 30% 0 0; /* [nuevo] capa que sube en hover (tarjeta de eje, §8.12) */
   --leaf-shape: 0 100% 0 100%; /* [nuevo] hoja: confeti, marquee, ficha */
 
   --border: 1px solid var(--line);
