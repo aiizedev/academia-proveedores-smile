@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "answer_values": { "si": 1, "aveces": 0.5, "no": 0 },
+  "excluded_answers": ["na", "pnr"],
+  "levels": [
+    { "id": "inicial", "min": 0 },
+    { "id": "desarrollo", "min": 40 },
+    { "id": "avanzado", "min": 75 }
+  ],
+  "priority_by_level": { "inicial": "alta", "desarrollo": "media", "avanzado": "mantener" },
+  "urgent_priority": "urgente",
+  "axes_order": ["bpa", "residuos", "carbono", "infantil", "ddhh"],
+  "cases": [
+    {
+      "name": "mezcla con eje urgente, exclusiones na/pnr",
+      "questions": [
+        { "id": "q1", "axis": "bpa", "weight": 3, "answer": "si" },
+        { "id": "q2", "axis": "bpa", "weight": 2, "answer": "aveces" },
+        { "id": "q3", "axis": "bpa", "weight": 2, "answer": "si" },
+        { "id": "q4", "axis": "residuos", "weight": 2, "answer": "no" },
+        { "id": "q5", "axis": "residuos", "weight": 3, "answer": "aveces" },
+        { "id": "q6", "axis": "carbono", "weight": 2, "answer": "aveces" },
+        { "id": "q7", "axis": "carbono", "weight": 2, "answer": "na" },
+        { "id": "q8", "axis": "infantil", "weight": 5, "answer": "no", "critical_when": ["no", "aveces"] },
+        { "id": "q9", "axis": "ddhh", "weight": 3, "answer": "si" },
+        { "id": "q10", "axis": "ddhh", "weight": 2, "answer": "pnr" }
+      ],
+      "expected": {
+        "axes": {
+          "bpa": { "score": 85.71, "level": "avanzado", "urgent": false },
+          "residuos": { "score": 30.0, "level": "inicial", "urgent": false },
+          "carbono": { "score": 50.0, "level": "desarrollo", "urgent": false },
+          "infantil": { "score": 0.0, "level": "inicial", "urgent": true },
+          "ddhh": { "score": 100.0, "level": "avanzado", "urgent": false }
+        },
+        "pillar1": 53.14,
+        "plan": [
+          { "axis": "infantil", "priority": "urgente" },
+          { "axis": "residuos", "priority": "alta" },
+          { "axis": "carbono", "priority": "media" }
+        ]
+      }
+    },
+    {
+      "name": "crítica limita a desarrollo y plan se completa con mantener",
+      "questions": [
+        { "id": "q1", "axis": "bpa", "weight": 1, "answer": "si" },
+        { "id": "q2", "axis": "bpa", "weight": 1, "answer": "si" },
+        { "id": "q3", "axis": "bpa", "weight": 2, "answer": "aveces", "critical_when": ["no", "aveces"] },
+        { "id": "q4", "axis": "residuos", "weight": 2, "answer": "si" },
+        { "id": "q5", "axis": "carbono", "weight": 2, "answer": "si" },
+        { "id": "q6", "axis": "carbono", "weight": 1, "answer": "aveces" },
+        { "id": "q7", "axis": "infantil", "weight": 5, "answer": "si", "critical_when": ["no", "aveces"] },
+        { "id": "q8", "axis": "ddhh", "weight": 3, "answer": "si" }
+      ],
+      "expected": {
+        "axes": {
+          "bpa": { "score": 75.0, "level": "desarrollo", "urgent": true },
+          "residuos": { "score": 100.0, "level": "avanzado", "urgent": false },
+          "carbono": { "score": 83.33, "level": "avanzado", "urgent": false },
+          "infantil": { "score": 100.0, "level": "avanzado", "urgent": false },
+          "ddhh": { "score": 100.0, "level": "avanzado", "urgent": false }
+        },
+        "pillar1": 91.67,
+        "plan": [
+          { "axis": "bpa", "priority": "urgente" },
+          { "axis": "carbono", "priority": "mantener" },
+          { "axis": "residuos", "priority": "mantener" }
+        ]
+      }
+    },
+    {
+      "name": "eje sin preguntas aplicables queda fuera",
+      "questions": [
+        { "id": "q1", "axis": "bpa", "weight": 2, "answer": "no" },
+        { "id": "q2", "axis": "residuos", "weight": 2, "answer": "aveces" },
+        { "id": "q3", "axis": "carbono", "weight": 2, "answer": "na" },
+        { "id": "q4", "axis": "infantil", "weight": 5, "answer": "si", "critical_when": ["no", "aveces"] },
+        { "id": "q5", "axis": "ddhh", "weight": 3, "answer": "aveces" }
+      ],
+      "expected": {
+        "axes": {
+          "bpa": { "score": 0.0, "level": "inicial", "urgent": false },
+          "residuos": { "score": 50.0, "level": "desarrollo", "urgent": false },
+          "carbono": { "score": null, "level": null, "urgent": false },
+          "infantil": { "score": 100.0, "level": "avanzado", "urgent": false },
+          "ddhh": { "score": 50.0, "level": "desarrollo", "urgent": false }
+        },
+        "pillar1": 50.0,
+        "plan": [
+          { "axis": "bpa", "priority": "alta" },
+          { "axis": "residuos", "priority": "media" },
+          { "axis": "ddhh", "priority": "media" }
+        ]
+      }
+    }
+  ]
+}

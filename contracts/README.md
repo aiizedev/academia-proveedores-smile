@@ -1,0 +1,17 @@
+# Contratos compartidos
+
+Artefactos que comparten `frontend/` y `backend/`. Un cambio aquí rompe el CI de ambos hasta que los dos lo respeten.
+
+| Ruta | Qué es | Quién lo valida |
+|---|---|---|
+| `fixtures/assessment-scoring.json` | Casos de prueba de las reglas de puntaje por eje, niveles, críticas, Pilar 1 y orden del plan de 3 metas (RF-ASM-005…008, RF-IMP-001, S-01, S-02, S-03, S-09) | `backend/tests/unit/assessment`, `frontend/src/domain/*.test.ts` |
+| `openapi.json` (generado) | Contrato HTTP exportado por FastAPI | CI: el cliente TS se regenera y no debe haber diff |
+
+Ver [ADR-0005](../docs/adr/ADR-0005-local-first-watermelondb.md).
+
+## Convenciones del fixture de scoring
+- Puntajes con 2 decimales, redondeo *half-up*.
+- `na` (No aplica) y `pnr` (Prefiero no responder) se excluyen del numerador y del denominador.
+- Un eje sin preguntas aplicables tiene `score: null`, no entra al Pilar 1 ni al plan.
+- `critical_when`: si la respuesta está en la lista, el eje queda `urgent: true` y su nivel no puede ser `avanzado` (se limita a `desarrollo`).
+- Plan: ordenar brechas por `urgente` > `inicial` > `desarrollo`, desempate por menor `score` y luego por orden de `axes_order`; si hay menos de 3, completar con ejes `avanzado` de menor `score` como `mantener`.
