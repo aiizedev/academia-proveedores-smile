@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, type ReactNode } from "react";
+import { DEMO_OPEN } from "@/lib/env";
 import { useConsentStatus } from "./hooks";
 
 export const CONSENT_PATH = "/app/consentimiento";
@@ -15,9 +16,10 @@ export function ConsentGuard({ children }: { children: ReactNode }) {
   const onConsentPage = pathname === CONSENT_PATH;
 
   useEffect(() => {
-    if (status === "missing" && !onConsentPage) router.replace(CONSENT_PATH);
+    if (!DEMO_OPEN && status === "missing" && !onConsentPage) router.replace(CONSENT_PATH);
   }, [status, onConsentPage, router]);
 
-  if (onConsentPage || status === "granted") return children;
+  // Demo (POC): rutas abiertas; la guardia sigue activa con NEXT_PUBLIC_DEMO_OPEN=false.
+  if (DEMO_OPEN || onConsentPage || status === "granted") return children;
   return <p className="sr-only" role="status">Cargando sus datos</p>;
 }

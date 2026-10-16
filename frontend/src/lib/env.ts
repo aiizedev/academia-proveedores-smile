@@ -3,3 +3,6 @@ export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000
 
 /** URL de la API desde el servidor Next dentro de la red de compose. */
 export const API_INTERNAL_URL = process.env.API_INTERNAL_URL ?? API_URL;
+
+/** Demo navegable (POC): rutas abiertas con un proveedor fijo. Por defecto activa (next.config.ts). */
+export const DEMO_OPEN = process.env.NEXT_PUBLIC_DEMO_OPEN === "true";

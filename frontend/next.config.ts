@@ -27,6 +27,8 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // POC: demo con rutas abiertas salvo que se pida explícitamente lo contrario.
+  env: { NEXT_PUBLIC_DEMO_OPEN: process.env.NEXT_PUBLIC_DEMO_OPEN ?? "true" },
   output: "standalone",
   poweredByHeader: false,
   reactStrictMode: true,
