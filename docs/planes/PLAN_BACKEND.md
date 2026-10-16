@@ -93,7 +93,7 @@ Cada fase lista: objetivo · historias · pasos · plan de ejecución (orden y p
 3. Endpoints `POST /api/v1/auth/register|login|refresh|logout`, `GET /api/v1/me`. Rate limit de login 10/min/IP (RNF-SEC-005).
 4. `shared.api.auth`: `CurrentUser` desde JWT; `require(permission)` con la matriz de `requerimientos.md` §2.3 codificada en `iam.domain.permissions`.
 5. `privacy`: `ConsentText` versionado (texto + hash SHA-256), `Consent` inmutable (RF-PRV-003). `GET /api/v1/privacy/consent-texts/current`. Consentimientos llegan por sync (tabla `consents`, P2). Evento `UserRegistered` → `privacy` no crea nada (el proveedor debe aceptar), `suppliers` crea el `Supplier` vacío.
-6. `catalog`: semillas de categorías (5, solo Fruver ACTIVA, RF-CAT-001), ejes Fruver (RF-CAT-002) y parámetros iniciales S-01…S-16 como **versión 1 publicada**. `GET /api/v1/catalog/bundle` (para el pull).
+6. `catalog`: semillas de categorías (5, solo Fruver ACTIVA, RF-CAT-001), ejes Fruver (RF-CAT-002) y parámetros iniciales S-01…S-16 como **versión 1 publicada**. `GET /api/v1/catalog/bundle` (para el pull). ✅ 16/10/2026 (HU-CAT-01; S-01…S-17 + factores C-12 en `catalog_0003`)
 7. `shared.domain.money`: `Money` COP entero y `format_cop()` es-CO para reportes (RF-CAL-005, HU-CAL-02).
 
 *S2 — sync, suppliers, banco*
